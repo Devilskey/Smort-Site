@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:host {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+  line-height: 102%;
+}
+
+p {
+  margin: 0;
+  line-height: 80%;
+}
