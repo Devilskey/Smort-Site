@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 //#endregion
 
 //#region Components
@@ -15,7 +16,7 @@ import { ProfileComponent } from './profile/profile.component';
 //#endregion
 
 //#region Video Streaming
-import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgApiService, VgCoreModule } from '@videogular/ngx-videogular/core';
 import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
@@ -30,12 +31,24 @@ import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
     UploadComponent,
     SettingsComponent,
     ProfileComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot([
+      { path: 'home', component: HomeComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignupComponent },
+      { path: 'upload', component: UploadComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+    ]),
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
   ],
-  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })

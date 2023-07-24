@@ -1,1 +1,39 @@
-<p>home works!</p>
+<p>Home works.... kind of..</p>
+<vg-player (onPlayerReady)="OnPlayerReady($event)">
+  <vg-overlay-play></vg-overlay-play>
+  <vg-buffering></vg-buffering>
+  <vg-scrub-bar>
+    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+  </vg-scrub-bar>
+  <vg-controls>
+    <!-- <vg-play-pause></vg-play-pause> -->
+    <!-- <vg-playback-button></vg-playback-button> -->
+    <vg-scrub-bar style="pointer-events: none"></vg-scrub-bar>
+
+    <!-- Displays current timestamp of video -->
+    <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+    <!-- Displays time length remaining of video -->
+    <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+    <!-- Displays time length of video -->
+    <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+    <!-- <vg-track-selector></vg-track-selector> -->
+    <!-- <vg-mute></vg-mute> -->
+    <!-- <vg-volume></vg-volume> -->
+    <!-- <vg-fullscreen></vg-fullscreen> -->
+  </vg-controls>
+
+  <video
+    [vgMedia]="$any(media)"
+    #media
+    id="singleVideo"
+    preload="auto"
+    crossorigin
+  >
+    <source
+      src="https://torngems.nl/wp-content/uploads/2023/07/2021-10-15-11-54-00.mkv"
+      type="video/mp4"
+    />
+  </video>
+</vg-player>
