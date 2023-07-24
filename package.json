@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@videogular/ngx-videogular": "^8.0.0"
+  }
+}
