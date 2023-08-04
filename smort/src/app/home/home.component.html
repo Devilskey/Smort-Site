@@ -1,30 +1,19 @@
 <vg-player (onPlayerReady)="OnPlayerReady($event)">
   <vg-overlay-play></vg-overlay-play>
-  <vg-buffering></vg-buffering>
+  <vg-buffering vgFor="currentVideo"></vg-buffering>
   <vg-scrub-bar>
     <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
     <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
   </vg-scrub-bar>
-  <vg-controls>
-    <!-- Video progress bar -->
+  <vg-controls [vgAutohide]="true" [vgAutohideTime]="0.6">
     <vg-scrub-bar style="pointer-events: none"></vg-scrub-bar>
-    <!-- Displays current timestamp of video -->
-    <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-    <!-- Displays time length remaining of video -->
     <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-    <!-- Displays time length of video -->
-    <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
   </vg-controls>
 
-  <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto">
-    <source
-      src="https://torngems.nl/wp-content/uploads/2023/07/2023-07-23-17-08-42.mkv"
-      type="video/mp4"
-    />
+  <video [vgMedia]="$any(media)" #media id="currentVideo" preload="auto">
+    <source [src]="currentVideo.url" type="video/mp4" />
   </video>
 </vg-player>
 
-<!-- Two test videos:
-https://torngems.nl/wp-content/uploads/2023/07/VID_20230724_193058940.mp4
-https://torngems.nl/wp-content/uploads/2023/07/2023-07-23-17-08-42.mkv
--->
+<!-- <button (click)="PreviousVideo()" class="changevid">PREV</button> -->
+<button (click)="NextVideo()" class="changevid">NEXT</button>
