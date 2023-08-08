@@ -1,0 +1,19 @@
+<vg-player (onPlayerReady)="OnPlayerReady($event)">
+  <vg-overlay-play></vg-overlay-play>
+  <vg-buffering vgFor="currentVideo"></vg-buffering>
+  <vg-scrub-bar>
+    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+  </vg-scrub-bar>
+  <vg-controls [vgAutohide]="true" [vgAutohideTime]="0.6">
+    <vg-scrub-bar style="pointer-events: none"></vg-scrub-bar>
+    <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+  </vg-controls>
+
+  <video [vgMedia]="$any(media)" #media id="currentVideo" preload="auto">
+    <source [src]="currentVideo.url" type="video/mp4" />
+  </video>
+</vg-player>
+
+<!-- <button (click)="PreviousVideo()" class="changevid">PREV</button> -->
+<button (click)="NextVideo()" class="changevid">NEXT</button>
