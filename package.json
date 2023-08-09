@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@videogular/ngx-videogular": "^8.0.0"
-  },
-  "devDependencies": {
-    "@types/core-js": "^2.5.5"
-  }
-}
