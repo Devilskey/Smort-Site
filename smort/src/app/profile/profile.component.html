@@ -1,1 +1,35 @@
-<p>profile works!</p>
+<div class="profile-information">
+  <img class="profile-picture" alt="User's profile picture" />
+</div>
+
+<div class="profile-information">
+  <p id="userName" class="user-identifier">{{ profiles[0].UserName }}</p>
+  <p id="userTag" class="user-identifier">{{ profiles[0].UserTag }}</p>
+</div>
+
+<div class="profile-information">
+  <p id="follower-count" class="user-statistics">
+    {{ profiles[0].FollowerCount }}
+  </p>
+  <p id="likes-count" class="user-statistics">{{ profiles[0].LikesCount }}</p>
+  <p id="following-count" class="user-statistics">
+    {{ profiles[0].FollowingCount }}
+  </p>
+</div>
+
+<div class="profile-navigation">
+  <a>Edit</a>
+  <a>Settings</a>
+  <a>Share</a>
+</div>
+
+<div class="profile-videos">
+  <button class="upload-button">Upload</button>
+
+  <ul class="videos-list">
+    <li *ngFor="let video of videos">
+      <p>{{ video.title }}</p>
+    </li>
+  </ul>
+</div>
+<!--   src="{{ profiles[0].ImageUrl }}" -->

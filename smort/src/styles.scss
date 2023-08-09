@@ -1,1 +1,226 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:host {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+  line-height: 102%;
+}
+
+p {
+  margin: 0;
+  line-height: 80%;
+}
+
+.content-container {
+  margin: auto;
+  width: 360px;
+  height: 100vh;
+}
+
+.profile-information {
+  padding: 16px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+
+  .profile-picture {
+    height: 115px;
+    width: 115px;
+    min-height: 115px;
+    min-width: 115px;
+    max-height: 115px;
+    max-width: 115px;
+    border-radius: 14px;
+  }
+  .user-identifier {
+    height: 40px;
+    width: 120px;
+  }
+  // #userName {
+  //   height: 40px;
+  //   width: 120px;
+  // }
+  // #userTag {
+  //   height: 40px;
+  //   width: 120px;
+  // }
+  .user-statistics {
+    height: 40px;
+    width: 80px;
+    min-height: 40px;
+    min-width: 80px;
+    max-height: 40px;
+    max-width: 80px;
+  }
+  // #follower-count {
+  //   height: 40px;
+  //   width: 80px;
+  //   min-height: 40px;
+  //   min-width: 80px;
+  //   max-height: 40px;
+  //   max-width: 80px;
+  // }
+  // #likes-count {
+  //   height: 40px;
+  //   width: 80px;
+  //   min-height: 40px;
+  //   min-width: 80px;
+  //   max-height: 40px;
+  //   max-width: 80px;
+  // }
+  // #following-count {
+  //   height: 40px;
+  //   width: 80px;
+  //   min-height: 40px;
+  //   min-width: 80px;
+  //   max-height: 40px;
+  //   max-width: 80px;
+  // }
+}
+
+.profile-navigation {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0vh;
+  right: 38.5vw;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  a {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 14px;
+    margin: 5px 0;
+  }
+}
+.profile-videos {
+  .upload-button {
+    display: flex;
+    width: 140px;
+    height: 50px;
+    min-width: 140px;
+    min-height: 50px;
+    max-width: 140px;
+    max-height: 50px;
+    border-radius: 14px;
+    border-style: none;
+    margin: 0 auto;
+  }
+  .videos-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 10px;
+    justify-content: flex-start;
+    margin: 0;
+    li {
+      margin: 10px 5px;
+      width: 100px;
+      height: 120px;
+      min-width: 100px;
+      min-height: 120px;
+      max-width: 100px;
+      max-height: 120px;
+    }
+  }
+}
+
+//=================================
+// Development helpers
+//=================================
+.content-container {
+  background-color: aqua;
+}
+
+nav {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 0px;
+  top: 0px;
+  background-color: rgba(128, 128, 128, 0.5);
+  padding: 10px;
+  text-decoration: none;
+}
+
+.changevid {
+  position: absolute;
+  font-size: 20px;
+  top: 350px;
+  right: 200px;
+  width: 200px;
+  height: 50px;
+  border: none;
+  background-color: rgb(187, 255, 232);
+  &:hover {
+    cursor: pointer;
+    background-color: aquamarine;
+  }
+}
+
+.profile-information {
+  background-color: rgb(255, 255, 129, 0.4);
+  .profile-picture {
+    background-color: rgb(255, 0, 0);
+  }
+  #userName {
+    background-color: rgb(255, 170, 0);
+  }
+  #userTag {
+    background-color: rgba(229, 255, 0);
+  }
+  #follower-count {
+    background-color: rgb(0, 42, 255);
+  }
+  #likes-count {
+    background-color: rgb(208, 0, 255);
+  }
+  #following-count {
+    background-color: rgb(255, 0, 191);
+  }
+}
+
+.profile-navigation {
+  background-color: rgba(165, 255, 129, 0.4);
+  a {
+    background-color: rgb(72, 255, 0);
+  }
+}
+.profile-videos {
+  background-color: rgba(129, 186, 255, 0.4);
+  .upload-button {
+    background-color: rgb(179, 0, 255);
+  }
+  .videos-list {
+    background-color: rgba(255, 0, 191);
+    li {
+      background-color: #ff0000;
+    }
+  }
+}

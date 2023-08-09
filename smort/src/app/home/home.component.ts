@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Video, Videos } from '../../assets/videos';
+import { Video, Videos } from '../../assets/placeholder-data-videos';
 
 @Component({
   selector: 'app-home',
