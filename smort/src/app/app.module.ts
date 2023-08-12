@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 //#endregion
 
 //#region Components
@@ -35,6 +36,7 @@ import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'login', component: LoginComponent },

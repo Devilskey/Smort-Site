@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'Smort';
 
   //#region Development helper stuff
-  developmentNavigator = false;
+  developmentNavigator = true;
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
