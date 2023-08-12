@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Video, Videos } from '../../assets/placeholder-data-videos';
+import { Profile, Profiles } from '../../assets/placeholder-data-profiles';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,7 @@ import { Video, Videos } from '../../assets/placeholder-data-videos';
 })
 export class HomeComponent {
   videos = Videos;
+  profiles = Profiles;
   videoIndex = 0;
   currentVideo = this.videos[this.videoIndex];
   data: any;

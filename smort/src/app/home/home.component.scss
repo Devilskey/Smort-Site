@@ -1,0 +1,110 @@
+vg-player {
+  z-index: 0;
+  height: 620px;
+  min-height: 620px;
+  max-height: 620px;
+  // height: 90vh;
+  // min-height: 90vh;
+  // max-height: 90vh;
+}
+vg-scrub-bar {
+  position: relative;
+  bottom: 0px !important;
+}
+vg-controls {
+  // height: 10px;
+  // min-height: 10px;
+  // max-height: 10px;
+  font-size: 12px !important;
+  background-color: #33333300 !important;
+}
+.video-information {
+  position: relative;
+  font-size: 14px;
+  bottom: 1vh;
+  color: white;
+  img {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+  }
+}
+.video-overlay {
+  position: relative;
+  z-index: 10;
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  button {
+    border: none;
+    border-radius: 14px;
+    background-color: #3f3f3f31;
+    padding: 0;
+    fill: white;
+    :hover {
+      cursor: pointer;
+      border-radius: 14px;
+      background-color: #707070b5;
+      fill: rgb(153, 0, 255);
+    }
+  }
+  .video-buttons {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    top: -180px;
+    left: 310px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    button {
+      margin: 5px;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+      max-width: 40px;
+      max-height: 40px;
+    }
+    svg {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+      max-width: 40px;
+      max-height: 40px;
+    }
+  }
+  .navigation {
+    position: relative;
+    min-height: 80px;
+    max-height: 80px;
+    display: flex;
+    top: -40px;
+    flex-direction: row;
+    justify-content: space-evenly;
+    button {
+      width: 80px;
+      height: 80px;
+      min-width: 80px;
+      min-height: 80px;
+      max-width: 80px;
+      max-height: 80px;
+    }
+    svg {
+      width: 80px;
+      height: 80px;
+      min-width: 80px;
+      min-height: 80px;
+      max-width: 80px;
+      max-height: 80px;
+    }
+  }
+}
