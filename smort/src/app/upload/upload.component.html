@@ -1,33 +1,41 @@
-<div class="custom-form">
-  <div>
-    <label for="VideoFile">Video: </label>
-    <label for="VideoTitle">Title: </label>
-    <label for="VideoDescription">Description: </label>
+<form>
+  <div class="custom-form">
+    <div class="form-left">
+      <label for="VideoFile">Video: </label>
+      <br />
+      <label for="VideoTitle">Title: </label>
+      <br />
+      <label for="VideoDescription">Description: </label>
+    </div>
+    <div class="form-right">
+      <input
+        id="VideoFile"
+        type="file"
+        class="file-upload"
+        [(ngModel)]="VideoFile"
+        name="VideoFile"
+        onchange="console.log(event.target.files)"
+      />
+      <br />
+      <input
+        id="VideoTitle"
+        type="text"
+        [(ngModel)]="VideoTitle"
+        name="VideoTitle"
+        placeholder="Title"
+      />
+      <br />
+      <input
+        id="VideoDescription"
+        type="text"
+        [(ngModel)]="VideoDescription"
+        name="VideoDescription"
+        placeholder="Description"
+      />
+    </div>
   </div>
-  <div>
-    <input
-      id="VideoFile"
-      type="file"
-      class="file-upload"
-      [(ngModel)]="VideoFile"
-      name="VideoFile"
-      onchange="console.log(event.target.files)"
-    />
-    <input
-      id="VideoTitle"
-      type="text"
-      [(ngModel)]="VideoTitle"
-      name="VideoTitle"
-      placeholder="Title"
-    />
-    <input
-      id="VideoDescription"
-      type="text"
-      [(ngModel)]="VideoDescription"
-      name="VideoDescription"
-      placeholder="Description"
-    />
-  </div>
-</div>
 
-<button class="button" type="submit" (click)="UploadVideo()">Upload</button>
+  <button class="form-button" type="submit" (click)="UploadVideo()">
+    Upload
+  </button>
+</form>

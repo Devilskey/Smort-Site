@@ -2,15 +2,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
-  --main-purple: #563693;
+  --main-purple: rgb(86, 54, 147);
   --main-pink: #ec2678;
 
   --accent-blue: #37c8fc;
   --accent-orange: #ea9d10;
   --accent-pink: #f00b78;
 
-  --low-opacity-main-purple: #57369480;
-  --low-opacity-main-pink: #ed267980;
+  // --lighter-main-purple: rgb(123, 94, 177);
+  // --lighter-main-pink: rgb(205, 105, 151);
+  --lighter-main-purple: rgb(144, 124, 181);
+  --lighter-main-pink: rgb(214, 118, 163);
 }
 
 :host {
@@ -24,8 +26,8 @@ body {
   font-size: 14px;
   margin: 0;
   background: linear-gradient(
-    var(--low-opacity-main-purple),
-    var(--low-opacity-main-pink)
+    var(--lighter-main-purple),
+    var(--lighter-main-pink)
   );
   // overflow: hidden;
 }
@@ -55,11 +57,57 @@ p {
   max-height: 100vh;
 }
 
+form {
+  display: block;
+  text-align: center;
+}
+
 .custom-form {
   display: flex;
   flex-direction: row;
   line-height: 24px;
   padding: 10vh 0;
+  text-align: left;
+  input {
+    border: none;
+    background-color: #ffffffcc;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .form-left {
+    width: 35%;
+    min-width: 35%;
+    max-width: 35%;
+  }
+  .form-right {
+    width: auto;
+  }
+}
+
+.form-button {
+  width: 100px;
+  height: 50px;
+  min-width: 100px;
+  min-height: 50px;
+  max-width: 100px;
+  max-height: 50px;
+  border-radius: 14px;
+  border: none;
+  margin: 0 10px;
+  font-size: 16px;
+  background: linear-gradient(40deg, var(--main-purple), var(--main-pink));
+  color: var(--accent-orange);
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+  background: linear-gradient(
+    40deg,
+    var(--main-purple) 25%,
+    var(--accent-pink)
+  );
 }
 
 //=================================
