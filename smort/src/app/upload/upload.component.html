@@ -1,33 +1,33 @@
-<label>Title</label>
-<label>Description</label>
-<label>Video</label>
-<form>
-  <input
-    type="file"
-    class="file-upload"
-    [(ngModel)]="VideoFile"
-    name="VideoFile"
-    onchange="console.log(event.target.files)"
-  />
+<div class="custom-form">
+  <div>
+    <label for="VideoFile">Video: </label>
+    <label for="VideoTitle">Title: </label>
+    <label for="VideoDescription">Description: </label>
+  </div>
+  <div>
+    <input
+      id="VideoFile"
+      type="file"
+      class="file-upload"
+      [(ngModel)]="VideoFile"
+      name="VideoFile"
+      onchange="console.log(event.target.files)"
+    />
+    <input
+      id="VideoTitle"
+      type="text"
+      [(ngModel)]="VideoTitle"
+      name="VideoTitle"
+      placeholder="Title"
+    />
+    <input
+      id="VideoDescription"
+      type="text"
+      [(ngModel)]="VideoDescription"
+      name="VideoDescription"
+      placeholder="Description"
+    />
+  </div>
+</div>
 
-  <label for="VideoTitle">Title: </label>
-  <input
-    id="VideoTitle"
-    type="text"
-    [(ngModel)]="VideoTitle"
-    name="VideoTitle"
-    placeholder="Title"
-  />
-
-  <label for="VideoDescription">Description: </label>
-  <input
-    id="VideoDescription"
-    type="text"
-    [(ngModel)]="VideoDescription"
-    name="VideoDescription"
-    placeholder="Description"
-  />
-
-  <button class="button" type="submit" (click)="UploadVideo()">Upload</button>
-</form>
-<h1>hi</h1>
+<button class="button" type="submit" (click)="UploadVideo()">Upload</button>

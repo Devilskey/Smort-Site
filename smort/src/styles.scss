@@ -1,17 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+:root {
+  --main-purple: #563693;
+  --main-pink: #ec2678;
+
+  --accent-blue: #37c8fc;
+  --accent-orange: #ea9d10;
+  --accent-pink: #f00b78;
+
+  --low-opacity-main-purple: #57369480;
+  --low-opacity-main-pink: #ed267980;
+}
+
 :host {
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  color: #333;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
   margin: 0;
+  background: linear-gradient(
+    var(--low-opacity-main-purple),
+    var(--low-opacity-main-pink)
+  );
   // overflow: hidden;
 }
 
@@ -38,6 +53,13 @@ p {
   min-height: 100vh;
   max-width: 360px;
   max-height: 100vh;
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: row;
+  line-height: 24px;
+  padding: 10vh 0;
 }
 
 //=================================

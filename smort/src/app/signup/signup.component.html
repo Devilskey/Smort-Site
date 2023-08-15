@@ -1,1 +1,51 @@
-<p>signup works!</p>
+<div class="custom-form">
+  <div>
+    <label for="Email">Email: </label>
+    <label for="UserName">Username: </label>
+    <label for="Password">Password: </label>
+    <label for="ProfilePicture">Profile picture: </label>
+  </div>
+
+  <div>
+    <input
+      id="Email"
+      type="email"
+      [(ngModel)]="Email"
+      name="Email"
+      placeholder="Email"
+    />
+    <input
+      id="UserName"
+      type="UserName"
+      [(ngModel)]="UserName"
+      name="UserName"
+      placeholder="UserName"
+    />
+    <input
+      id="Password"
+      type="password"
+      [(ngModel)]="Password"
+      name="Password"
+      placeholder="Password"
+    />
+    <input
+      id="ProfilePicture"
+      type="file"
+      class="file-upload"
+      [(ngModel)]="ProfilePicture"
+      name="ProfilePicture"
+      onchange="console.log(event.target.files)"
+    />
+  </div>
+</div>
+
+<button class="button" type="submit" (click)="SignUp()">Sign up</button>
+
+<button
+  class="button"
+  routerLink="/login"
+  routerLinkActive="activebutton"
+  ariaCurrentWhenActive="page"
+>
+  Log in
+</button>
