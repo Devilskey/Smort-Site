@@ -13,6 +13,8 @@
   // --lighter-main-pink: rgb(205, 105, 151);
   --lighter-main-purple: rgb(144, 124, 181);
   --lighter-main-pink: rgb(214, 118, 163);
+  --lighter-accent-orange: #ea9e10;
+  --lighter-accent-blue: #36c7fc;
 }
 
 :host {
@@ -25,11 +27,22 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   margin: 0;
+  // overflow: hidden;
+}
+
+.custom-background {
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  position: fixed;
+  z-index: -100;
   background: linear-gradient(
     var(--lighter-main-purple),
     var(--lighter-main-pink)
   );
-  // overflow: hidden;
 }
 
 h1,
@@ -42,9 +55,12 @@ h6 {
   line-height: 102%;
 }
 
-p {
+span,
+p,
+a {
   margin: 0;
-  line-height: 80%;
+  color: white;
+  text-decoration: none;
 }
 
 .content-container {
@@ -55,6 +71,7 @@ p {
   min-height: 100vh;
   max-width: 360px;
   max-height: 100vh;
+  background-color: var(--lighter-accent-blue);
 }
 
 form {
@@ -71,9 +88,10 @@ form {
   input {
     border: none;
     background-color: #ffffffcc;
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
+    width: 99%;
+    min-width: 99%;
+    max-width: 99%;
+    padding: 1px 0 1px 1px;
   }
   .form-left {
     width: 35%;
