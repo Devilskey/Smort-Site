@@ -24,7 +24,14 @@
 </div>
 
 <div class="profile-videos">
-  <button class="upload-button">Upload</button>
+  <button
+    class="upload-button"
+    routerLink="/upload"
+    routerLinkActive="activebutton"
+    ariaCurrentWhenActive="page"
+  >
+    Upload
+  </button>
 
   <ul class="videos-list">
     <li *ngFor="let video of videos">

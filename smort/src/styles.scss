@@ -30,21 +30,6 @@ body {
   // overflow: hidden;
 }
 
-.custom-background {
-  width: 100vw;
-  height: 100vh;
-  min-width: 100vw;
-  min-height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  position: fixed;
-  z-index: -100;
-  background: linear-gradient(
-    var(--lighter-main-purple),
-    var(--lighter-main-pink)
-  );
-}
-
 h1,
 h2,
 h3,
@@ -57,7 +42,8 @@ h6 {
 
 span,
 p,
-a {
+a,
+label {
   margin: 0;
   color: white;
   text-decoration: none;
@@ -71,7 +57,11 @@ a {
   min-height: 100vh;
   max-width: 360px;
   max-height: 100vh;
-  background-color: var(--lighter-accent-blue);
+  // background: linear-gradient(
+  //   var(--lighter-main-purple),
+  //   var(--lighter-main-pink)
+  // );
+  background: linear-gradient(to left, var(--main-purple), var(--main-pink));
 }
 
 form {
@@ -114,8 +104,14 @@ form {
   border: none;
   margin: 0 10px;
   font-size: 16px;
-  background: linear-gradient(40deg, var(--main-purple), var(--main-pink));
-  color: var(--accent-orange);
+  // background: linear-gradient(40deg, var(--main-purple), var(--main-pink));
+  // color: var(--accent-orange);
+  background: linear-gradient(
+    40deg,
+    var(--accent-pink) 20%,
+    var(--accent-blue)
+  );
+  color: white;
   font-weight: bold;
 }
 
@@ -123,8 +119,8 @@ button:hover {
   cursor: pointer;
   background: linear-gradient(
     40deg,
-    var(--main-purple) 25%,
-    var(--accent-pink)
+    var(--accent-pink) 45%,
+    var(--accent-blue)
   );
 }
 
