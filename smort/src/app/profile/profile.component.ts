@@ -10,4 +10,5 @@ import { Video, Videos } from '../../assets/placeholder-data-videos';
 export class ProfileComponent {
   profiles = Profiles;
   videos = Videos;
+  profileId = 0;
 }

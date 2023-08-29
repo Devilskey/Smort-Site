@@ -2,12 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
-  --main-purple: rgb(86, 54, 147);
-  --main-pink: #ec2678;
+  --main-purple: rgb(86, 54, 147); // Main
+  --main-pink: #ec2678; // Buttons
 
-  --accent-blue: #37c8fc;
-  --accent-orange: #ea9d10;
-  --accent-pink: #f00b78;
+  --accent-blue: #37c8fc; // Main
+  --accent-orange: #ea9d10; // We'll see
+  --accent-pink: #f00b78; // Buttons
 
   // --lighter-main-purple: rgb(123, 94, 177);
   // --lighter-main-pink: rgb(205, 105, 151);
@@ -61,7 +61,12 @@ label {
   //   var(--lighter-main-purple),
   //   var(--lighter-main-pink)
   // );
-  background: linear-gradient(to left, var(--main-purple), var(--main-pink));
+  background: linear-gradient(
+    to left,
+    var(--main-purple),
+    black,
+    var(--accent-blue)
+  );
 }
 
 form {
@@ -104,8 +109,6 @@ form {
   border: none;
   margin: 0 10px;
   font-size: 16px;
-  // background: linear-gradient(40deg, var(--main-purple), var(--main-pink));
-  // color: var(--accent-orange);
   background: linear-gradient(
     40deg,
     var(--accent-pink) 20%,
@@ -153,3 +156,7 @@ nav {
     background-color: aquamarine;
   }
 }
+
+// Rond spelen met kleurtjes
+// Home page comments section
+// Progile page buttons

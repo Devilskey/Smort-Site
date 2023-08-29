@@ -14,6 +14,7 @@
     max-height: 115px;
     max-width: 115px;
     border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.4);
   }
   .user-identifier {
     height: 40px;
@@ -38,7 +39,7 @@
   width: 50px;
   min-width: 50px;
   max-width: 50px;
-  a {
+  .profile-button {
     width: 50px;
     height: 50px;
     min-width: 50px;
@@ -47,6 +48,18 @@
     max-height: 50px;
     border-radius: 14px;
     margin: 5px 0;
+
+    border: none;
+    border-radius: 14px;
+    background-color: #3f3f3fab;
+    padding: 0;
+    color: white;
+  }
+  .profile-button:hover {
+    cursor: pointer;
+    border-radius: 14px;
+    background-color: white !important;
+    color: var(--accent-pink);
   }
 }
 .profile-videos {
@@ -140,7 +153,7 @@
   //   background-color: rgb(179, 0, 255);
   // }
   .videos-list {
-    background-color: rgba(255, 0, 191);
+    // background-color: rgba(255, 0, 191);
     li {
       background-color: #ff0000;
     }

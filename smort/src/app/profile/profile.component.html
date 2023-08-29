@@ -3,24 +3,28 @@
 </div>
 
 <div class="profile-information">
-  <p id="userName" class="user-identifier">{{ profiles[0].UserName }}</p>
-  <p id="userTag" class="user-identifier">{{ profiles[0].UserTag }}</p>
+  <p id="userName" class="user-identifier">
+    {{ profiles[profileId].UserName }}
+  </p>
+  <p id="userTag" class="user-identifier">{{ profiles[profileId].UserTag }}</p>
 </div>
 
 <div class="profile-information">
   <p id="follower-count" class="user-statistics">
-    {{ profiles[0].FollowerCount }}
+    {{ profiles[profileId].FollowerCount }}
   </p>
-  <p id="likes-count" class="user-statistics">{{ profiles[0].LikesCount }}</p>
+  <p id="likes-count" class="user-statistics">
+    {{ profiles[profileId].LikesCount }}
+  </p>
   <p id="following-count" class="user-statistics">
-    {{ profiles[0].FollowingCount }}
+    {{ profiles[profileId].FollowingCount }}
   </p>
 </div>
 
 <div class="profile-navigation">
-  <a>Edit</a>
-  <a>Settings</a>
-  <a>Share</a>
+  <button class="profile-button">Edit</button>
+  <button class="profile-button">Settings</button>
+  <button class="profile-button">Share</button>
 </div>
 
 <div class="profile-videos">
