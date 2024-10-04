@@ -4,8 +4,13 @@ import Container from 'react-bootstrap/Container';
 
 import ButtonsShowcase from './showcases/Buttons';
 import ToastsShowcase from './showcases/Toasts';
+import { smortApi as smort } from './Api/smortApi';
+
+
 
 const App: React.FC = () => {
+  smort.Login("test@devilskey.nl", "test");
+
   return (
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
