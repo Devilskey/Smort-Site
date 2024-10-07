@@ -1,0 +1,22 @@
+.LoginBackground {
+  border-radius: 20px;
+    background-color: #f5f5f5;
+    padding: 15px;
+    width: 500px;
+  }
+  
+  .title {
+    color: #333;
+    font-size: 24px;
+  }
+
+  .Submit{
+    margin: 10px 0px;
+  }
+
+.LoginPage {
+  min-height: 100vh;
+}
+* {
+  overflow: hidden;
+}
