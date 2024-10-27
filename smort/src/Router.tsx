@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { HomePage } from "./Pages/HomePage";
+import { AccountPage } from "./Pages/AccountPage/AccountPage";
 const SiteRouter = ():JSX.Element => { 
 
 
@@ -8,6 +9,9 @@ const SiteRouter = ():JSX.Element => {
     <BrowserRouter>
         <Routes>
             <Route path="/login"  element={ <LoginPage/> }/>
+            <Route path="/account/:id"  element={ <AccountPage/> }/>
+            <Route path="/account"  element={ <AccountPage/> }/>
+
             <Route path="*"  element={ <HomePage/> }/>
         </Routes>
     </BrowserRouter>

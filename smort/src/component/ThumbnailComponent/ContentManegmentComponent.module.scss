@@ -1,0 +1,8 @@
+.VideoLink{
+    text-decoration: none;
+}
+
+.card:hover {
+  transform: scale(0.95); /* Scales the card to 95% of its size */
+  transition: transform 0.3s ease; /* Smooth transition */
+}

@@ -1,0 +1,21 @@
+.UserInfoBackground{
+    border-bottom: rgb(133, 133, 133) solid 2px;
+}
+
+.UserImg{
+    width: 25vh;
+    border-radius: 25vh;
+    align-items: center;
+    margin: 20px;
+
+}
+
+.UserInfo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Videos {
+    margin-top: 10px;
+}

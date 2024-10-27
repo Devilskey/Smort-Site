@@ -1,0 +1,17 @@
+.HomeFeed {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    height: 87vh; 
+}
+.Scroll {
+    flex-direction: column; 
+    overflow-y: scroll; 
+    width: 100vh;
+}
+
+.HomeOptions{
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}

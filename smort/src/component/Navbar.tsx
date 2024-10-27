@@ -3,10 +3,8 @@ import { IMyProfile } from "../Api/ApiObjects/userObjects"
 import React from "react"
 import { smortApi as smort } from "../Api/smortApi"
 import Style from './Navbar.module.scss';
-
-interface INavBar {
-  profile?: IMyProfile
-}
+import logo from '../SiteAssets/Smort_Logo.png';
+import { Link } from "react-router-dom";
 
 export class NavBarSmort extends React.Component {
 
@@ -18,18 +16,14 @@ export class NavBarSmort extends React.Component {
       <>
         <Navbar bg="dark" data-bs-theme="dark">
           <Container>
-            <Navbar.Brand href="/home"><img
-              src="https://devilskey.nl/smortSocials/assets/Smort_Logo.png"
+            <Navbar.Brand as={Link} to="/home"><img
+              src={logo}
               width="60"
               height="60"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             /></Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-            </Nav>
-            <Navbar.Brand href=""></Navbar.Brand>
+            <Navbar.Brand as={Link} to="/account">
             <div className={Style.User}>
               <div className={Style.UserText}> {user?.username}</div>
               <img
@@ -39,6 +33,7 @@ export class NavBarSmort extends React.Component {
                 className={ Style.UserImg}
                 alt="React Bootstrap logo" />
             </div>
+            </Navbar.Brand>
           </Container>
 
 

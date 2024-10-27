@@ -1,0 +1,45 @@
+.UserSimpel{
+     
+}
+
+.UserImgSimpel{
+    width: 40px;
+    margin: 0 10px 0 0;
+    border-radius: 100%;
+}
+.VideoItem{
+    background-color: rgb(240, 240, 240);
+    padding: 10px 5px 0px 5px;
+    border-radius: 20px;
+    width: 100%;
+
+}
+.Video{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+video{
+    border-radius: 20px;
+    width: 100%;
+    
+}
+@media (max-width: 1080px ) {
+    .VideoItem{
+        background-color: rgb(240, 240, 240);
+        padding: 10px 5px 0px 5px;
+        border-radius: 20px;
+        width: 100%;
+    
+    }
+}
+@media (min-width: 1081px ) {
+    .VideoItem{
+        background-color: rgb(240, 240, 240);
+        padding: 10px 5px 0px 5px;
+        border-radius: 20px;
+        width: 35%;
+    
+    }
+}
