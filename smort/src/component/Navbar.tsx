@@ -12,18 +12,25 @@ export class NavBarSmort extends React.Component {
 
     const user = smort.getUser();
 
+    console.log("USer nav", user)
+
+    var link = user !== undefined ? "/account" : "/login";
+
+
+
     return (
       <>
         <Navbar bg="dark" data-bs-theme="dark">
           <Container>
-            <Navbar.Brand as={Link} to="/home"><img
+            <Navbar.Brand as={Link} to="/"><img
               src={logo}
               width="60"
               height="60"
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             /></Navbar.Brand>
-            <Navbar.Brand as={Link} to="/account">
+            <Navbar.Brand as={Link} to={link}>
+            { user !== undefined ?  (
             <div className={Style.User}>
               <div className={Style.UserText}> {user?.username}</div>
               <img
@@ -32,7 +39,11 @@ export class NavBarSmort extends React.Component {
                 height="60"
                 className={ Style.UserImg}
                 alt="React Bootstrap logo" />
-            </div>
+            </div>)  :
+             (<div>
+              Login please
+            </div>) 
+            }
             </Navbar.Brand>
           </Container>
 

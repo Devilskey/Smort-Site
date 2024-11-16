@@ -17,6 +17,15 @@
 .LoginPage {
   min-height: 100vh;
 }
+
+.PfPicture{
+  width: 10vh;
+  height:  10vh;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
 * {
   overflow: hidden;
 }

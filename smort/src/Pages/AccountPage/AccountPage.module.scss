@@ -1,16 +1,17 @@
-.UserInfoBackground{
+.UserInfoBackground {
     border-bottom: rgb(133, 133, 133) solid 2px;
 }
 
-.UserImg{
-    width: 25vh;
-    border-radius: 25vh;
+.UserImg {
+    max-width: 500px;
+    min-width: 20vh;
+    border-radius: 25vw;
     align-items: center;
-    margin: 20px;
+    margin: 2%;
 
 }
 
-.UserInfo{
+.UserInfo {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -18,4 +19,17 @@
 
 .Videos {
     margin-top: 10px;
+    overflow-y: scroll;
+    flex: 1;
+    padding: 10px;
 }
+
+.Scroll {
+    flex-direction: column;
+}
+
+.Page {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+}   

@@ -20,6 +20,10 @@ export const AccountPage = (): JSX.Element => {
   const [search, SetSearch] = useState<string>("");
   const { id } = useParams()
   const [VideoList, SetVideoList] = useState<ThumbnailObject[] | null>(null);
+  const [Follower, setFollower] = useState<boolean>(false);
+  const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
+  const [FollowingOrNot, setFollowingOrNot] = useState<boolean | null>(null);
+
 
   useEffect(() => {
     // Fetch user profile only once
@@ -29,7 +33,7 @@ export const AccountPage = (): JSX.Element => {
         .catch((error) => console.error("Failed to fetch profile:", error));
     } else if (id !== undefined) {
       smort.GetProfileAsync(Number(id))
-        .then((profile:any) => {
+        .then((profile: any) => {
 
           setUser(profile)
         })
@@ -43,38 +47,66 @@ export const AccountPage = (): JSX.Element => {
         console.log(data);
         SetVideoList(data);
       })
+      smort.GetFollowersAsync(id).then((FollowerAmmount: string) => {
+        setFollowerAmmount(FollowerAmmount)
+      })
+
+      smort.GetFollowingOrNot(id).then((followingOrNot:string) => {
+        setFollowingOrNot(Boolean(followingOrNot))
+      });
+
+
     } else {
       smort.GetMyThumbnail().then((data: ThumbnailObject[]) => {
         console.log(data);
         SetVideoList(data);
+      })
+      smort.GetMyFollowersAsync().then((FollowerAmmount: string) => {
+        setFollowerAmmount(FollowerAmmount)
       })
     }
   }, []);
 
   return (
     <>
-      <>
+      <div className={Style.Page}>
         <NavBarSmort />
         <div className={Style.UserInfoBackground}>
-          {user ? (
-            <Container className={Style.UserInfo}>
+          <Container className={Style.UserInfo}>
+
+            {user ? (
+              <>
                 <img
                   src={smort.GetImageUrl(user.profile_Picture)}
                   alt="User profile"
                   className={Style.UserImg}
                 />
-              <h1>{user.username}</h1>
-            </Container>
-          ): (<></>)}
+                <h1>{user.username}</h1>
+              </>
+            ) : (<></>)}
+
+            {smort.getUser() &&
+              <>
+                {FollowingOrNot !== null && <button onClick={()=>{
+                    console.log("test")
+                }}>{Follower ? <>Unfollow</> : <>Follow</>}</button>}
+                {FollowerAmmount !== null && <>Followers: {FollowerAmmount}</>}
+
+              </>
+            }
+          </Container>
+
 
         </div>
         <Container className={Style.Videos}>
-          {VideoList !== null ?
-            <ContentManegmentComponent posts={VideoList} AddCard={true} UsersAccount={(id === undefined)}/> :
-            <>loading</>
-          }
+          <div className={Style.Scroll}>
+            {VideoList !== null ?
+              <ContentManegmentComponent posts={VideoList} AddCard={true} UsersAccount={(id === undefined)} /> :
+              <>loading</>
+            }
+          </div>
         </Container>
-      </>
+      </div>
     </>
   )
 }

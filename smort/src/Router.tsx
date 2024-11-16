@@ -11,6 +11,7 @@ const SiteRouter = ():JSX.Element => {
             <Route path="/login"  element={ <LoginPage/> }/>
             <Route path="/account/:id"  element={ <AccountPage/> }/>
             <Route path="/account"  element={ <AccountPage/> }/>
+            <Route path="/home/:id"  element={ <HomePage/> }/>
 
             <Route path="*"  element={ <HomePage/> }/>
         </Routes>

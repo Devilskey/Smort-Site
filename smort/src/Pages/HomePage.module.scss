@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    height: 87vh; 
+    flex: 1;
 }
 .Scroll {
     flex-direction: column; 
@@ -14,4 +14,24 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: whitesmoke;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.Page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
 }
