@@ -1,0 +1,50 @@
+.HomeFeed {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    flex: 1;
+}
+.Scroll {
+    flex-direction: column; 
+    overflow-y: scroll; 
+    flex: 1;
+    padding-bottom: 40px;
+}
+
+.HomeOptions{
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: whitesmoke;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.Page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.ContentType{
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+}
+
+.TypeVideo{
+    width: 50%;
+}
+.TypeImage{
+    width: 50%;
+}
