@@ -4,19 +4,16 @@ import React from "react"
 import { smortApi as smort } from "../Api/smortApi"
 import Style from './Navbar.module.scss';
 import logo from '../SiteAssets/Smort_Logo.png';
-import { Link } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 
 export class NavBarSmort extends React.Component {
 
   render() {
-
     const user = smort.getUser();
 
     console.log("USer nav", user)
 
     var link = user !== undefined ? "/account" : "/login";
-
-
 
     return (
       <>
@@ -46,8 +43,6 @@ export class NavBarSmort extends React.Component {
             }
             </Navbar.Brand>
           </Container>
-
-
         </Navbar>
       </>
     )

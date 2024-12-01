@@ -36,108 +36,117 @@ export const LoginPage = (): JSX.Element => {
     }
   };
   return (<>
-    <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
-      <div className={Style.LoginBackground}>
-        <h1 className="text-center">    {Login ? (<>inloggen</>) : (<> Aanmelden</>)}</h1>
-        {Login ? (
-          <Form>
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">email:</Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="text"
-                  placeholder="enter email"
-                  onChange={(Element) => { setEmail(Element.target.value) }} />
-              </Col>
-            </Form.Group>
 
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">password:</Form.Label>
-              <Col sm="10">
-                <Form.Control type="password"
-                  placeholder="enter password"
-                  onChange={(Element) => { setPassword(Element.target.value) }} />
-              </Col>
-            </Form.Group>
-            <div className={"d-grid gap-2 " + Style.Submit}>
-              <Button size="lg" variant="primary" type="submit"
-                onClick={(event) => {
-                  event.preventDefault();
-                  submitLogin()
-                }}>
-                Submit
-              </Button>
-            </div>
-          </Form>
-        ) : (
-          <> <Form>
-            <Form.Group as={Row}>
-              <Col>
-                <input
-                  type="file"
-                  placeholder="enter email"
-                  hidden
-                  onChange={(Element) => {
-                    setProfilePicture(Element.target.files?.[0] || null)
+    <div className={Style.LoginBG}>
+      <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
+        <div className={Style.GradiantBackground}>
+          <h1 className={Style.GradiantText + " " +  Style.Title}>Smort</h1>
+          <h3 className={Style.GradiantText}> A hobby social media platform </h3>
+        </div>
+        <div className={Style.LoginBackground}>
+          <h1 className="text-center">    {Login ? (<>inloggen</>) : (<> Aanmelden</>)}</h1>
+          {Login ? (
+            <Form>
+              <Form.Group as={Row}>
+                <Form.Label column sm="2">email:</Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    type="text"
+                    placeholder="enter email"
+                    onChange={(Element) => { setEmail(Element.target.value) }} />
+                </Col>
+              </Form.Group>
 
-                  }}
-                  ref={inputRefrence} />
-                <Button
-                  className={Style.PfPicture}
-                  onClick={() => {
-                    inputRefrence.current?.click()
+              <Form.Group as={Row}>
+                <Form.Label column sm="2">password:</Form.Label>
+                <Col sm="10">
+                  <Form.Control type="password"
+                    placeholder="enter password"
+                    onChange={(Element) => { setPassword(Element.target.value) }} />
+                </Col>
+              </Form.Group>
+              <div className={"d-grid gap-2 " + Style.Submit}>
+                <Button size="lg" variant="primary" type="submit"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    submitLogin()
                   }}>
-                  {ProfilePicture ? (<img src={URL.createObjectURL(ProfilePicture)} />) : (<div> + </div>)}
+                  Submit
                 </Button>
-              </Col>
-            </Form.Group>
+              </div>
+            </Form>
+          ) : (
+            <> <Form>
+              <Form.Group as={Row}>
+                <Col>
+                  <input
+                    type="file"
+                    placeholder="enter email"
+                    hidden
+                    onChange={(Element) => {
+                      setProfilePicture(Element.target.files?.[0] || null)
 
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">Username:</Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="text"
-                  placeholder="enter Username"
-                  onChange={(Element) => { setUsername(Element.target.value) }} />
-              </Col>
-            </Form.Group>
+                    }}
+                    ref={inputRefrence} />
+                  <div className={Style.ProfilePictureAddDiv}>
+                    <Button
+                      className={Style.PfPicture}
+                      onClick={() => {
+                        inputRefrence.current?.click()
+                      }}>
+                      {ProfilePicture ? (<img src={URL.createObjectURL(ProfilePicture)} />) : (<div> + </div>)}
+                    </Button>
+                  </div>
+                </Col>
+              </Form.Group>
 
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">email:</Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="text"
-                  placeholder="enter email"
-                  onChange={(Element) => { setEmail(Element.target.value) }} />
-              </Col>
-            </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="2">Username:</Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    type="text"
+                    placeholder="enter Username"
+                    onChange={(Element) => { setUsername(Element.target.value) }} />
+                </Col>
+              </Form.Group>
 
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">password:</Form.Label>
-              <Col sm="10">
-                <Form.Control type="password"
-                  placeholder="enter password"
-                  onChange={(Element) => { setPassword(Element.target.value) }} />
-              </Col>
-            </Form.Group>
-            <div className={"d-grid gap-2 " + Style.Submit}>
-              <Button size="lg" variant="primary" type="submit"
-                onClick={(event) => {
-                  event.preventDefault();
-                  submitCreateAccount()
-                }}>
-                Submit
-              </Button>
-            </div>
-          </Form></>
-        )}
+              <Form.Group as={Row}>
+                <Form.Label column sm="2">email:</Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    type="text"
+                    placeholder="enter email"
+                    onChange={(Element) => { setEmail(Element.target.value) }} />
+                </Col>
+              </Form.Group>
 
-        <button onClick={() => {
-          setLogin(!Login)
-        }}>
-          {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
-        </button>
-      </div>
-    </Container>
+              <Form.Group as={Row}>
+                <Form.Label column sm="2">password:</Form.Label>
+                <Col sm="10">
+                  <Form.Control type="password"
+                    placeholder="enter password"
+                    onChange={(Element) => { setPassword(Element.target.value) }} />
+                </Col>
+              </Form.Group>
+              <div className={"d-grid gap-2 " + Style.Submit}>
+                <Button size="lg" variant="primary" type="submit"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    submitCreateAccount()
+                  }}>
+                  Submit
+                </Button>
+              </div>
+            </Form></>
+          )}
+
+          <button onClick={() => {
+            setLogin(!Login)
+          }}>
+            {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
+          </button>
+        </div>
+      </Container>
+    </div>
   </>)
 }

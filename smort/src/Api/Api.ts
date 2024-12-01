@@ -32,4 +32,13 @@ export class Api {
         
     }
 
+    public static async SendApiRequestWithHeaderDeleteAsync(apiUrl:string, headers:any):Promise<any> {
+        const options = {
+            method: 'DELETE',
+            headers: headers
+        }
+       return await fetch(apiUrl, options);
+    }
+
+
 }

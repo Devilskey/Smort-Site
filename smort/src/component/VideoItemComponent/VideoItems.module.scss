@@ -1,45 +1,53 @@
-.UserSimpel{
-     
-}
-
 .UserImgSimpel{
     width: 40px;
     margin: 0 10px 0 0;
     border-radius: 100%;
 }
-.VideoItem{
+.contentItem{
     background-color: whitesmoke;
     border-radius: 20px;
     width: 100%;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
     margin-bottom: 1em;
 }
-.Video{
+.content{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.ContentImg {
+    border-radius: 20px;
+    width: 100%;
+}
+
 video{
     border-radius: 20px;
     width: 100%;
-    
 }
+
+.contentTitle{
+    font-size: 20px;
+}
+.contentDescription{
+    font-size: 15px;
+}
+
 @media (max-width: 1080px ) {
-    .VideoItem{
-        background-color: rgb(240, 240, 240);
+    .contentItem{
+        background-color: rgb(220, 220, 220);
         padding: 10px 5px 0px 5px;
         border-radius: 20px;
-        width: 100%;
-    
+        width: 90%;
+        max-height: 800px;
     }
 }
 @media (min-width: 1081px ) {
-    .VideoItem{
-        background-color: rgb(240, 240, 240);
+    .contentItem{
+        background-color: rgb(220, 220, 220);
         padding: 10px 5px 0px 5px;
         border-radius: 20px;
-        width: 35%;
-    
+        width: 45%;
+        max-height: 800px;
     }
 }

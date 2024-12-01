@@ -7,7 +7,8 @@ import { NavBarSmort } from "../component/Navbar";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Video } from "../Api/ApiObjects/VideoObject";
 import Style from './HomePage.module.scss';
-import VideoItemsRender from "../component/VideoItemComponent/VideoItems";
+import ContentItemsRender from "../component/VideoItemComponent/ContentItemsRender";
+import { PostImage } from "../Api/ApiObjects/PostImageObjects";
 
 export const HomePage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -15,12 +16,22 @@ export const HomePage = (): JSX.Element => {
   const [search, SetSearch] = useState<string>("");
 
   const { id } = useParams();
+  const { ContentType } = useParams();
+
 
   const [VideoList, SetVideoList] = useState<Video[]>([]);
+  const [PostList, SetPostList] = useState<PostImage[]>([]);
+  const [showTypeContent, setShowTypeContent] = useState("Video");
 
   useEffect(() => {
 
+    if (ContentType !== undefined) {
+      setShowTypeContent(ContentType);
+    }
+
     let VideoFromApi: Video[] = [];
+    let ImageFromApi: PostImage[] = [];
+
     // Fetch user profile only once
     if (smort.getUser() === undefined) {
       smort.GetMyProfileAsync()
@@ -28,10 +39,24 @@ export const HomePage = (): JSX.Element => {
         .catch((error) => console.error("Failed to fetch profile:", error));
     }
 
+    smort.GetListImagePost().then((imagePosts: PostImage[]) => {
+      ImageFromApi.unshift(...imagePosts)
+      if (id !== undefined && ContentType === "Image") {
+        smort.GetImageAsync(id).then((images: PostImage[]) => {
+          ImageFromApi.unshift(...images)
+          SetPostList(imagePosts);
+        })
+      } else {
+        SetPostList(ImageFromApi);
+      }
+
+    })
+      .catch((error) => console.error("Failed to fetch Images:", error));
+
     smort.GetVideoListAsync()
       .then((videos: Video[]) => {
         VideoFromApi.push(...videos)
-        if (id !== undefined) {
+        if (id !== undefined && ContentType === "Video") {
           smort.GetVideoAsync(id).then((videos: Video[]) => {
             VideoFromApi.unshift(...videos)
             SetVideoList(VideoFromApi);
@@ -46,10 +71,36 @@ export const HomePage = (): JSX.Element => {
   }, []);
 
 
-  const GetSearchResults = () =>{
-      smort.GetSearchResultsAsync(search).then((Videos:Video[]) => {
+  const GetSearchResults = () => {
+    if (showTypeContent === "Video") {
+      if (search === "") {
+        smort.GetVideoListAsync()
+          .then((videos: Video[]) => {
+            SetVideoList(videos);
+          })
+          .catch((error) => console.error("Failed to fetch videos:", error));
+        return;
+      }
+      if (search === "") {
+
+      }
+      smort.GetSearchResultsAsync(search).then((Videos: Video[]) => {
         SetVideoList(Videos);
       })
+
+      return;
+    }
+    if (search === "") {
+      smort.GetListImagePost().then((imagePosts: PostImage[]) => {
+        SetPostList(imagePosts);
+      })
+        .catch((error) => console.error("Failed to fetch Images:", error));
+      return;
+    }
+
+    smort.GetSearchResultsImagePostAsync(search).then((imagePosts: PostImage[]) => {
+      SetPostList(imagePosts);
+    })
   }
 
   return (
@@ -61,7 +112,7 @@ export const HomePage = (): JSX.Element => {
             <Row>
               <Col>
                 <Form.Group as={Row}>
-                  <Col sm="11">
+                  <Col sm="11" xs="8">
                     <Form.Control
                       type="text"
                       placeholder="Search"
@@ -70,21 +121,25 @@ export const HomePage = (): JSX.Element => {
 
                       }} />
                   </Col>
-                  <Col sm="1">
-                    <Button 
-                    variant="primary" 
-                    type="submit"
-                    onClick={(event)=> {
-                      event.preventDefault();
-                      GetSearchResults();
-                    }}
+                  <Col sm="1" xs="4">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        GetSearchResults();
+                      }}
                     >
                       Submit
-                    </Button>                 
-                   </Col>
+                    </Button>
+                  </Col>
                 </Form.Group>
               </Col>
             </Row>
+            <div className={Style.ContentType}>
+              <Button className={Style.TypeVideo} onClick={() => { setShowTypeContent("Video") }}>Videos</Button>
+              <Button className={Style.TypeImage} onClick={() => { setShowTypeContent("Image") }}> Images</Button>
+            </div>
           </Form>
           <hr />
         </Container>
@@ -93,7 +148,7 @@ export const HomePage = (): JSX.Element => {
           <div className={Style.Scroll}>
             {VideoList.length > 0 ? (
               <>
-                <VideoItemsRender VideoList={VideoList} />
+                <ContentItemsRender VideoList={VideoList} PostImage={PostList} ShowTypeOfContent={showTypeContent} />
               </>) : (<>lOADING..</>)
             }
           </div>

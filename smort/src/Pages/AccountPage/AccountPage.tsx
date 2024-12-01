@@ -22,7 +22,6 @@ export const AccountPage = (): JSX.Element => {
   const [VideoList, SetVideoList] = useState<ThumbnailObject[] | null>(null);
   const [Follower, setFollower] = useState<boolean>(false);
   const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
-  const [FollowingOrNot, setFollowingOrNot] = useState<boolean | null>(null);
 
 
   useEffect(() => {
@@ -38,12 +37,15 @@ export const AccountPage = (): JSX.Element => {
           setUser(profile)
         })
         .catch((error) => console.error("Failed to fetch profile:", error));
-    } else {
+    } else 
+    {
+      
       setUser(smort.getUser())
     }
+
     console.log(id)
     if (id !== undefined) {
-      smort.GetThumbnail(Number(id)).then((data: ThumbnailObject[]) => {
+      smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
         console.log(data);
         SetVideoList(data);
       })
@@ -51,13 +53,15 @@ export const AccountPage = (): JSX.Element => {
         setFollowerAmmount(FollowerAmmount)
       })
 
-      smort.GetFollowingOrNot(id).then((followingOrNot:string) => {
-        setFollowingOrNot(Boolean(followingOrNot))
-      });
+      smort.AlreadyFollowing(id).then((FollowerAlready: boolean) => {
+        setFollower(FollowerAlready);
+      })
 
+    } 
+    else
+     {
 
-    } else {
-      smort.GetMyThumbnail().then((data: ThumbnailObject[]) => {
+      smort.GetMyContent().then((data: ThumbnailObject[]) => {
         console.log(data);
         SetVideoList(data);
       })
@@ -67,36 +71,50 @@ export const AccountPage = (): JSX.Element => {
     }
   }, []);
 
+
   return (
     <>
       <div className={Style.Page}>
         <NavBarSmort />
         <div className={Style.UserInfoBackground}>
-          <Container className={Style.UserInfo}>
+            <div className={Style.UserDataComplete}>
+              <div >
+                {user ? (
+                  <div className={Style.UserImgSpace}>
+                    <img
+                      src={smort.GetImageUrl(user.profile_Picture)}
+                      alt="User profile"
+                      className={Style.UserImg}
+                    />
+                  </div>
+                ) : (<></>)}
+              </div>
+              <div >
+                <div className={Style.UserInfo}>
+                  <h3>{user ? user.username : ""}</h3>
+                  {FollowerAmmount !== null && <>Followers: {FollowerAmmount}</>}<br/>
+                  {smort.getUser() &&
+                    <>
+                      {Follower !== null && id !== undefined && <button onClick={() => {
+                        if (id !== undefined && !Follower) {
+                          smort.FollowUser(id);
+                          const newFollowingAmount = Number(FollowerAmmount) + 1;
+                          setFollowerAmmount(newFollowingAmount.toString())
+                          setFollower(true);
 
-            {user ? (
-              <>
-                <img
-                  src={smort.GetImageUrl(user.profile_Picture)}
-                  alt="User profile"
-                  className={Style.UserImg}
-                />
-                <h1>{user.username}</h1>
-              </>
-            ) : (<></>)}
-
-            {smort.getUser() &&
-              <>
-                {FollowingOrNot !== null && <button onClick={()=>{
-                    console.log("test")
-                }}>{Follower ? <>Unfollow</> : <>Follow</>}</button>}
-                {FollowerAmmount !== null && <>Followers: {FollowerAmmount}</>}
-
-              </>
-            }
-          </Container>
-
-
+                        }
+                        else if (id !== undefined && Follower) {
+                          smort.UnfollowUser(id);
+                          const newFollowingAmount = Number(FollowerAmmount) - 1;
+                          setFollowerAmmount(newFollowingAmount.toString())
+                          setFollower(false);
+                        }
+                      }}>{Follower ? <>Unfollow</> : <>Follow</>}</button>}
+                    </>
+                  }
+                </div>
+              </div>
+            </div>
         </div>
         <Container className={Style.Videos}>
           <div className={Style.Scroll}>
