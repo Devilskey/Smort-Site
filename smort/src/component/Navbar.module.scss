@@ -13,3 +13,38 @@
     align-items: center;
     margin: 0 20px;
 }
+.SearchBarDiv{
+    flex: 1;
+    font-size: 20px;
+    border-radius: 50px;
+    border-width: thin;
+    
+    Button {
+        border-width: thin;
+    }
+}
+
+.SearchBarText{
+ display: flex !important;
+ justify-content: center !important;
+ flex: 1;
+}
+
+.Nav{
+    background-color: rgb(41, 41, 41) !important;
+    font-size: 20px;
+    color: whitesmoke;
+}
+
+.navItem{
+    *{
+        display: flex !important;
+        justify-content: center;
+    }
+    width: 100%;
+}
+
+.collapse{
+    background-color: white;
+    color: whitesmoke;
+}

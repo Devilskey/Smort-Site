@@ -1,15 +1,12 @@
 import React from 'react';
 
-import Container from 'react-bootstrap/Container';
-
-import ButtonsShowcase from './showcases/Buttons';
-import ToastsShowcase from './showcases/Toasts';
-import { LoginPage } from './Pages/LoginPage/LoginPage';
 import SiteRouter from './Router';
+import { smortApi as smort } from './Api/smortApi';
 
 
 
 const App: React.FC = () => {
+  smort.SetUpApiUrl();
 
   return(
       <SiteRouter/>

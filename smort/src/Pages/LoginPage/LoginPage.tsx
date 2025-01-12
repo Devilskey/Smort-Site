@@ -3,7 +3,7 @@ import { JSX, useEffect, useRef, useState } from "react"
 import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import Style from './LoginPage.module.scss';
 import { smortApi as smort } from "../../Api/smortApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = (): JSX.Element => {
   const [email, setEmail] = useState("enter email");
@@ -17,8 +17,11 @@ export const LoginPage = (): JSX.Element => {
 
   const submitLogin = (): void => {
     smort.LoginAsync(email, password)
-      .then(() => {
-        navigate("/");
+      .then((Success: boolean) => {
+        console.log(Success)
+        if (Success) {
+          navigate("/");
+        }
       })
       .catch((error) => {
         console.error("Login failed:", error);
@@ -40,7 +43,7 @@ export const LoginPage = (): JSX.Element => {
     <div className={Style.LoginBG}>
       <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
         <div className={Style.GradiantBackground}>
-          <h1 className={Style.GradiantText + " " +  Style.Title}>Smort</h1>
+          <h1 className={Style.GradiantText + " " + Style.Title}>Smort</h1>
           <h3 className={Style.GradiantText}> A hobby social media platform </h3>
         </div>
         <div className={Style.LoginBackground}>
@@ -71,7 +74,7 @@ export const LoginPage = (): JSX.Element => {
                     event.preventDefault();
                     submitLogin()
                   }}>
-                  Submit
+                  Login
                 </Button>
               </div>
             </Form>
@@ -134,17 +137,20 @@ export const LoginPage = (): JSX.Element => {
                     event.preventDefault();
                     submitCreateAccount()
                   }}>
-                  Submit
+                  Create new account
                 </Button>
               </div>
             </Form></>
           )}
 
-          <button onClick={() => {
+          <button className={Style.SwitchRequest} onClick={() => {
             setLogin(!Login)
           }}>
             {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
           </button>
+          <Link to="/">
+            Back
+          </Link>
         </div>
       </Container>
     </div>
