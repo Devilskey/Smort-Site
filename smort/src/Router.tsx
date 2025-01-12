@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation, matchRoutes, } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, matchRoutes, useNavigate, } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { HomePage } from "./Pages/HomePage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
@@ -32,5 +32,19 @@ const ForceRefresh = () => {
 
     return null;
   };
+
+export const PageNavigation = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const refreshPage = () => {
+        navigate(0); 
+        navigate(location.pathname, { replace: true });
+    };
+    
+    refreshPage();
+    return(<></>)
+
+}
 
 export default SiteRouter;

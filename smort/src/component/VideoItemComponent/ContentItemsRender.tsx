@@ -1,18 +1,16 @@
-import React from "react"
+import React, { useState } from "react"
 import { Video } from "../../Api/ApiObjects/VideoObject"
 
 import { smortApi as smort } from "../../Api/smortApi"
-import Style from './VideoItems.module.scss'
+import Style from './Contenttems.module.scss'
 
 import logo from '../../SiteAssets/Smort_Logo.png'
 import { Link } from "react-router-dom"
 import { PostImage } from "../../Api/ApiObjects/PostImageObjects"
-import { Button } from "react-bootstrap"
+import { Post } from "../../Api/ApiObjects/PostObject"
 
 interface ContentProps {
-  VideoList: Video[]
-  PostImage: PostImage[]
-  ShowTypeOfContent: string
+  postsList:Post[]
 }
 
 
@@ -21,67 +19,72 @@ export default class ContentItemsRender extends React.Component<ContentProps> {
 
   render() {
     return (<div className={Style.content}>
-      {this.props.ShowTypeOfContent === "Video" ?
-        (<>
-          <VideoList videos={this.props.VideoList} />
-        </>
-        ) : (
         <>
-          <ImageList images={this.props.PostImage} />
+          <PostList posts={this.props.postsList} />
         </>
-        )}
     </div>)
   }
 }
 
-const ImageList =  ({ images }: { images: PostImage[] }): JSX.Element => {
-  console.log("images:", images);
+const PostList = ({ posts }: { posts: Post[] }): JSX.Element => {
+  const [reload, setReload] = useState(0);
   return (<>
-    {images.map((image) => (
+    {posts.map((post) => (
 
       <div className={Style.contentItem}>
         <div className={Style.UserSimpel}>
 
-          <Link to={`/account/${image.User_Id}`}>
+          <Link to={`/account/${post.User_Id}`}>
             <img className={Style.UserImgSimpel}
-              src={image.User_Id !== undefined ? smort.GetProfilePictureImageUrl(image.User_Id) : logo} />
-            {image.Username}
+              loading="lazy"
+              src={post.User_Id !== undefined ? smort.GetProfilePictureImageUrl(post.User_Id) : logo} />
+            {post.Username}
           </Link>
 
         </div>
         <p>
-          <h3 className={Style.contentTitle}>{image.Title}</h3>
-          <div className={Style.contentDescription}>{image.Description}</div></p>
-          <img className={Style.ContentImg} src={smort.GetImageUrl(image.File_Id)}></img>
-      </div>
-    ))}</>)
-  }
+          <h3 className={Style.contentTitle}>{post.Title}</h3>
+          <div className={Style.contentDescription}>{post.Description}</div></p>
 
-const VideoList = ({ videos }: { videos: Video[] }): JSX.Element => {
-  return (<>
-    {videos.map((video) => (
+        {post.Type === "vid" ? 
+           <div className={Style.VideoContainer}>
+           <video src={smort.GetVideoUrl(post.Id)} loop onClick={(event) => {
+             const videoElement = event.currentTarget;
+             if (videoElement.paused) {
+               videoElement.play();
+             } else {
+               videoElement.pause();
+             }
+           }} />
+         </div>
+        :
+        <img className={Style.ContentImg}
+          loading="lazy"
+          src={smort.GetImageUrl(post.File_Id)}></img>
+        }
 
-      <div className={Style.contentItem}>
-        <div className={Style.UserSimpel}>
 
-          <Link to={`/account/${video.User_Id}`}>
-            <img className={Style.UserImgSimpel}
-              src={video.User_Id !== undefined ? smort.GetProfilePictureImageUrl(video.User_Id) : logo} />
-            {video.Username}
-          </Link>
+        <div className={Style.Options}>
+          {smort.getUser() !== undefined ? <><button className={Style.LikeButton} onClick={() => {
+            smort.likeContent(post.Id, post.Type).then(value => {
+              if (value !== "") {
+                if (value === "RemoveLike") {
+                  post.Likes -= 1;
+                  post.AlreadyLiked = 0;
+
+                } else if (value === "Like") {
+                  post.Likes += 1;
+                  post.AlreadyLiked = 1;
+
+                }
+                setReload((reload + 1))
+              }
+            });
+          }}>{post.AlreadyLiked !== 0 ? (<>UnLike</>) : (<>Like</>)}</button>
+            <h1>  {post.Likes} </h1>
+          </> : <h1>{`Likes:  ${post.Likes}`}</h1>}
 
         </div>
-        <p>
-          <h3 className={Style.contentTitle}>{video.Title}</h3>
-          <div className={Style.contentDescription}>{video.Description}</div></p>
-        <video src={smort.GetVideoUrl(video.Id)} loop onClick={(event) => {
-          const videoElement = event.currentTarget;
-          if (videoElement.paused) {
-            videoElement.play();
-          } else {
-            videoElement.pause();
-          }
-        }} />
       </div>
     ))}</>)
 }

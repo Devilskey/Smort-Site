@@ -1,11 +1,30 @@
-.VideoLink{
-    text-decoration: none;
+.VideoLink {
+  text-decoration: none;
+}
+
+.OptionsButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.DeleteButton {
+  border-color: darkred;
+  color: darkred;
+  border-radius: 10px;
+  width: 100%;
+  z-index: 1;
 }
 
 
-.UploadVideo{
+.SquareImage {
   width: 100%;
-  font-size: 20px;
-  margin-bottom: 10px;
-  
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
 }

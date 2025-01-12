@@ -24,12 +24,21 @@ export class Api {
        return await fetch(apiUrl, options);
     }
 
-    public static SendApiRequestPut(){
-        
+    public static async SendApiRequestPutAsync(apiUrl:string, headers:any){
+        const options = {
+            method: 'Put',
+            headers: headers
+        }
+       return await fetch(apiUrl, options);
     }
 
-    public static SendApiRequestDelete(){
-        
+    public static async SendApiRequestPutWithBodyAsync(apiUrl:string, body:any, headers:any){
+        const options = {
+            method: 'Put',
+            headers: headers,
+            body: JSON.stringify(body)
+        }
+       return await fetch(apiUrl, options);
     }
 
     public static async SendApiRequestWithHeaderDeleteAsync(apiUrl:string, headers:any):Promise<any> {
