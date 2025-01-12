@@ -1,4 +1,4 @@
-import React from "react"
+import React, { createRef, useRef } from "react"
 
 import Style from './ContentManegmentComponent.module.scss'
 
@@ -8,6 +8,9 @@ import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import { smortApi as smort } from "../../Api/smortApi"
 import Add from "../../SiteAssets/images.png"
 import { Link } from "react-router-dom"
+import { EeditUserType } from "../../Api/enums/EditUserEnum"
+import { EditUserDataModal } from "../Modals/EditUserData.Modal"
+import { PageNavigation } from "../../Router"
 
 
 interface VideoProps {
@@ -17,31 +20,38 @@ interface VideoProps {
 }
 
 interface States {
-  showState: boolean; // Define the type for showState
+  EditUserData: boolean;
+  UploadContent: boolean;
   ContentFile: File | null;
   Thumbnail: File | null;
   Title: string;
   Description: string;
   TypeOfContent: string;
+  DeleteMode: boolean;
+  Reload: number
 }
 
 export default class ContentManegmentComponent extends React.Component<VideoProps, States> {
+  private EditUserComponent = createRef<EditUserDataModal>();
 
   constructor(props: VideoProps) {
     super(props);
     this.state = {
-      showState: false,
+      EditUserData: false,
+      UploadContent: false,
       ContentFile: null,
       Thumbnail: null,
-      TypeOfContent: "video",
+      TypeOfContent: "Video",
       Title: "",
-      Description: ""
+      Description: "",
+      DeleteMode: false,
+      Reload: 0
     };
   }
 
-  toggleShowState() {
+  toggleUploadContent() {
     this.setState(prevState => ({
-      showState: !prevState.showState // Toggle the showState boolean
+      UploadContent: !prevState.UploadContent // Toggle the UploadContent boolean
     }));
   }
 
@@ -64,24 +74,42 @@ export default class ContentManegmentComponent extends React.Component<VideoProp
     }
   }
 
-  returnContentType (typeNumber: number):string {
-    if(typeNumber === 1){
+  returnContentType(typeNumber: number): string {
+    if (typeNumber === 1) {
       return "Image"
-    }else{
+    } else {
       return "Video"
     }
   }
 
   render() {
+    const user = smort.getUser();
+
     console.log(this.props.posts.filter(post => post.Type === 0))
     return (
       <>
-        {(this.props.AddCard && this.props.UsersAccount) &&
-          <button className={Style.UploadVideo} onClick={() => {
-            this.toggleShowState();
-          }}>Upload new content</button>
-        }
-        <Modal show={this.state.showState} onHide={() => { this.toggleShowState(); }} centered size="lg">
+        <div className={Style.OptionsButton}>
+          {(this.props.AddCard && this.props.UsersAccount) &&
+            <button className={Style.UploadVideo} onClick={() => {
+              this.toggleUploadContent();
+            }}>Upload </button>
+          }
+          {this.props.UsersAccount === true && (
+            <button className={Style.EditButton} onClick={() => {
+              this.setState({ DeleteMode: !this.state.DeleteMode })
+            }}>Delete </button>
+          )}
+          {this.props.UsersAccount === true && (
+            <button className={Style.EditButton} onClick={() => {
+              this.EditUserComponent.current?.toggleModal();
+            }}>Edite user</button>
+          )}
+
+        </div>
+
+        <EditUserDataModal ref={this.EditUserComponent} user={smort.getUser()!} />
+
+        <Modal show={this.state.UploadContent} onHide={() => { this.toggleUploadContent(); }} centered size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Upload content</Modal.Title>
           </Modal.Header>
@@ -119,74 +147,117 @@ export default class ContentManegmentComponent extends React.Component<VideoProp
             </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => { this.toggleShowState(); }}>
+            <Button variant="secondary" onClick={() => { this.toggleUploadContent(); }}>
               Close
             </Button>
             <Button variant="primary" onClick={() => {
               if (this.state.TypeOfContent === "Video") {
-                smort.UploadVideo(this.state.ContentFile, this.state.Thumbnail, this.state.Title, this.state.Description);
+                smort.UploadVideo(this.state.ContentFile, this.state.Thumbnail, this.state.Title, this.state.Description).then(worked => {
+                  if (worked === true) {
+                    this.toggleUploadContent();
+                    window.location.reload();
+                  }
+                });;
               } else {
-                smort.UploadPostImage(this.state.ContentFile, this.state.Title, this.state.Description);
+                smort.UploadPostImage(this.state.ContentFile, this.state.Title, this.state.Description).then(worked => {
+                  if (worked === true) {
+                    this.toggleUploadContent();
+                    window.location.reload();
+                  }
+                });
               }
             }}>
-              upload video
+              upload {this.state.TypeOfContent}
             </Button>
           </Modal.Footer>
         </Modal>
 
+
         <Container className={Style.Scroll}>
           <div>
-          {this.props.posts.filter(post => post.Type === 0).length > 0 && <>
-            <h1>Videos</h1>
-            <hr />
-            <Row xs={2} md={3} className="g-4" >
+            {this.props.posts.filter(post => post.Type === 0).length > 0 && <>
+              <h1>Videos</h1>
+              <hr />
+              <Row xs={2} md={3} className="g-4" >
 
-              {this.props.posts.map((item: ThumbnailObject, idx) => {
-                if (item.Type === 1) {
-                  return;
-                }
-                return (
+                {this.props.posts.map((item: ThumbnailObject, idx) => {
+                  if (item.Type === 1) {
+                    return;
+                  }
+                  return (
 
-                  <Col key={idx} xs={12} sm={6} md={4} xl={3} >
-                    <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
+                    <Col key={idx} xs={12} sm={6} md={4} xl={3} >
+                      <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
+                        <Card className="card">
+                        <img
+                            loading="lazy"
+                            src={smort.GetImageUrl(item.Thumbnail)} 
+                            className={Style.SquareImage}/>
+                          <Card.Body>
+                            <Card.Title>{item.Title}</Card.Title>
+                            {this.state.DeleteMode &&
+                              <Card.Footer>
+                                <button className={Style.DeleteButton}
+                                  onClick={() => {
+                                    smort.DeleteVideo(item.Id);
+                                    window.location.reload()
+                                  }}>
+                                  Delete
+                                </button>
+                              </Card.Footer>
+                            }
+                          </Card.Body>
+                        </Card>
+                      </Link>
+                    </Col>
+                  )
+                })}
+              </Row>
+
+            </>}
+            {this.props.posts.filter(post => post.Type === 1).length > 0 && <>
+              <h1>Images</h1>
+              <hr />
+              <Row xs={3} md={3} className="g-4" >
+                {this.props.posts.map((item: ThumbnailObject, idx) => {
+                  if (item.Type === 0) {
+                    return;
+                  }
+
+                  return (
+
+                    <Col key={idx} xs={6} sm={6} md={4} xl={3} >
+
                       <Card className="card">
-                        <Card.Img variant="top" src={smort.GetImageUrl(item.Thumbnail)} />
-                        <Card.Body>
-                          <Card.Title>{item.Title}</Card.Title>
-                        </Card.Body>
-                      </Card>
-                    </Link>
-                  </Col>
-                )
-              })}
-            </Row>
+                        <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
+                        <img
+                            loading="lazy"
+                            src={smort.GetImageUrl(item.Thumbnail)} 
+                            className={Style.SquareImage}/>
+                          <Card.Body>
+                            <Card.Title>{item.Title}</Card.Title>
 
-          </>}
-          {this.props.posts.filter(post => post.Type === 1).length > 0 && <>
-            <h1>Images</h1>
-            <hr />
-            <Row xs={2} md={3} className="g-4" >
-              {this.props.posts.map((item: ThumbnailObject, idx) => {
-                if (item.Type === 0) {
-                  return;
+                          </Card.Body>
+                        </Link>
+
+                        {this.state.DeleteMode &&
+                          <Card.Footer>
+                            <button className={Style.DeleteButton}
+                              onClick={() => {
+                                smort.DeleteImage(item.Id);
+                                window.location.reload()
+                              }}>
+                              Delete
+                            </button>
+                          </Card.Footer>
+                        }
+                      </Card>
+                    </Col>
+                  )
+                })
                 }
-                return (
-
-                  <Col key={idx} xs={12} sm={6} md={4} xl={3} >
-                    <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
-                      <Card className="card">
-                        <Card.Img variant="top" src={smort.GetImageUrl(item.Thumbnail)} />
-                        <Card.Body>
-                          <Card.Title>{item.Title}</Card.Title>
-                        </Card.Body>
-                      </Card>
-                    </Link>
-                  </Col>
-                )
-              })
-              }
-            </Row>
-          </>}
+              </Row>
+            </>}
           </div>
         </Container>
       </>
