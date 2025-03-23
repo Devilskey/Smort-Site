@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import SiteRouter from './Router';
 import { smortApi as smort } from './Api/smortApi';
+import { ServerIssues } from './Errors/ServerIssues';
+import { error } from 'console';
 
 
 
 const App: React.FC = () => {
-  smort.SetUpApiUrl();
+  const [apiAvailable, setApiAvailable] = useState<boolean>(true)
+  smort.PingApi().then(result => setApiAvailable(result)).catch(error => setApiAvailable(false));
 
-  return(
-      <SiteRouter/>
+  return (
+    <>
+      {true == true ? <SiteRouter /> : <ServerIssues />}
+    </>
   );
 };
 

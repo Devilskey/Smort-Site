@@ -6,6 +6,7 @@ export class httpHeaders {
             'Accept': 'text/plain'
         }
     }
+    
     public static httpHeaderWithToken(token: string | null) {
         return {
             "Authorization": `Bearer ${token}`,

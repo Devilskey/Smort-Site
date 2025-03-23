@@ -32,6 +32,13 @@
   font-size: 6vw;
 }
 
+.error{
+   background-color: #ffcab6;
+   border: solid rgba($color: #000000, $alpha: 0.3) 2px;
+   padding: 5px;
+   margin-bottom: 10px;
+}
+
 .GradiantText {
     color: -webkit-linear-gradient(#eee, #333) !important;
     text-transform: uppercase;

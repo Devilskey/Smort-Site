@@ -12,8 +12,6 @@ const SiteRouter = (): JSX.Element => {
                 <Route path="/login" element={<LoginPage />} key="Login" />
                 <Route path="/account/:id/" element={<AccountPage />} key="AccountOtherUser" />
                 <Route path="/account" element={<AccountPage />} key="MyAccount" />
-                <Route path="/home/:ContentType/:id" element={<HomePage />} key="HomeWithSelectedVideo" />
-
                 <Route path="*" element={<HomePage />} />
             </Routes>
         </BrowserRouter>

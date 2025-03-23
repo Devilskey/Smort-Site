@@ -4,20 +4,14 @@
     overflow: hidden;
     flex: 1;
 }
+
 .Scroll {
-    flex-direction: column; 
-    overflow-y: scroll; 
+    flex-direction: column;
+    overflow-y: scroll;
     flex: 1;
-    padding-bottom: 40px;
 }
 
-.HomeOptions{
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 10px;
 }
 
@@ -30,21 +24,82 @@
     border-radius: 10px;
 }
 
-.Page{
-    height: 100vh;
+.Page {
+    height: 100dvh;
     display: flex;
     flex-direction: column;
 
 }
 
-.ContentType{
+.ContentType {
     width: 100%;
     margin: 10px 0px 0px 0px;
 }
 
-.TypeVideo{
+.TypeVideo {
     width: 50%;
 }
-.TypeImage{
+
+.TypeImage {
     width: 50%;
+}
+
+.FollowItem {
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    aspect-ratio: 1/1;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    img {
+        border: solid purple 2px;
+        border-radius: 50%;
+    }
+}
+
+.FollowingsMenu {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.Followings {
+    flex-direction: row;
+    display: inline-flex;
+    background-color: hotpink;
+    border: solid purple 2px;
+    align-items: center;
+    border-radius: 20px;
+    margin: 10px 0px;
+    overflow: auto;
+    padding: 5px;
+    gap: 10px;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+
+
+@media (max-width: 1080px) {
+
+    .Followings {
+        width: 90%;
+        max-height: 100px;
+        font-size: 10px;
+    }
+
+}
+
+@media (min-width: 1081px) {
+    .Followings {
+        width: 45%;
+
+    }
+
 }

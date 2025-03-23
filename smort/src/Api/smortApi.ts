@@ -2,15 +2,18 @@ import { publicDecrypt, randomUUID } from "crypto";
 import { Api } from "./Api";
 import { ThumbnailObject } from "./ApiObjects/ThumbnailObjects";
 import { IMyProfile } from "./ApiObjects/userObjects";
-import { Video } from "./ApiObjects/VideoObject";
 import Cookies from 'js-cookie';
-import { PostImage } from "./ApiObjects/PostImageObjects";
 import { EeditUserType } from "./enums/EditUserEnum";
 import { ErrorHandler } from "./Logging";
 import { httpHeaders } from "./httpHeaders"
-export class smortApi {
+import { ContentItem } from "./ApiObjects/ContentObject";
+import { FollowingUser } from "./ApiObjects/FollowingObjects";
+import { size } from "./enums/sizes";
+import * as signalR from '@microsoft/signalr';
+import { Console } from "console";
 
-  public static ApiUrl: string =  "https://devilskey.nl/apiSmortSocials"; //"https://localhost:7047";
+export class smortApi {
+  public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
 
   protected static User: IMyProfile;
   protected static Token: string | null = null;
@@ -26,7 +29,61 @@ export class smortApi {
       this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
       return;
     }
+    // else{
+    //   this.ApiUrl = "https://localhost:7";
+    //   return;
+    // }
   }
+
+
+  public static async PingApi(): Promise<boolean> {
+    this.SetUpApiUrl();
+    let returneValue = false;
+    await fetch(this.ApiUrl).then((result) => {
+      returneValue = true;
+    }).catch((error) => console.error(error))
+    return returneValue;
+  }
+
+  public static SetupNotifications() {
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`${this.ApiUrl}/Notify`, {
+        accessTokenFactory: () => { return `${this.Token}` },
+        withCredentials: true,
+      })
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+
+    connection.start().then(() => console.log("Connected"))
+      .catch(err => console.error("Error connecting:", err));
+
+    connection.on("ReceiveNotificationVideo", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationFollow", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationFollowing", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationLike", (message) =>
+      this.ManageNotificationsFromApi(message));
+  }
+
+  private static ManageNotificationsFromApi(message: string) {
+    console.log(message)
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: "SHOW_NOTIFICATION",
+        message,
+      });
+    } else {
+      alert(message)
+    }
+  }
+
 
   public static getUser(): IMyProfile | undefined {
     if (this.User !== null) {
@@ -60,7 +117,7 @@ export class smortApi {
       .then((response) => response.text())
       .then((token) => {
         this.Token = token;
-        if (this.Token !== "Data received Empty" && this.Token !== "Already an account using this Email") {
+        if (this.Token?.startsWith("ey")) {
           IsLoggedIn = true;
           if (typeof this.Token === 'string') {
             Cookies.set("jwtToken", this.Token)
@@ -148,91 +205,52 @@ export class smortApi {
     return `${this.ApiUrl}/Images/GetUsersProfileImage?UserId=${UserId}`
   }
 
-  public static GetImageUrl(profile_Picture?: number) {
+  public static GetImageUrl(profile_Picture?: number, sizeImage: size = size.M) {
     if (profile_Picture) {
-      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}`
+      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}&size=${sizeImage}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&size=${sizeImage}`
   }
 
-
-
-
-  public static async GetImageAsync(imageId: string): Promise<PostImage[]> {
-    let images: PostImage[] = [];
+  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {
+    let images: ContentItem[] = [];
     if (this.Token !== null) {
 
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/GetImageFromId?id=${imageId}`,
+      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
+          const jsonData: ContentItem[] = await response.json();
           console.log(jsonData);
           images = jsonData;
         });
       return images;
 
     }
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/GetImageFromId?id=${imageId}`)
+    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`)
       .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
+        const jsonData: ContentItem[] = await response.json();
         console.log(jsonData);
         images = jsonData;
       });
     return images;
   }
 
-
-  public static async GetVideoAsync(videoId: string): Promise<Video[]> {
-    let videos: Video[] = [];
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/GetVideoFromId?id=${videoId}`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-    return videos;
-  }
-
-  public static async GetVideoListAsync(): Promise<Video[]> {
-    let videos: Video[] = [];
+  public static async GetContentList(search: string) {
+    let postImages: ContentItem[] = [];
     if (this.Token !== null) {
-
-
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Video/GetVideoList`,
+      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: Video[] = await response.json();
-          console.log(jsonData);
-          videos = jsonData;
-        });
-      return videos;
-    }
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/GetVideoList`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-    return videos;
-  }
-
-  public static async GetListImagePost() {
-    let postImages: PostImage[] = [];
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/GetImagePosts`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
+          const jsonData: ContentItem[] = await response.json();
           console.log(jsonData);
           postImages = jsonData;
         });
       return postImages;
     }
 
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/GetImagePosts`)
+    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`)
       .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
+        const jsonData: ContentItem[] = await response.json();
         console.log(jsonData);
         postImages = jsonData;
       });
@@ -258,6 +276,30 @@ export class smortApi {
       }).catch((error) => console.log(error))
 
     return thumbnailData;
+  }
+
+  public static async GetFollowingAccounts(): Promise<FollowingUser[]> {
+    let FollowingData: FollowingUser[] = []
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Following/Following`,
+      httpHeaders.httpHeaderJsonWithToken(this.Token)).then(async (response) => {
+
+        const jsonData: FollowingUser[] = await response.json();
+        FollowingData = jsonData;
+      }).catch((error) => console.log(error))
+
+    return FollowingData;
+  }
+
+  public static async GetMostFollowed(): Promise<FollowingUser[]> {
+    let FollowingData: FollowingUser[] = []
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Following/MostFolowers`,
+      httpHeaders.httpHeaderJsonWithToken(this.Token)).then(async (response) => {
+
+        const jsonData: FollowingUser[] = await response.json();
+        FollowingData = jsonData;
+      }).catch((error) => console.log(error))
+
+    return FollowingData;
   }
 
   public static GetVideoUrl(VideoId: number) {
@@ -290,54 +332,6 @@ export class smortApi {
     return followersAmount;
   }
 
-  public static async GetSearchResultsImagePostAsync(Search: string): Promise<PostImage[]> {
-    let images: PostImage[] = [];
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/SearchImagePost?Search=${Search}`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
-          console.log(jsonData);
-          images = jsonData;
-        });
-      return images;
-    }
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/SearchImagePost?Search=${Search}`)
-      .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
-        console.log(jsonData);
-        images = jsonData;
-      });
-
-    return images;
-  }
-
-  public static async GetSearchResultsAsync(Search: string): Promise<Video[]> {
-    let videos: Video[] = [];
-
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Video/SearchVideo?Seach=${Search}`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: Video[] = await response.json();
-          console.log(jsonData);
-          videos = jsonData;
-        });
-      return videos;
-    }
-
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/SearchVideo?Seach=${Search}`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-
-    return videos;
-  }
-
   public static async FollowUser(IdUserToFollow: string) {
     await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/FollowUser?id=${IdUserToFollow}`, null,
       httpHeaders.httpHeaderJsonWithToken(this.Token)
@@ -365,7 +359,7 @@ export class smortApi {
   }
 
   public static async UploadPostImage(image: File | null, title: string, description: string): Promise<Boolean> {
-    if (!title || !description || !image) {
+    if (!description || !image) {
       console.log("ERROR Empty" + !title + " : " + !description + " : " + !image)
       console.log(image)
 
@@ -430,17 +424,15 @@ export class smortApi {
   }
 
 
-  public static async UploadVideo(video: File | null, thumbnail: File | null, title: string, description: string):Promise<boolean> {
+  public static async UploadVideo(video: File | null, title: string, description: string): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
 
-      if (!title || !description || !video || !thumbnail) {
+      if (!description || !video) {
         return;
       }
 
       var UUIDApiCall = crypto.randomUUID();
-      console.log(thumbnail)
-
       const chunkSize = (1024 * 1024) * 20;
       const totalChunks = Math.ceil(video.size / chunkSize);
 
@@ -451,32 +443,8 @@ export class smortApi {
 
         const reader = new FileReader();
 
-        let base64Thumbnail = "";
-
         let width = 0;
         let height = 0;
-
-        if (thumbnail) {
-          const thumbnailReader = new FileReader();
-          thumbnailReader.onload = (event) => {
-            if (event.target?.result) {
-              const Image = event.target.result as string;
-              const parts = Image.split(',');
-              if (parts.length === 2) {
-                base64Thumbnail = parts[1];
-              }
-            }
-          };
-          thumbnailReader.readAsDataURL(thumbnail);
-
-          const img = new Image();
-          img.onload = (event) => {
-            width = img.width;
-            height = img.height;
-
-          }
-          img.src = URL.createObjectURL(thumbnail);
-        }
 
         reader.readAsDataURL(chunk);
         reader.onload = async () => {
@@ -485,7 +453,6 @@ export class smortApi {
           const payload = {
             GUIDObjSender: UUIDApiCall,
             MediaData: base64Chunk,
-            Thumbnail: base64Thumbnail,
             size: {
               Width: width,
               Height: height
@@ -508,13 +475,13 @@ export class smortApi {
                 resolve(true);
               }
             });
-            } catch (error) {
-              console.error(`Error uploading chunk ${chunkNumber}:`, error);
-              reject(false);
-            }
-          };
-        }
-      });
+          } catch (error) {
+            console.error(`Error uploading chunk ${chunkNumber}:`, error);
+            reject(false);
+          }
+        };
+      }
+    });
   }
 
   public static DeleteUser(DeletedName: string) {

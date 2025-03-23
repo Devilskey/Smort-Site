@@ -6,14 +6,15 @@ import { smortApi as smort } from "../../Api/smortApi";
 import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = (): JSX.Element => {
-  const [email, setEmail] = useState("enter email");
-  const [username, setUsername] = useState("enter email");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [Login, setLogin] = useState(true);
   const inputRefrence = useRef<HTMLInputElement>(null)
   const [ProfilePicture, setProfilePicture] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const submitLogin = (): void => {
     smort.LoginAsync(email, password)
@@ -21,6 +22,8 @@ export const LoginPage = (): JSX.Element => {
         console.log(Success)
         if (Success) {
           navigate("/");
+        } else {
+          setErrorMessage("failed to login please try again with a different password or email address");
         }
       })
       .catch((error) => {
@@ -28,6 +31,14 @@ export const LoginPage = (): JSX.Element => {
       });
   };
   const submitCreateAccount = (): void => {
+    if (!username || !ProfilePicture || !password || !email) {
+      setErrorMessage(`${username === "" ? "Username missing" : ""} 
+        ${!ProfilePicture ? "Profile picture missing " : ""} 
+        ${password  === "" ? "password missing " : ""} 
+        ${email === "" ? "email missing " : ""} `)
+      return;
+    }
+
     if (ProfilePicture !== null) {
       smort.CreateAccountAsync(email, password, ProfilePicture, username)
         .then(() => {
@@ -54,6 +65,7 @@ export const LoginPage = (): JSX.Element => {
                 <Form.Label column sm="2">email:</Form.Label>
                 <Col sm="10">
                   <Form.Control
+                    defaultValue={email}
                     type="text"
                     placeholder="enter email"
                     onChange={(Element) => { setEmail(Element.target.value) }} />
@@ -64,6 +76,7 @@ export const LoginPage = (): JSX.Element => {
                 <Form.Label column sm="2">password:</Form.Label>
                 <Col sm="10">
                   <Form.Control type="password"
+                    defaultValue={password}
                     placeholder="enter password"
                     onChange={(Element) => { setPassword(Element.target.value) }} />
                 </Col>
@@ -83,6 +96,7 @@ export const LoginPage = (): JSX.Element => {
               <Form.Group as={Row}>
                 <Col>
                   <input
+                    required
                     type="file"
                     placeholder="enter email"
                     hidden
@@ -107,6 +121,7 @@ export const LoginPage = (): JSX.Element => {
                 <Form.Label column sm="2">Username:</Form.Label>
                 <Col sm="10">
                   <Form.Control
+                    required
                     type="text"
                     placeholder="enter Username"
                     onChange={(Element) => { setUsername(Element.target.value) }} />
@@ -117,6 +132,7 @@ export const LoginPage = (): JSX.Element => {
                 <Form.Label column sm="2">email:</Form.Label>
                 <Col sm="10">
                   <Form.Control
+                    required
                     type="text"
                     placeholder="enter email"
                     onChange={(Element) => { setEmail(Element.target.value) }} />
@@ -127,6 +143,7 @@ export const LoginPage = (): JSX.Element => {
                 <Form.Label column sm="2">password:</Form.Label>
                 <Col sm="10">
                   <Form.Control type="password"
+                    required
                     placeholder="enter password"
                     onChange={(Element) => { setPassword(Element.target.value) }} />
                 </Col>
@@ -142,9 +159,15 @@ export const LoginPage = (): JSX.Element => {
               </div>
             </Form></>
           )}
+          {errorMessage !== "" &&
+            <div className={Style.error}>
+              {errorMessage}
+            </div>}
+
 
           <button className={Style.SwitchRequest} onClick={() => {
             setLogin(!Login)
+            setErrorMessage("");
           }}>
             {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
           </button>

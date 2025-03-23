@@ -2,6 +2,7 @@
     width: 40px;
     margin: 0 10px 0 0;
     border-radius: 100%;
+    margin-bottom: 5px;
 }
 .contentItem{
     background-color: whitesmoke;
@@ -17,11 +18,26 @@
 }
 
 .ContentImg {
-    border-radius: 20px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    background-color: black;
+}
+
+.ContentImg img {
+    width: 100%;
     object-fit: contain;
+}
+
+.Options {
+    color: white;
+    position: absolute;
+    right: 0px;
+    bottom: 50px;
+}
+
+.TextBased{
+    padding: 10px;
 }
 
 video{
@@ -35,7 +51,9 @@ video{
     font-size: 15px;
 }
 
+
 .VideoContainer {
+    position: relative;
     display: flex;
     justify-content: center;
     background-color: black;
@@ -43,29 +61,36 @@ video{
     max-height: 600px;
 }
 
-.Options {
-    display: flex;
-    padding: 2px;
-    margin-left: 10px;
-}
 
 .LikeButton {
-    width: 100px;
-    margin-right: 10px;
+    margin-right: 20px;
+    font-size: 20px;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+    background-color: transparent;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.LikeAmountText {
+    font-size: 25px;
+    margin-right: 20px;
 }
 
 @media (max-width: 1080px ) {
     .contentItem{
         background-color: rgb(220, 220, 220);
-        padding: 10px 5px 0px 5px;
         border-radius: 20px;
         width: 90%;
+    }
+    .VideoContainer {
+
+        max-height: 300px;
     }
 }
 @media (min-width: 1081px ) {
     .contentItem{
         background-color: rgb(220, 220, 220);
-        padding: 10px 5px 0px 5px;
         border-radius: 20px;
         width: 45%;
     }

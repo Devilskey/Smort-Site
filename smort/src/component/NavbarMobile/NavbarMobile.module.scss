@@ -2,6 +2,7 @@
     color: lightslategray;
     font-size: 20px;
     margin: 0px 10px;
+    width: 25%;
 
 }
 
@@ -13,7 +14,6 @@
     .User {
         display: inline-flex;
         align-items: center;
-        margin: 0 20px;
     }
 }
 
@@ -25,32 +25,39 @@
     }
 }
 
-.SearchBarDiv {
-    display: flex;
-    flex: 1;
-    margin: 0px 10%;
-    font-size: 20px;
-    border: solid;
-    border-width: thin;
-    border-color: black;
-    border-radius: 10px;
-}
-
-.SearchButton {
-    width: 15%;
-
-}
-
-.SearchBarText {
-    display: flex !important;
-    justify-content: center !important;
+.SearchBarText{
     width: 100%;
 }
 
-.Nav {
+.NavButton{
+    text-align: center;
+    color: white;
+    background: transparent;
+    padding: 5px;
+    border: solid white 2px;
+    border-radius: 10px;
+    flex: 1;  
+
+}
+
+.NavItems{
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    width: 100dvw;
+}
+
+.Nav {  
+    display: flex;
+    flex-direction: column;
+    
+    bottom: 0;
+
     background-color: rgb(41, 41, 41) !important;
     font-size: 20px;
     color: whitesmoke;
+    width: 100%;
+
 }
 
 .navItem {
@@ -67,7 +74,3 @@
     color: whitesmoke;
 }
 
-.WhiteTekst {
-    color: whitesmoke;
-    text-align: center;
-}

@@ -3,76 +3,39 @@ import React, { createRef, useRef } from "react"
 import Style from './ContentManegmentComponent.module.scss'
 
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects"
-import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
+import { Card, Col, Container, Modal, Row } from "react-bootstrap"
 
 import { smortApi as smort } from "../../Api/smortApi"
-import Add from "../../SiteAssets/images.png"
-import { Link } from "react-router-dom"
-import { EeditUserType } from "../../Api/enums/EditUserEnum"
-import { EditUserDataModal } from "../Modals/EditUserData.Modal"
-import { PageNavigation } from "../../Router"
+import { UploadContentModal } from "../Modals/UploadContent.Modal"
+import { ShowContentFullScreen } from "../Modals/ShowContentFullScreen.Modal"
 
 
 interface VideoProps {
   posts: ThumbnailObject[]
   AddCard: boolean
   UsersAccount: boolean;
+  DeleteMode: boolean;
 }
 
 interface States {
   EditUserData: boolean;
   UploadContent: boolean;
-  ContentFile: File | null;
-  Thumbnail: File | null;
-  Title: string;
-  Description: string;
-  TypeOfContent: string;
-  DeleteMode: boolean;
-  Reload: number
+  Reload: number;
 }
 
 export default class ContentManegmentComponent extends React.Component<VideoProps, States> {
-  private EditUserComponent = createRef<EditUserDataModal>();
+  private UploadContentComponent = createRef<UploadContentModal>();
+  private ShowContentFullScreenComponent = createRef<ShowContentFullScreen>();
 
   constructor(props: VideoProps) {
     super(props);
     this.state = {
       EditUserData: false,
       UploadContent: false,
-      ContentFile: null,
-      Thumbnail: null,
-      TypeOfContent: "Video",
-      Title: "",
-      Description: "",
-      DeleteMode: false,
       Reload: 0
     };
   }
 
-  toggleUploadContent() {
-    this.setState(prevState => ({
-      UploadContent: !prevState.UploadContent // Toggle the UploadContent boolean
-    }));
-  }
-
-
-  handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0] || null; // Get the file or null
-    if (file) {
-      this.setState({
-        ContentFile: file,
-      });
-    }
-  }
-
-  handleThumbnailFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0] || null;
-    if (file) {
-      this.setState({
-        Thumbnail: file,
-      });
-    }
-  }
 
   returnContentType(typeNumber: number): string {
     if (typeNumber === 1) {
@@ -85,179 +48,69 @@ export default class ContentManegmentComponent extends React.Component<VideoProp
   render() {
     const user = smort.getUser();
 
-    console.log(this.props.posts.filter(post => post.Type === 0))
+    console.log(this.props.posts)
     return (
       <>
-        <div className={Style.OptionsButton}>
-          {(this.props.AddCard && this.props.UsersAccount) &&
-            <button className={Style.UploadVideo} onClick={() => {
-              this.toggleUploadContent();
-            }}>Upload </button>
-          }
-          {this.props.UsersAccount === true && (
-            <button className={Style.EditButton} onClick={() => {
-              this.setState({ DeleteMode: !this.state.DeleteMode })
-            }}>Delete </button>
-          )}
-          {this.props.UsersAccount === true && (
-            <button className={Style.EditButton} onClick={() => {
-              this.EditUserComponent.current?.toggleModal();
-            }}>Edite user</button>
-          )}
-
-        </div>
-
-        <EditUserDataModal ref={this.EditUserComponent} user={smort.getUser()!} />
-
-        <Modal show={this.state.UploadContent} onHide={() => { this.toggleUploadContent(); }} centered size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>Upload content</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row>
-              <select onChange={(event) => {
-                this.setState({ TypeOfContent: event.target.value })
-                console.log(event.target.value)
-              }}>
-                <option value="Video" >Video</option>
-                <option value="Image">Image</option>
-              </select><br />
-
-              <label>Title: </label><br />
-              <input type="text" onChange={(event) => { this.setState({ Title: event.target.value }) }} /><br />
-              <label>Discription: </label><br />
-              <input type="text" onChange={(event) => { this.setState({ Description: event.target.value }) }} /><br />
-
-              {this.state.TypeOfContent !== "Image" ? (<>
-                <label>Thumbnail: </label>
-                <input className="form-control" type="file" onChange={(event) => {
-                  this.handleThumbnailFileUpload(event)
-
-                }} />
-              </>) : (<></>)
-              }
-
-              <label> {this.state.TypeOfContent} </label>
-              <input className="form-control" type="file" onChange={(event) => {
-                this.handleFileUpload(event)
-
-              }} /><br />
-
-
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => { this.toggleUploadContent(); }}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={() => {
-              if (this.state.TypeOfContent === "Video") {
-                smort.UploadVideo(this.state.ContentFile, this.state.Thumbnail, this.state.Title, this.state.Description).then(worked => {
-                  if (worked === true) {
-                    this.toggleUploadContent();
-                    window.location.reload();
-                  }
-                });;
-              } else {
-                smort.UploadPostImage(this.state.ContentFile, this.state.Title, this.state.Description).then(worked => {
-                  if (worked === true) {
-                    this.toggleUploadContent();
-                    window.location.reload();
-                  }
-                });
-              }
-            }}>
-              upload {this.state.TypeOfContent}
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
+        <ShowContentFullScreen ref={this.ShowContentFullScreenComponent}/>
+        <UploadContentModal ref={this.UploadContentComponent} />
 
         <Container className={Style.Scroll}>
           <div>
-            {this.props.posts.filter(post => post.Type === 0).length > 0 && <>
-              <h1>Videos</h1>
-              <hr />
-              <Row xs={2} md={3} className="g-4" >
+            <Row xs={3} md={3} className="g-2" >
+              {this.props.UsersAccount &&
+                <Col key={"Upload"} xs={6} sm={6} md={4} xl={3} >
 
-                {this.props.posts.map((item: ThumbnailObject, idx) => {
-                  if (item.Type === 1) {
-                    return;
-                  }
-                  return (
+                  <Card className="card">
 
-                    <Col key={idx} xs={12} sm={6} md={4} xl={3} >
-                      <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
-                        <Card className="card">
-                        <img
-                            loading="lazy"
-                            src={smort.GetImageUrl(item.Thumbnail)} 
-                            className={Style.SquareImage}/>
-                          <Card.Body>
-                            <Card.Title>{item.Title}</Card.Title>
-                            {this.state.DeleteMode &&
-                              <Card.Footer>
-                                <button className={Style.DeleteButton}
-                                  onClick={() => {
-                                    smort.DeleteVideo(item.Id);
-                                    window.location.reload()
-                                  }}>
-                                  Delete
-                                </button>
-                              </Card.Footer>
+                    <button className={Style.uploadContent} onClick={() => {
+                      this.UploadContentComponent.current?.toggleModal();
+
+                    }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="50" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                      </svg>
+                    </button>
+                  </Card>
+                </Col>
+              }
+
+              {this.props.posts.map((item: ThumbnailObject, idx) => (
+                <Col key={idx} xs={6} sm={6} md={4} xl={3} >
+
+                  <Card className="card">
+                    <div className={Style.VideoLink}
+                      onClick={() => {
+                        this.ShowContentFullScreenComponent.current?.toggleModal(item.Id);
+                      }}>
+                      <img
+                        loading="lazy"
+                        src={smort.GetImageUrl(item.Thumbnail !== null ? item.Thumbnail : item.File_Id)}
+                        className={Style.SquareImage} />
+                    </div>
+
+                    {this.props.DeleteMode &&
+                      <Card.Footer>
+                        <button className={Style.DeleteButton}
+                          onClick={() => {
+                            if (item.Type === "img") {
+                              smort.DeleteImage(item.Id);
+                            } else {
+                              smort.DeleteVideo(item.Id)
                             }
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
-                  )
-                })}
-              </Row>
-
-            </>}
-            {this.props.posts.filter(post => post.Type === 1).length > 0 && <>
-              <h1>Images</h1>
-              <hr />
-              <Row xs={3} md={3} className="g-4" >
-                {this.props.posts.map((item: ThumbnailObject, idx) => {
-                  if (item.Type === 0) {
-                    return;
-                  }
-
-                  return (
-
-                    <Col key={idx} xs={6} sm={6} md={4} xl={3} >
-
-                      <Card className="card">
-                        <Link to={`/home/${this.returnContentType(item.Type)}/${item.Id}`} className={Style.VideoLink}>
-                        <img
-                            loading="lazy"
-                            src={smort.GetImageUrl(item.Thumbnail)} 
-                            className={Style.SquareImage}/>
-                          <Card.Body>
-                            <Card.Title>{item.Title}</Card.Title>
-
-                          </Card.Body>
-                        </Link>
-
-                        {this.state.DeleteMode &&
-                          <Card.Footer>
-                            <button className={Style.DeleteButton}
-                              onClick={() => {
-                                smort.DeleteImage(item.Id);
-                                window.location.reload()
-                              }}>
-                              Delete
-                            </button>
-                          </Card.Footer>
-                        }
-                      </Card>
-                    </Col>
-                  )
-                })
-                }
-              </Row>
-            </>}
+                            setTimeout(() => {
+                              window.location.reload()
+                            }, 1000)
+                          }}>
+                          Delete
+                        </button>
+                      </Card.Footer>
+                    }
+                  </Card>
+                </Col>
+              )
+              )
+              }
+            </Row>
           </div>
         </Container>
       </>
