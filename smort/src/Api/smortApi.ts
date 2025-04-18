@@ -11,6 +11,7 @@ import { FollowingUser } from "./ApiObjects/FollowingObjects";
 import { size } from "./enums/sizes";
 import * as signalR from '@microsoft/signalr';
 import { Console } from "console";
+import { Setting } from "../prod/Settings";
 
 export class smortApi {
   public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
@@ -29,10 +30,10 @@ export class smortApi {
       this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
       return;
     }
-    // else{
-    //   this.ApiUrl = "https://localhost:7";
-    //   return;
-    // }
+    else{
+      this.ApiUrl = "https://localhost:7047";
+      return;
+    }
   }
 
 
@@ -205,11 +206,11 @@ export class smortApi {
     return `${this.ApiUrl}/Images/GetUsersProfileImage?UserId=${UserId}`
   }
 
-  public static GetImageUrl(profile_Picture?: number, sizeImage: size = size.M) {
+  public static GetImageUrl(profile_Picture?: number) {
     if (profile_Picture) {
-      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}&size=${sizeImage}`
+      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&size=${sizeImage}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}`
   }
 
   public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {

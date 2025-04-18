@@ -1,7 +1,10 @@
+@use '../Color' as *;
+
 .UserText {
-    color: lightslategray;
+    color: $Primary-Text;
     font-size: 20px;
     margin: 0px 10px;
+    text-transform: capitalize;
 
 }
 
@@ -23,6 +26,14 @@
         justify-content: center;
         align-items: center;
     }
+}
+
+.Logo{
+    background-color: $Logo-Background !important;
+    border-radius: 100%;
+    padding: 5px;
+    width: 70px;
+    height: 70px;
 }
 
 .SearchBarDiv {
@@ -48,9 +59,8 @@
 }
 
 .Nav {
-    background-color: rgb(41, 41, 41) !important;
+    background-color: $Primary-NavBar  !important;
     font-size: 20px;
-    color: whitesmoke;
 }
 
 .navItem {
@@ -64,10 +74,10 @@
 
 .collapse {
     background-color: white !important;
-    color: whitesmoke;
+    color: $Primary-Text;
 }
 
 .WhiteTekst {
-    color: whitesmoke;
+    color: $Primary-Text;
     text-align: center;
 }

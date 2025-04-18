@@ -1,5 +1,10 @@
+@use '../../Color' as *;
+
 .UserInfoBackground {
-    border-bottom: rgb(133, 133, 133) solid 2px;
+    border-bottom: $UserInfoBackground solid 2px;
+    background-color: $UserInfoBackground;
+    color: $Primary-Text;
+
 }
 
 .UserImg {
@@ -13,7 +18,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    
+
 }
 
 .Videos {
@@ -24,8 +29,9 @@
 }
 
 .Scroll {
-    flex-direction: column; 
-    overflow-y: scroll; 
+    margin-top: 1rem;
+    flex-direction: column;
+    overflow-y: scroll;
     flex: 1;
     padding-bottom: 40px;
     height: 90dvh;
@@ -36,9 +42,9 @@
     display: flex;
     height: 100dvh;
     flex-direction: column;
-}   
+}
 
-.UserImgSpace{
+.UserImgSpace {
     display: flex;
     height: 100%;
     justify-content: right;
@@ -46,29 +52,29 @@
 
 }
 
-.UserDataComplete{
-    background-color: #ededed;
+.UserDataComplete {
     display: flex;
     justify-content: center;
     padding: 10px;
-    
+
 }
 
-.UserInfo{
+.UserInfo {
     height: 100%;
     justify-content: center;
-    
+
 }
 
-.EditUser{
+.EditUser {
     aspect-ratio: 1/1;
     border-radius: 100%;
+
     svg {
         margin-bottom: 15px;
     }
 }
 
-@media (max-width: 1080px ) {
+@media (max-width: 1080px) {
     .UserImg {
         max-width: 100px;
         max-height: 100px;
@@ -77,7 +83,8 @@
         display: flex;
     }
 }
-@media (min-width: 1081px ) {
+
+@media (min-width: 1081px) {
     .UserImg {
         max-width: 150px;
         aspect-ratio: 1 / 1;
@@ -86,3 +93,14 @@
         display: flex;
     }
 }
+
+.SquareImage {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.uploadContent {
+    aspect-ratio: 1/1;
+}
+

@@ -11,7 +11,6 @@ Setting.Console();
 smortApi.LoadCookies();
 smortApi.SetupNotifications();
 
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

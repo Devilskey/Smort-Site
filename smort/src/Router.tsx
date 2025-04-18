@@ -7,7 +7,7 @@ const SiteRouter = (): JSX.Element => {
 
     return (
         <BrowserRouter>
-        <ForceRefresh/>
+            <ForceRefresh/>
             <Routes>
                 <Route path="/login" element={<LoginPage />} key="Login" />
                 <Route path="/account/:id/" element={<AccountPage />} key="AccountOtherUser" />

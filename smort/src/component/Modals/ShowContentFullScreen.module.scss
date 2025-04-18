@@ -1,3 +1,5 @@
+@use '../../Color' as *;
+
 .ImgContent{
     width: 100%;
 }
@@ -5,6 +7,6 @@
 .VideoContainer {
     max-height: 80vh;
     width: 100%;
-    background-color: black;
+    background-color: $VideoBackground;
     display: flex;
   }

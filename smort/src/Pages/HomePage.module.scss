@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     img {
-        border: solid purple 2px;
+        border: solid #554664 2px;
         border-radius: 50%;
     }
 }
@@ -64,19 +64,20 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    margin: 1rem 0rem;
 }
 
 .Followings {
     flex-direction: row;
     display: inline-flex;
-    background-color: hotpink;
-    border: solid purple 2px;
+    background-color: #878bbf;
+    border: solid #554664 4px;
     align-items: center;
     border-radius: 20px;
-    margin: 10px 0px;
     overflow: auto;
     padding: 5px;
     gap: 10px;
+    min-height: 110px;
     &::-webkit-scrollbar {
         display: none;
     }

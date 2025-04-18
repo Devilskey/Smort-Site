@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ContentItem } from "../../Api/ApiObjects/ContentObject";
 import { LikedIcon, LikeIcon } from "../../icons/Interections.icon";
 import { smortApi as smort } from "../../Api/smortApi";
-import Style from './Contenttems.module.scss'
+import Style from './PostList.module.scss'
 
 
 export const OptionsButtons = ({post}:{post: ContentItem}) => {

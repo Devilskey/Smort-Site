@@ -1,41 +1,35 @@
-import React, { useState } from "react"
 
 import { smortApi as smort } from "../../Api/smortApi"
-import Style from './Contenttems.module.scss'
-
-import logo from '../../SiteAssets/Smort_Logo.png'
+import Style from './PostList.module.scss'
 import { Link } from "react-router-dom"
 import { ContentItem } from "../../Api/ApiObjects/ContentObject"
-import { LikedIcon, LikeIcon } from "../../icons/Interections.icon"
 import { OptionsButtons } from "./OptionsBar"
 import { SmortVideo } from "../MicroComponents/Video.smort"
+import { size } from "../../Api/enums/sizes"
 
 interface ContentProps {
   postsList: ContentItem[]
 }
-
-
-
 
 export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): JSX.Element => {
   return (<>
     {loading ? <p>loading</p> :
       <div className={Style.content}>
         {posts.map((post, idx) => (
-
           <div className={Style.contentItem} key={idx}>
-            <div className={Style.TextBased}>
-              <div className={Style.UserSimpel}>
-
-                <Link to={`/account/${post.User_Id}`}>
+            <div className={Style.User}>
+                <Link to={`/account/${post.User_Id}`} 
+                className={Style.UserLink}>
                   <img className={Style.UserImgSimpel}
-                    loading="lazy"
-                    src={post.User_Id !== undefined ? smort.GetProfilePictureImageUrl(post.User_Id) : logo} />
+                    rel="preload"
+                    alt="An image Uploaded to smort"
+                    width="40px" height="40px"
+                    srcSet={`
+                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.L} 1000w,
+                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.M} 720w,
+                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.S} 480w`}/>
                   {post.Username}
                 </Link>
-
-              </div>
-
               <div className={Style.contentTitle}>{post.Description}</div>
             </div>
 
@@ -47,15 +41,19 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
               :
               <div className={Style.ContentImg}>
                 <img
-                  loading="lazy"
-                  src={smort.GetImageUrl(post.File_Id)}>
-                </img>
+                  rel="preload"
+                  alt="An image Uploaded to smort"
+                  srcSet={`
+                    ${smort.GetImageUrl(post.File_Id)}&size=${size.L} 1000w,
+                    ${smort.GetImageUrl(post.File_Id)}&size=${size.M} 720w,
+                    ${smort.GetImageUrl(post.File_Id)}&size=${size.S} 480w`}
+                  sizes="width: 100%"/>
                 <OptionsButtons post={post} />
               </div>
             }
           </div>
         ))}
       </div>
-}
+    }
   </>)
 }

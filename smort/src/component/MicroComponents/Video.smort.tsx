@@ -12,7 +12,12 @@ export const SmortVideo = (props: props) => {
     const [playState, setPlayState] = useState(false)
 
     return <>
-        <video className={Style.PleasePlayMe} src={smort.GetVideoUrl(props.content.Id)} loop onClick={(event) => {
+        <video 
+        className={Style.PleasePlayMe} 
+        src={smort.GetVideoUrl(props.content.Id)} 
+        loop 
+        preload="metadata" 
+        onClick={(event) => {
             const videoElement = event.currentTarget;
             if (videoElement.paused) {
                 videoElement.play();

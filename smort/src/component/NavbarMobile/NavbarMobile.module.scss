@@ -1,5 +1,7 @@
+@use '../../Color' as *;
+
 .UserText {
-    color: lightslategray;
+    color: $Primary-Text;
     font-size: 20px;
     margin: 0px 10px;
     width: 25%;
@@ -31,10 +33,10 @@
 
 .NavButton{
     text-align: center;
-    color: white;
+    color: $nav-Button;
     background: transparent;
     padding: 5px;
-    border: solid white 2px;
+    border: solid $nav-Button 2px;
     border-radius: 10px;
     flex: 1;  
 
@@ -50,14 +52,11 @@
 .Nav {  
     display: flex;
     flex-direction: column;
-    
     bottom: 0;
-
-    background-color: rgb(41, 41, 41) !important;
+    background-color: $Mobile-Navbar !important;
     font-size: 20px;
-    color: whitesmoke;
+    color: $Primary-Text;
     width: 100%;
-
 }
 
 .navItem {
@@ -68,9 +67,3 @@
 
     width: 100%;
 }
-
-.collapse {
-    background-color: white !important;
-    color: whitesmoke;
-}
-

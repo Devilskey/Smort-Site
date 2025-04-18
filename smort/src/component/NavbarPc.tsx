@@ -48,7 +48,7 @@ export class NavBarSmortPc extends React.Component<props, state> {
               src={logo}
               width="60"
               height="60"
-              className="d-inline-block align-top"
+              className={Style.Logo}
               alt="React Bootstrap logo"
             /> </Navbar.Brand>
 

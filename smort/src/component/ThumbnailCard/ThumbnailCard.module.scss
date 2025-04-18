@@ -1,0 +1,32 @@
+@use '../../Color' as *;
+
+.VideoLink {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  
+  .DeleteButton {
+    border-color: $Primary-Delete;
+    color: $Primary-Delete;
+    border-radius: 10px;
+    width: 100%;
+    z-index: 1;
+    background-color: $Thumbnail-Background;
+
+  }
+  
+  
+.SquareImage {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.uploadContent {
+    aspect-ratio: 1/1;
+}
+
+.Card{
+    background-color: $Thumbnail-Background !important;
+}
