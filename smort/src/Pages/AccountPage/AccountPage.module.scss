@@ -1,7 +1,7 @@
 @use '../../Color' as *;
 
 .UserInfoBackground {
-    border-bottom: $UserInfoBackground solid 2px;
+    border-bottom: $UserInfo-BorderBottom solid 2px;
     background-color: $UserInfoBackground;
     color: $Primary-Text;
 

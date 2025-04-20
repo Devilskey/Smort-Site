@@ -9,7 +9,7 @@ import Style from './App.module.scss'
 
 const App: React.FC = () => {
   const [apiAvailable, setApiAvailable] = useState<boolean>(true)
-  smort.PingApi().then(result => setApiAvailable(result)).catch(error => setApiAvailable(false));
+  // smort.PingApi().then(result => setApiAvailable(result)).catch(error => setApiAvailable(false));
 
   return (
     <section className={Style.App}>

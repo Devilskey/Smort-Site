@@ -37,14 +37,14 @@ export class smortApi {
   }
 
 
-  public static async PingApi(): Promise<boolean> {
-    this.SetUpApiUrl();
-    let returneValue = false;
-    await fetch(this.ApiUrl).then((result) => {
-      returneValue = true;
-    }).catch((error) => console.error(error))
-    return returneValue;
-  }
+  // public static async PingApi(): Promise<boolean> {
+  //   this.SetUpApiUrl();
+  //   let returneValue = false;
+  //   await fetch(this.ApiUrl).then((result) => {
+  //     returneValue = true;
+  //   }).catch((error) => console.error(error))
+  //   return returneValue;
+  // }
 
   public static SetupNotifications() {
 

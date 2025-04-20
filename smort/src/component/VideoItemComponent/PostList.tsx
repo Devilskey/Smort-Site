@@ -24,10 +24,7 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
                     rel="preload"
                     alt="An image Uploaded to smort"
                     width="40px" height="40px"
-                    srcSet={`
-                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.L} 1000w,
-                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.M} 720w,
-                      ${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.S} 480w`}/>
+                    src= {`${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.S}`} />
                   {post.Username}
                 </Link>
               <div className={Style.contentTitle}>{post.Description}</div>
@@ -44,9 +41,7 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
                   rel="preload"
                   alt="An image Uploaded to smort"
                   srcSet={`
-                    ${smort.GetImageUrl(post.File_Id)}&size=${size.L} 1000w,
-                    ${smort.GetImageUrl(post.File_Id)}&size=${size.M} 720w,
-                    ${smort.GetImageUrl(post.File_Id)}&size=${size.S} 480w`}
+                    ${smort.GetImageUrl(post.File_Id)}&size=${size.M}`}
                   sizes="width: 100%"/>
                 <OptionsButtons post={post} />
               </div>
