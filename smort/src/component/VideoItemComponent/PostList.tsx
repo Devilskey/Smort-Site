@@ -21,7 +21,7 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
                 <Link to={`/account/${post.User_Id}`} 
                 className={Style.UserLink}>
                   <img className={Style.UserImgSimpel}
-                    rel="preload"
+                    loading="lazy"
                     alt="An image Uploaded to smort"
                     width="40px" height="40px"
                     src= {`${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.S}`} />
@@ -38,7 +38,7 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
               :
               <div className={Style.ContentImg}>
                 <img
-                  rel="preload"
+                  loading="lazy"
                   alt="An image Uploaded to smort"
                   srcSet={`
                     ${smort.GetImageUrl(post.File_Id)}&size=${size.M}`}

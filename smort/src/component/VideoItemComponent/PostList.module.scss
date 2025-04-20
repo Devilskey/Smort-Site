@@ -34,6 +34,8 @@
     position: relative;
     flex-direction: row;
     width: 100%;
+    min-height: 320px;
+
     img {
         width: 100%;
         object-fit: contain;
