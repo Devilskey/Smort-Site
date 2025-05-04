@@ -1,4 +1,4 @@
-import { createRef, forwardRef, useState } from "react";
+import { createRef, forwardRef, useImperativeHandle, useState } from "react";
 import { Modal, Row, Button } from "react-bootstrap";
 import { smortApi as smort } from "../../Api/smortApi"
 import { JSX } from "react/jsx-runtime";
@@ -8,7 +8,7 @@ export type UploadContentModalHandle = {
     toggleModal: () => void;
 };
 
-export const UploadContentModal = forwardRef<UploadContentModalHandle>(() => {
+export const UploadContentModal = forwardRef<UploadContentModalHandle>(({}, ref) => {
 
     const [ContentFile, setContentFile] = useState<File | null>(null)
     const [Title, setTitle] = useState<string>("")
@@ -16,7 +16,11 @@ export const UploadContentModal = forwardRef<UploadContentModalHandle>(() => {
     let Description = "";
     const InputFile = createRef<HTMLInputElement>();
 
-
+    useImperativeHandle(ref, () => ({
+        toggleModal,
+      }));
+    
+    
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null; // Get the file or null
@@ -46,6 +50,7 @@ export const UploadContentModal = forwardRef<UploadContentModalHandle>(() => {
     const ShowImage = (): JSX.Element => (<img className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
 
     const toggleModal = () => {
+        console.log("test");
         setShowUploadContent(!ShowUploadContent);
     };
 

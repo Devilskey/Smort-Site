@@ -162,10 +162,12 @@ export const AccountPage = (): JSX.Element => {
                 <Col key={"Upload"} xs={6} sm={6} md={4} xl={3} >
                   <Card className="card">
 
-                  <button className={Style.uploadContent} onClick={() => {
+                    <button className={Style.uploadContent} onClick={() => {
+                      console.log("CLICK");
+
                       UploadContentComponent.current?.toggleModal();
                     }}>
-                      <UploadIcon/>
+                      <UploadIcon />
                     </button>
 
                   </Card>

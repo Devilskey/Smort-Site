@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useState } from "react";
+import React, { ForwardedRef, forwardRef, useImperativeHandle, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ContentItem } from "../../Api/ApiObjects/ContentObject";
 import { smortApi as smort } from "../../Api/smortApi";
@@ -9,18 +9,19 @@ import { SmortVideo } from "../MicroComponents/Video.smort";
 interface props {
 }
 
-interface state {
-	Show: boolean
-	ContentItem: ContentItem[]
-}
 
 export type ShowContentFullScreenHandle = {
-    toggleModal: (ContentId: number) => void;
+	toggleModal: (ContentId: number) => void;
 }
 
-export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(() => {
+export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ }, ref) => {
 	const [Show, setShow] = useState<boolean>(false);
 	const [ContentItem, setContentItem] = useState<ContentItem[]>([]);
+
+	useImperativeHandle(ref, () => ({
+		toggleModal,
+	}));
+
 
 	const toggleModal = (ContentId: number = -1) => {
 		if (ContentId !== -1) {

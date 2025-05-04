@@ -1,4 +1,4 @@
-import React, { Component, forwardRef, useState } from 'react';
+import React, { Component, forwardRef, useImperativeHandle, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap'; // Assuming you're using react-bootstrap
 import { EeditUserType } from '../../Api/enums/EditUserEnum';
 import { smortApi as smort } from '../../Api/smortApi';
@@ -12,12 +12,17 @@ export type EditUserDataModalHandle = {
   toggleModal: () => void;
 }
 
-export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDataModalProps> ((props): JSX.Element => {
+export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDataModalProps>((props, ref): JSX.Element => {
   const [ShowEditUser, setShowEditUser] = useState<boolean>(false)
   const [Changeusername, setChangeusername] = useState<string>("")
   const [Changepassword, setChangepassword] = useState<string>("")
   const [ChangeEmail, setChangeEmail] = useState<string>("")
   const [DeleteUserName, setDeleteUserName] = useState<string>("")
+
+  useImperativeHandle(ref, () => ({
+    toggleModal,
+  }));
+
 
   const ChangeUserData = (typeOfChange: EeditUserType, data: string | File): void => {
     smort.ChangeUserData(data, typeOfChange);
@@ -94,7 +99,7 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
       </Modal.Body>
       <Modal.Footer>
         <input id="DeleteNameUser" placeholder="Type here your username to confirm"
-          onChange={(event) => setDeleteUserName(event.target.value) }/>
+          onChange={(event) => setDeleteUserName(event.target.value)} />
         <br />
         <Button variant="secondary" onClick={() => {
           smort.DeleteUser(DeleteUserName);
