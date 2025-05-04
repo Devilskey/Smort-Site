@@ -1,115 +1,115 @@
-import { Component } from "react";
+import { createRef, forwardRef, useState } from "react";
 import { Modal, Row, Button } from "react-bootstrap";
 import { smortApi as smort } from "../../Api/smortApi"
+import { JSX } from "react/jsx-runtime";
+import Style from "./UploadContent.module.scss"
+
+export type UploadContentModalHandle = {
+    toggleModal: () => void;
+};
+
+export const UploadContentModal = forwardRef<UploadContentModalHandle>(() => {
+
+    const [ContentFile, setContentFile] = useState<File | null>(null)
+    const [Title, setTitle] = useState<string>("")
+    const [ShowUploadContent, setShowUploadContent] = useState<boolean>(false);
+    let Description = "";
+    const InputFile = createRef<HTMLInputElement>();
 
 
-interface UploadContentModalProps {
-}
 
-interface UploadContentModalState {
-    ContentFile: File | null;
-    Thumbnail: File | null;
-    Title: string;
-    Description: string;
-    TypeOfContent: string;
-    ShowUploadContent: boolean;
-}
-
-
-export class UploadContentModal extends Component<UploadContentModalProps, UploadContentModalState> {
-
-
-    constructor(props: UploadContentModalProps) {
-        super(props);
-        this.state = {
-            ContentFile: null,
-            Thumbnail: null,
-            Title: "",
-            Description: "",
-            TypeOfContent: "Video",
-            ShowUploadContent: false
-        };
-      }
-
-
-    handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null; // Get the file or null
         if (file) {
-            this.setState({
-                ContentFile: file,
-            });
+            setContentFile(file)
         }
     }
 
-    handleThumbnailFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0] || null;
-        if (file) {
-            this.setState({
-                Thumbnail: file,
-            });
+
+    const GetContentType = (): string => {
+        if (ContentFile === null) {
+            return "Nan";
         }
+
+        if (ContentFile.type.includes("image")) {
+            return "Image"
+        }
+        if (ContentFile.type.includes("video")) {
+            console.log(ContentFile.type)
+
+            return "Video"
+        }
+        return "Nan"
     }
 
-    toggleModal = () => {
-        this.setState({ ShowUploadContent: !this.state.ShowUploadContent });
+    const ShowVideo = (): JSX.Element => (<video autoPlay className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
+    const ShowImage = (): JSX.Element => (<img className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
+
+    const toggleModal = () => {
+        setShowUploadContent(!ShowUploadContent);
     };
 
-    public render() {
-        return <>
-            <Modal show={this.state.ShowUploadContent} onHide={() => { this.toggleModal(); }} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Upload content</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <select onChange={(event) => {
-                            this.setState({ TypeOfContent: event.target.value })
-                            console.log(event.target.value)
-                        }}>
-                            <option value="Video" >Video</option>
-                            <option value="Image">Image</option>
-                        </select><br />
-
-                        {/* <label>Title: </label><br />
+    return <>
+        <Modal show={ShowUploadContent} onHide={() => { toggleModal(); }} centered size="lg">
+            <Modal.Header closeButton>
+                <Modal.Title>Upload content</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Row>
+                    {/* <label>Title: </label><br />
                         <input type="text" onChange={(event) => { this.setState({ Title: event.target.value }) }} /><br /> */}
-                        <label>Discription: </label><br />
-                        <input type="text" onChange={(event) => { this.setState({ Description: event.target.value }) }} /><br />
+                    <label>Discription: </label><br />
+                    <textarea
+                        placeholder='Description....'
+                        onChange={(event) => Description = event.target.value} /><br />
 
-                        <label> {this.state.TypeOfContent} </label>
-                        <input className="form-control" type="file" onChange={(event) => {
-                            this.handleFileUpload(event)
+                    <input
+                        hidden
+                        accept="image/*,video/*"
+                        className="form-control"
+                        type="file"
+                        ref={InputFile}
+                        onChange={(event) => {
+                            handleFileUpload(event)
 
-                        }} /><br />
+                        }} />
 
-
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => { this.toggleModal(); }}>
-                        Close
+                    <Button className={GetContentType() !== "Nan" ? Style.UploadContentFilled : Style.UploadContentEmpty}
+                        onClick={() => {
+                            InputFile.current?.click()
+                        }}>
+                        {ContentFile ?
+                            <>{GetContentType() !== "Nan" ?
+                                <> {GetContentType() === "Video" ? <ShowVideo /> : <ShowImage />}
+                                </> : <>ERROR Please upload an image or a video</>}</> :
+                            <>Upload your content here</>}
                     </Button>
-                    <Button variant="primary" onClick={() => {
-                        if (this.state.TypeOfContent === "Video") {
-                            console.log(this.state.TypeOfContent);
 
-                            smort.UploadVideo(this.state.ContentFile, this.state.Title, this.state.Description).then(worked => {
+                </Row>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={() => { toggleModal(); }}>
+                    Close
+                </Button>
+                <Button variant="primary"
+                    disabled={GetContentType() === "Nan"}
+                    onClick={() => {
+                        if (GetContentType() === "Video") {
+                            smort.UploadVideo(ContentFile, Title, Description).then(worked => {
                                 if (worked === true) {
-                                    this.toggleModal();
-                                    window.location.reload();
+                                    toggleModal();
                                 }
                             });
                         } else {
-                            smort.UploadPostImage(this.state.ContentFile, this.state.Title, this.state.Description).then(worked => {
+                            smort.UploadPostImage(ContentFile, Title, Description).then(worked => {
                                 if (worked === true) {
-                                    this.toggleModal();
-                                    window.location.reload();
+                                    toggleModal();
                                 }
                             });
                         }
                     }}>
-                        upload {this.state.TypeOfContent}
-                    </Button>
-                </Modal.Footer>
-            </Modal></>
-    }
-}
+                    upload {GetContentType()}
+                </Button>
+            </Modal.Footer>
+        </Modal></>
+});

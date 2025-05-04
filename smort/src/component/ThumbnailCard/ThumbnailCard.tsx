@@ -3,7 +3,7 @@ import Style from './ThumbnailCard.module.scss'
 import { smortApi as smort } from "../../Api/smortApi";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
 import { createRef } from "react";
-import { ShowContentFullScreen } from "../Modals/ShowContentFullScreen.Modal";
+import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen.Modal";
 
 interface IProps {
   Post: ThumbnailObject
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const ThumbnailCard = (props: IProps): JSX.Element => {
-  const ShowContentFullScreenComponent = createRef<ShowContentFullScreen>();
+  const ShowContentFullScreenComponent = createRef<ShowContentFullScreenHandle>();
 
   return (
     <>

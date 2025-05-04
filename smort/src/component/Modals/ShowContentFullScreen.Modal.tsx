@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ContentItem } from "../../Api/ApiObjects/ContentObject";
 import { smortApi as smort } from "../../Api/smortApi";
@@ -14,64 +14,59 @@ interface state {
 	ContentItem: ContentItem[]
 }
 
-export class ShowContentFullScreen extends React.Component<props, state> {
+export type ShowContentFullScreenHandle = {
+    toggleModal: (ContentId: number) => void;
+}
 
-	constructor(props: props) {
-		super(props)
+export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(() => {
+	const [Show, setShow] = useState<boolean>(false);
+	const [ContentItem, setContentItem] = useState<ContentItem[]>([]);
 
-		this.state = {
-			Show: false,
-			ContentItem: []
-		}
-	}
-
-	toggleModal = (ContentId: number = -1) => {
+	const toggleModal = (ContentId: number = -1) => {
 		if (ContentId !== -1) {
 			console.log(ContentId);
 			smort.GetContentItemAsync(ContentId.toString()).then((item) => {
-				this.setState({ ContentItem: item })
-				this.setState({ Show: true });
+				setContentItem(item);
+				setShow(Show);
 			}).catch(console.error)
-		}else{
-			this.setState({ Show: false });
+		} else {
+			setShow(false);
 
 		}
 
 	};
 
 
-	public render(): React.ReactNode {
-		return <>
-			<Modal show={this.state.Show} centered size="lg">
-				<Modal.Header>
+	return <>
+		<Modal show={Show} centered size="lg">
+			<Modal.Header>
 
-					<button onClick={() => this.toggleModal()}>
-						back
-					</button>
+				<button onClick={() => toggleModal()}>
+					back
+				</button>
 
-				</Modal.Header>
+			</Modal.Header>
 
-				<Modal.Body>
+			<Modal.Body>
 
-					{this.state.ContentItem.length > 0 &&
-						this.state.ContentItem[0].Type === "img" ?
-						<div>
-							<img
-								loading="lazy"
-								src={smort.GetImageUrl(this.state.ContentItem[0].File_Id)}
-								className={Style.ImgContent} />
-							<OptionsButtons post={this.state.ContentItem[0]}/>
-						</div>
-						:
-						<div className={Style.VideoContainer}>
-							<SmortVideo content={this.state.ContentItem[0]}/>
+				{ContentItem.length > 0 &&
+					ContentItem[0].Type === "img" ?
+					<div>
+						<img
+							loading="lazy"
+							src={smort.GetImageUrl(ContentItem[0].File_Id)}
+							className={Style.ImgContent} />
+						<OptionsButtons post={ContentItem[0]} />
+					</div>
+					:
+					<div className={Style.VideoContainer}>
+						<SmortVideo content={ContentItem[0]} />
 
-						</div>
-					}
+					</div>
+				}
 
 
-				</Modal.Body>
-			</Modal>
-		</>
-	}
-}
+			</Modal.Body>
+		</Modal>
+	</>
+});

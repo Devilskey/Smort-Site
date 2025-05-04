@@ -1,6 +1,6 @@
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import { IMyProfile } from "../Api/ApiObjects/userObjects"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { smortApi as smort } from "../Api/smortApi"
 import Style from './Navbar.module.scss';
 import logo from '../SiteAssets/Smort_Logo.png';
@@ -11,30 +11,20 @@ interface props {
   Search: (search: string) => void;
 }
 
-interface state {
-  search: string;
-}
 
 
-export class NavBarSmortPc extends React.Component<props, state> {
+export const NavBarSmortPc = (props:props):JSX.Element => {
 
-  public InstallPromptEvent : any;
+  let InstallPromptEvent : any;
+  const user = smort.getUser();
+  const [search, setSearch] = useState<string>("");
 
-  constructor(props: props) {
-    super(props);
-
-    this.state = {
-      search: ""
-    }
-
+  useEffect(()=> {
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
-      this.InstallPromptEvent = event;
+      InstallPromptEvent = event;
     })
-  }
-
-  render() {
-    const user = smort.getUser();
+  }, [])
     
     return (
       <>
@@ -59,11 +49,12 @@ export class NavBarSmortPc extends React.Component<props, state> {
               <div className={Style.SearchBarDiv}>
                 <input type="text" className={Style.SearchBarText}
                   onChange={(event) => {
-                    this.props.Search( event.target.value )
+                    setSearch(event.target.value);
+                    props.Search( event.target.value )
                   }} />
 
                 <button className={Style.SearchButton} onClick={() => {
-                  this.props.Search(this.state.search);
+                  props.Search(search);
                 }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -93,7 +84,7 @@ export class NavBarSmortPc extends React.Component<props, state> {
               </Nav>
                 {AndroidHandler.IsUsingAndroid() && 
                   <div className={Style.WhiteTekst}  onClick={()=>{
-                     this.InstallPromptEvent.prompt();
+                     InstallPromptEvent.prompt();
                   }}>
                       Install App
                   </div>
@@ -105,4 +96,3 @@ export class NavBarSmortPc extends React.Component<props, state> {
       </>
     )
   }
-}

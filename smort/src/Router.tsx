@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { HomePage } from "./Pages/HomePage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
-import { UploadPage } from "./Pages/UploadPage/UploadPage";
 import { AdminPanel } from "./Pages/AdminPages/AdminPanel";
 import { ForceRefresh } from "./routing/ForceRefresh";
 import { AuthorizationNeededRouting } from "./routing/Authorization";
@@ -23,8 +22,7 @@ const SiteRouter = (): JSX.Element => {
 
                     <Route path="/account/:id" element={<AccountPage />} />
                     <Route path="/account" element={<AccountPage />} />
-                    <Route path="/UploadContent" element={<UploadPage />} />
-                    <Route path="/home" element={<HomePage />} />
+\                    <Route path="/home" element={<HomePage />} />
 
                     <Route element={<RoleCheck NeededRol={Role.Admin} />}>
                         <Route path="/Smort/Admin" element={<AdminPanel />} />
