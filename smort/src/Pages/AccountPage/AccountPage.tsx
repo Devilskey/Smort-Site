@@ -9,7 +9,7 @@ import { NavBarSmortPc } from "../../component/NavbarPc";
 
 import Style from "./AccountPage.module.scss";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
-import { EditUserDataModal } from "../../component/Modals/EditUserData.Modal";
+import { EditUserDataModal, EditUserDataModalHandle } from "../../component/Modals/EditUserData.Modal";
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { NavBarSmortMobile } from "../../component/NavbarMobile/NavbarMobile";
 import { ShowContentFullScreen } from "../../component/Modals/ShowContentFullScreen.Modal";
@@ -27,7 +27,7 @@ export const AccountPage = (): JSX.Element => {
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
 
   const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
-  const EditUserComponent = createRef<EditUserDataModal>();
+  const EditUserComponent = createRef<EditUserDataModalHandle>();
   const UploadContentComponent = useRef<UploadContentModalHandle>(null);
 
   useEffect(() => {

@@ -1,31 +1,23 @@
-import React, { Component, useState } from 'react';
+import React, { Component, forwardRef, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap'; // Assuming you're using react-bootstrap
 import { EeditUserType } from '../../Api/enums/EditUserEnum';
 import { smortApi as smort } from '../../Api/smortApi';
+import { IMyProfile } from '../../Api/ApiObjects/userObjects';
+
 interface EditUserDataModalProps {
-  user?: {
-    username: string;
-  };
+  user: IMyProfile
 }
 
+export type EditUserDataModalHandle = {
+  toggleModal: () => void;
+}
 
-export const EditUserDataModal = (props: EditUserDataModalProps): JSX.Element => {
+export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDataModalProps> ((props): JSX.Element => {
   const [ShowEditUser, setShowEditUser] = useState<boolean>(false)
   const [Changeusername, setChangeusername] = useState<string>("")
   const [Changepassword, setChangepassword] = useState<string>("")
   const [ChangeEmail, setChangeEmail] = useState<string>("")
   const [DeleteUserName, setDeleteUserName] = useState<string>("")
-
-  // constructor(props: EditUserDataModalProps) {
-  //   super(props);
-  //   this.state = {
-  //     ShowEditUser: false,
-  //     Changeusername: '',
-  //     Changepassword: '',
-  //     ChangeEmail: '',
-  //     DeleteUserName: ''
-  //   };
-  // }
 
   const ChangeUserData = (typeOfChange: EeditUserType, data: string | File): void => {
     smort.ChangeUserData(data, typeOfChange);
@@ -116,4 +108,4 @@ export const EditUserDataModal = (props: EditUserDataModalProps): JSX.Element =>
     </Modal>
   );
 
-}
+});
