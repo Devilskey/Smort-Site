@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap'; // Assuming you're using react-bootstrap
 import { EeditUserType } from '../../Api/enums/EditUserEnum';
 import { smortApi as smort } from '../../Api/smortApi';
@@ -6,118 +6,114 @@ interface EditUserDataModalProps {
   user?: {
     username: string;
   };
-  // Define any other props here
 }
 
-interface EditUserDataModalState {
-  ShowEditUser: boolean;
-  Changeusername: string;
-  Changepassword: string;
-  ChangeEmail: string;
-  DeleteUserName: string;
-}
 
-export class EditUserDataModal extends Component<EditUserDataModalProps, EditUserDataModalState> {
-  constructor(props: EditUserDataModalProps) {
-    super(props);
-    this.state = {
-      ShowEditUser: false,
-      Changeusername: '',
-      Changepassword: '',
-      ChangeEmail: '',
-      DeleteUserName: ''
-    };
-  }
+export const EditUserDataModal = (props: EditUserDataModalProps): JSX.Element => {
+  const [ShowEditUser, setShowEditUser] = useState<boolean>(false)
+  const [Changeusername, setChangeusername] = useState<string>("")
+  const [Changepassword, setChangepassword] = useState<string>("")
+  const [ChangeEmail, setChangeEmail] = useState<string>("")
+  const [DeleteUserName, setDeleteUserName] = useState<string>("")
 
-  ChangeUserData = (typeOfChange: EeditUserType, data: string | File): void => {
+  // constructor(props: EditUserDataModalProps) {
+  //   super(props);
+  //   this.state = {
+  //     ShowEditUser: false,
+  //     Changeusername: '',
+  //     Changepassword: '',
+  //     ChangeEmail: '',
+  //     DeleteUserName: ''
+  //   };
+  // }
+
+  const ChangeUserData = (typeOfChange: EeditUserType, data: string | File): void => {
     smort.ChangeUserData(data, typeOfChange);
   };
 
-  handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ Changeusername: event.target.value });
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChangeusername(event.target.value)
   };
 
-  handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ Changepassword: event.target.value });
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChangepassword(event.target.value)
   };
 
-  handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ ChangeEmail: event.target.value });
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChangeEmail(event.target.value)
   };
 
-  toggleModal = () => {
-    this.setState({ ShowEditUser: !this.state.ShowEditUser });
+  const toggleModal = () => {
+    setShowEditUser(!ShowEditUser)
   };
 
-  render() {
-    const { ShowEditUser, Changeusername, Changepassword, ChangeEmail } = this.state;
-    const { user } = this.props;
+  const { user } = props;
 
-    return (
-      <Modal show={ShowEditUser} centered size="lg">
-        <Modal.Header>Edit "{user?.username}" your account</Modal.Header>
-        <Modal.Body>
-          <div>
-            <label htmlFor="ChangeUserName">Username: </label>
-            <input
-              id="ChangeUserName"
-              type="text"
-              placeholder={user?.username}
-              onChange={this.handleUsernameChange}
-            />
-            <br />
-            <button onClick={() => this.ChangeUserData(EeditUserType.UserName, Changeusername)}>
-              ChangeUserName
-            </button>
-            <br />
-          </div>
-
-          <div>
-            <label htmlFor="ChangePasswordNew">New password: </label>
-            <input
-              onChange={this.handlePasswordChange}
-              id="ChangePasswordNew"
-              type="password"
-            />
-            <br />
-            <button onClick={() => this.ChangeUserData(EeditUserType.password, Changepassword)}>
-              ChangePassword
-            </button>
-            <br />
-          </div>
-
-          <div>
-            <label htmlFor="ChangeEmailNew">New email: </label>
-            <input
-              onChange={this.handleEmailChange}
-              id="ChangeEmailNew"
-              type="text"
-            />
-            <br />
-            <button onClick={() => this.ChangeUserData(EeditUserType.Email, ChangeEmail)}>
-              ChangeEmail
-            </button>
-            <br />
-          </div>
-
-          <div>
-            {/* TODO: Add Change Profile Picture */}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <input id="DeleteNameUser" placeholder="Type here your username to confirm"
-          onChange={(event) => this.setState({DeleteUserName: event.target.value})} />
+  return (
+    <Modal show={ShowEditUser} centered size="lg">
+      <Modal.Header>Edit "{user?.username}" your account</Modal.Header>
+      <Modal.Body>
+        <div>
+          <label htmlFor="ChangeUserName">Username: </label>
+          <input
+            id="ChangeUserName"
+            type="text"
+            placeholder={user?.username}
+            onChange={handleUsernameChange}
+          />
           <br />
-          <Button variant="secondary" onClick={() => {
-            smort.DeleteUser(this.state.DeleteUserName);
-          }}>
-            delete my account
-          </Button>
-          <Button variant="primary" onClick={this.toggleModal}>
-            done
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+          <button onClick={() => ChangeUserData(EeditUserType.UserName, Changeusername)}>
+            ChangeUserName
+          </button>
+          <br />
+        </div>
+
+        <div>
+          <label htmlFor="ChangePasswordNew">New password: </label>
+          <input
+            onChange={handlePasswordChange}
+            id="ChangePasswordNew"
+            type="password"
+          />
+          <br />
+          <button onClick={() => ChangeUserData(EeditUserType.password, Changepassword)}>
+            ChangePassword
+          </button>
+          <br />
+        </div>
+
+        <div>
+          <label htmlFor="ChangeEmailNew">New email: </label>
+          <input
+            onChange={handleEmailChange}
+            id="ChangeEmailNew"
+            type="text"
+          />
+          <br />
+          <button onClick={() => ChangeUserData(EeditUserType.Email, ChangeEmail)}>
+            ChangeEmail
+          </button>
+          <br />
+        </div>
+
+        <div>
+          {/* TODO: Add Change Profile Picture */}
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <input id="DeleteNameUser" placeholder="Type here your username to confirm"
+          onChange={(event) => setDeleteUserName(event.target.value) }/>
+        <br />
+        <Button variant="secondary" onClick={() => {
+          smort.DeleteUser(DeleteUserName);
+        }}>
+          delete my account
+        </Button>
+        <Button variant="primary" onClick={toggleModal}>
+          done
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+
 }
