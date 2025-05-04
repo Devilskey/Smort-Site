@@ -1,48 +1,41 @@
-import { BrowserRouter, Routes, Route, useLocation, matchRoutes, useNavigate, } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { HomePage } from "./Pages/HomePage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
-import { useEffect } from "react";
-const SiteRouter = (): JSX.Element => {
+import { UploadPage } from "./Pages/UploadPage/UploadPage";
+import { AdminPanel } from "./Pages/AdminPages/AdminPanel";
+import { ForceRefresh } from "./routing/ForceRefresh";
+import { AuthorizationNeededRouting } from "./routing/Authorization";
+import { RoleCheck } from "./routing/RoleCheck";
+import { Role } from "./Api/enums/Roles";
 
+const SiteRouter = (): JSX.Element => {
     return (
         <BrowserRouter>
-            <ForceRefresh/>
+
+            <ForceRefresh />
+
             <Routes>
-                <Route path="/login" element={<LoginPage />} key="Login" />
-                <Route path="/account/:id/" element={<AccountPage />} key="AccountOtherUser" />
-                <Route path="/account" element={<AccountPage />} key="MyAccount" />
-                <Route path="*" element={<HomePage />} />
+                
+                <Route path="*" element={<LoginPage />} />
+
+                <Route element={<AuthorizationNeededRouting />}>
+
+                    <Route path="/account/:id" element={<AccountPage />} />
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/UploadContent" element={<UploadPage />} />
+                    <Route path="/home" element={<HomePage />} />
+
+                    <Route element={<RoleCheck NeededRol={Role.Admin} />}>
+                        <Route path="/Smort/Admin" element={<AdminPanel />} />
+                    </Route>
+
+                </Route>
             </Routes>
+
         </BrowserRouter>
-    )
+    );
 }
 
-const ForceRefresh = () => {
-    const location = useLocation();
-    const forceRefreshRouteKeys = ["AccountOtherUser", "MyAccount", "HomeWithSelectedVideo"];
-
-    useEffect(() => {
-        if (forceRefreshRouteKeys.some((key) => key === location.key)) {
-            window.location.reload();
-        }
-    }, [location]);
-
-    return null;
-  };
-
-export const PageNavigation = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const refreshPage = () => {
-        navigate(0); 
-        navigate(location.pathname, { replace: true });
-    };
-    
-    refreshPage();
-    return(<></>)
-
-}
 
 export default SiteRouter;

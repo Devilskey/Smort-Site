@@ -8,10 +8,10 @@ import { ErrorHandler } from "./Logging";
 import { httpHeaders } from "./httpHeaders"
 import { ContentItem } from "./ApiObjects/ContentObject";
 import { FollowingUser } from "./ApiObjects/FollowingObjects";
-import { size } from "./enums/sizes";
 import * as signalR from '@microsoft/signalr';
-import { Console } from "console";
-import { Setting } from "../prod/Settings";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { SmortTokenPayload } from "./enums/TokenPayload";
+import { IUser } from "./ApiObjects/IUser";
 
 export class smortApi {
   public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
@@ -47,6 +47,7 @@ export class smortApi {
   // }
 
   public static SetupNotifications() {
+    
 
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(`${this.ApiUrl}/Notify`, {
@@ -86,12 +87,21 @@ export class smortApi {
   }
 
 
+  public static GetUserRole():number {
+    if(this.Token !== null){
+    let decoded =  jwtDecode<SmortTokenPayload>(this.Token);
+    return decoded.role
+    }
+    return -1;
+  }
+
   public static getUser(): IMyProfile | undefined {
     if (this.User !== null) {
       return this.User;
     }
     return undefined;
   }
+
 
   public static IsLogedIn(): boolean {
     this.LoadCookies();
@@ -104,6 +114,7 @@ export class smortApi {
     }
     return false;
   }
+  
 
   public static async LoginAsync(email: string, password: string): Promise<boolean> {
     const httpHeader = {
@@ -611,4 +622,26 @@ export class smortApi {
     }
     return false;
   }
+
+  public static async  GetAllUsers(): Promise<IUser[]>{
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+    };
+
+    try {
+        const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Admin/users/All`, HttpHeaderGet);
+        const data:IUser[] = await response.json();
+        
+        
+        if (Array.isArray(data)) {
+            return data as IUser[];
+        } else {
+            console.error("GetAllUsers: Response is not an array", data);
+            return [];
+        }
+    } catch (error) {
+        ErrorHandler(error);
+        return []; 
+    }  }
 }

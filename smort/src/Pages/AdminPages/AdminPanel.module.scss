@@ -1,0 +1,39 @@
+@use '../../Color' as *;
+
+.Page {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    color: $Primary-Text;
+}
+.WelcomeUser{
+    display: flex;
+    justify-content: center;
+}
+
+.Nav{
+    display:  flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.NavOption {
+    margin: 10px;
+    font-size: 20px;
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.NavOption:hover{
+
+    color: lightskyblue;
+    cursor: pointer;
+
+}
+
+.ManageUsers{
+    display: flex;
+    justify-self: center;
+    width: 50vw;
+
+}

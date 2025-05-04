@@ -35,16 +35,12 @@ export class NavBarSmortPc extends React.Component<props, state> {
 
   render() {
     const user = smort.getUser();
-
-    console.log("USer nav", user)
-
-    var link = user !== undefined ? "/account" : "/login";
-
+    
     return (
       <>
         <Navbar expand="lg" className={Style.Nav}>
           <Container>
-            <Navbar.Brand as={Link} to="/"><img
+            <Navbar.Brand as={Link} to="/Home"><img
               src={logo}
               width="60"
               height="60"
@@ -77,7 +73,7 @@ export class NavBarSmortPc extends React.Component<props, state> {
 
               <Nav className="">
 
-                <Nav.Link as={Link} to={link}>
+                <Nav.Link as={Link} to={"/account"}>
                   {user !== undefined ? (
                     <div className={Style.User}>
                       <div className={Style.UserText}> {user?.username}</div>

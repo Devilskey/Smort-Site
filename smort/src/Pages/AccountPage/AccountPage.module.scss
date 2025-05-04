@@ -10,8 +10,15 @@
 .UserImg {
     max-width: 100px;
     max-height: 100px;
+
+    min-width: 100px;
+    min-height: 100px;
+    
+    object-fit: fill;
+
     border-radius: 100%;
     display: flex;
+
 }
 
 .UserInfo {
@@ -56,7 +63,7 @@
     display: flex;
     justify-content: center;
     padding: 10px;
-
+    min-height: 100px !important;
 }
 
 .UserInfo {
@@ -101,6 +108,11 @@
 }
 
 .uploadContent {
+    display: flex;
     aspect-ratio: 1/1;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 

@@ -1,6 +1,6 @@
 
 import React, { createRef, JSX, useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Card, Col, Container, Row } from "react-bootstrap";
 
 import { smortApi as smort } from "../../Api/smortApi";
@@ -13,9 +13,9 @@ import { EditUserDataModal } from "../../component/Modals/EditUserData.Modal";
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { NavBarSmortMobile } from "../../component/NavbarMobile/NavbarMobile";
 import { ShowContentFullScreen } from "../../component/Modals/ShowContentFullScreen.Modal";
-import { UploadContentModal } from "../../component/Modals/UploadContent.Modal";
 import { UploadIcon } from "../../icons/Interections.icon";
 import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
+import { size } from "../../Api/enums/sizes";
 
 
 export const AccountPage = (): JSX.Element => {
@@ -27,7 +27,6 @@ export const AccountPage = (): JSX.Element => {
 
   const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
   const EditUserComponent = createRef<EditUserDataModal>();
-  const UploadContentComponent = createRef<UploadContentModal>();
 
   useEffect(() => {
     // Fetch user profile only once
@@ -36,7 +35,7 @@ export const AccountPage = (): JSX.Element => {
       smort.GetMyProfileAsync()
         .then((profile) => setUser(profile))
         .catch((error) => setUser(undefined));
-    } 
+    }
     else if (id !== undefined) {
       smort.GetProfileAsync(Number(id))
         .then((profile: any) => {
@@ -44,7 +43,7 @@ export const AccountPage = (): JSX.Element => {
           setUser(profile)
         })
         .catch((error) => console.error("Failed to fetch profile:", error));
-    } 
+    }
     else {
       setUser(smort.getUser())
     }
@@ -86,7 +85,6 @@ export const AccountPage = (): JSX.Element => {
   return (
     <>
       <EditUserDataModal ref={EditUserComponent} user={smort.getUser()!} />
-      <UploadContentModal ref={UploadContentComponent} />
 
       <div className={Style.Page}>
         {!AndroidHandler.AndroidNavBarNeeded() &&
@@ -99,7 +97,7 @@ export const AccountPage = (): JSX.Element => {
               {user ? (
                 <div className={Style.UserImgSpace}>
                   <img
-                    src={smort.GetImageUrl(user.profile_Picture)}
+                    src={`${smort.GetImageUrl(user.profile_Picture)}&size=${size.L}`}
                     alt="User profile"
                     className={Style.UserImg}
                   />
@@ -160,16 +158,17 @@ export const AccountPage = (): JSX.Element => {
               {user !== undefined &&
                 <Col key={"Upload"} xs={6} sm={6} md={4} xl={3} >
                   <Card className="card">
-                    <button className={Style.uploadContent} onClick={() => {
-                      UploadContentComponent.current?.toggleModal();
-                    }}>
-                      <UploadIcon/>
-                    </button>
+
+                    <Link to={"/UploadContent"} className={Style.uploadContent}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="black" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                        </svg>
+                    </Link>
                   </Card>
                 </Col>
               }
               {ContentList?.map((item: ThumbnailObject, idx) => (
-                  <ThumbnailCard Post={item} deleteMode={deleteMode}/>
+                <ThumbnailCard Post={item} deleteMode={deleteMode} />
               ))}
             </Row>
           </div>

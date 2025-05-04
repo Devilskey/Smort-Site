@@ -7,3 +7,4 @@ declare module '*.module.scss' {
     const value: string;
     export default value;
   }
+  declare function showDirectoryPicker(): Promise<FileSystemDirectoryHandle>;

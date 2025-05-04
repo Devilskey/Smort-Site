@@ -21,7 +21,7 @@ export const LoginPage = (): JSX.Element => {
       .then((Success: boolean) => {
         console.log(Success)
         if (Success) {
-          navigate("/");
+          navigate("/Home");
         } else {
           setErrorMessage("failed to login please try again with a different password or email address");
         }
@@ -34,7 +34,7 @@ export const LoginPage = (): JSX.Element => {
     if (!username || !ProfilePicture || !password || !email) {
       setErrorMessage(`${username === "" ? "Username missing" : ""} 
         ${!ProfilePicture ? "Profile picture missing " : ""} 
-        ${password  === "" ? "password missing " : ""} 
+        ${password === "" ? "password missing " : ""} 
         ${email === "" ? "email missing " : ""} `)
       return;
     }
@@ -51,31 +51,31 @@ export const LoginPage = (): JSX.Element => {
   };
   return (<>
 
-    <div className={Style.LoginBG}>
+    <div>
       <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
         <div className={Style.GradiantBackground}>
           <h1 className={Style.GradiantText + " " + Style.Title}>Smort</h1>
-          <h3 className={Style.GradiantText}> A hobby social media platform </h3>
         </div>
         <div className={Style.LoginBackground}>
           <h1 className="text-center">    {Login ? (<>inloggen</>) : (<> Aanmelden</>)}</h1>
           {Login ? (
             <Form>
-              <Form.Group as={Row}>
-                <Form.Label column sm="2">email:</Form.Label>
-                <Col sm="10">
+              <Form.Group as={Row} className={Style.Row}>
+                <Col sm="12">
                   <Form.Control
                     defaultValue={email}
+                    className={Style.InputFields}
                     type="text"
                     placeholder="enter email"
                     onChange={(Element) => { setEmail(Element.target.value) }} />
                 </Col>
               </Form.Group>
 
-              <Form.Group as={Row}>
-                <Form.Label column sm="2">password:</Form.Label>
-                <Col sm="10">
-                  <Form.Control type="password"
+              <Form.Group as={Row} className={Style.Row}>
+                <Col sm="12">
+                  <Form.Control
+                    type="password"
+                    className={Style.InputFields}
                     defaultValue={password}
                     placeholder="enter password"
                     onChange={(Element) => { setPassword(Element.target.value) }} />
@@ -93,7 +93,7 @@ export const LoginPage = (): JSX.Element => {
             </Form>
           ) : (
             <> <Form>
-              <Form.Group as={Row}>
+              <Form.Group as={Row} className={Style.Row}>
                 <Col>
                   <input
                     required
@@ -111,40 +111,40 @@ export const LoginPage = (): JSX.Element => {
                       onClick={() => {
                         inputRefrence.current?.click()
                       }}>
-                      {ProfilePicture ? (<img src={URL.createObjectURL(ProfilePicture)} />) : (<div> + </div>)}
+                      {ProfilePicture ? (<img src={URL.createObjectURL(ProfilePicture)} />) : (<div> Upload Profile Picture</div>)}
                     </Button>
                   </div>
                 </Col>
               </Form.Group>
 
-              <Form.Group as={Row}>
-                <Form.Label column sm="2">Username:</Form.Label>
-                <Col sm="10">
+              <Form.Group as={Row} className={Style.Row}>
+                <Col sm="12">
                   <Form.Control
                     required
                     type="text"
                     placeholder="enter Username"
+                    className={Style.InputFields}
                     onChange={(Element) => { setUsername(Element.target.value) }} />
                 </Col>
               </Form.Group>
 
-              <Form.Group as={Row}>
-                <Form.Label column sm="2">email:</Form.Label>
-                <Col sm="10">
+              <Form.Group as={Row} className={Style.Row}>
+                <Col sm="12">
                   <Form.Control
                     required
                     type="text"
                     placeholder="enter email"
+                    className={Style.InputFields}
                     onChange={(Element) => { setEmail(Element.target.value) }} />
                 </Col>
               </Form.Group>
 
-              <Form.Group as={Row}>
-                <Form.Label column sm="2">password:</Form.Label>
-                <Col sm="10">
+              <Form.Group as={Row} className={Style.Row} >
+                <Col>
                   <Form.Control type="password"
                     required
                     placeholder="enter password"
+                    className={Style.InputFields}
                     onChange={(Element) => { setPassword(Element.target.value) }} />
                 </Col>
               </Form.Group>
@@ -165,15 +165,12 @@ export const LoginPage = (): JSX.Element => {
             </div>}
 
 
-          <button className={Style.SwitchRequest} onClick={() => {
+          <Button className={Style.SwitchRequest} onClick={() => {
             setLogin(!Login)
             setErrorMessage("");
           }}>
             {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
-          </button>
-          <Link to="/">
-            Back
-          </Link>
+          </Button>
         </div>
       </Container>
     </div>

@@ -1,45 +1,32 @@
-.LoginBackground {
-  border-radius: 20px;
-    background-color: #f1f1f1;
-    padding: 15px;
-    width: 100%;
-    max-width: 500px;
-  }
-  
   .title {
     color: #333;
     font-size: 24px;
   }
 
-  .Submit{
+  .Submit {
     margin: 10px 0px;
   }
 
-.LoginPage {
-  min-height: 100vh;
-  flex-direction:column;
-}
+  .LoginPage {
+    min-height: 100vh;
+    flex-direction: column;
+  }
 
-.GradiantBackground {
-  background: linear-gradient(90deg,#FF00FF, #FF00FF, #FF00FF, #9400D3 , #FFD700, #00FFFF, #FF4500,  #FF00FF, #FF00FF, #FF00FF);
-  animation: animation-gradient 10s linear infinite;
-  background-size: 1000%;
+  .GradiantBackground {
+    background: linear-gradient(90deg, #FF00FF, #FF00FF, #FF00FF, #9400D3, #FFD700, #00FFFF, #FF4500, #FF00FF, #FF00FF, #FF00FF);
+    animation: animation-gradient 10s linear infinite;
+    background-size: 1000%;
+    -webkit-background-clip: text;
+  }
 
-  -webkit-background-clip: text;
-}
+  .error {
+    background-color: #ffcab6;
+    border: solid rgba($color: #000000, $alpha: 0.3) 2px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
 
-.Title {
-  font-size: 6vw;
-}
-
-.error{
-   background-color: #ffcab6;
-   border: solid rgba($color: #000000, $alpha: 0.3) 2px;
-   padding: 5px;
-   margin-bottom: 10px;
-}
-
-.GradiantText {
+  .GradiantText {
     color: -webkit-linear-gradient(#eee, #333) !important;
     text-transform: uppercase;
     text-align: center;
@@ -47,52 +34,93 @@
     -webkit-text-fill-color: transparent;
     animation: animation-gradient 10s linear infinite;
 
-}
-
-.SwitchRequest{
-  margin-right: 10px;
-}
-
-Link{
-  text-decoration: none;
-}
-
-@keyframes animation-gradient {
-  to {
-    background-position: 200%;
   }
-}
 
-.PfPicture{
-  width: 15vh;
-  height:  15vh;
-  margin-bottom: 10px;
-  border-radius: 200px !important;
-  border: solid 2px black !important; 
-  background-color: white !important;
-  padding: 0px !important;
-  color: black !important; 
-  font-size: 25 !important;
-
-
-  img {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  }
-}
-* {
-  overflow: hidden;
-}
-
-.LoginBG{
+  .SwitchRequest {
+    margin-right: 10px;
     width: 100%;
-    height: 100vh;
-    
-}
+  }
 
-.ProfilePictureAddDiv{
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
+  Link {
+    text-decoration: none;
+  }
+
+  .PfPicture {
+    width: 12rem;
+    height: 12rem;
+    margin-bottom: 10px;
+    border-radius: 200px !important;
+    border-color: gray !important;
+    background-color: white !important;
+    color: black !important;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+  * {
+    overflow: hidden;
+  }
+
+  .ProfilePictureAddDiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .input {
+    position: relative;
+  }
+
+  .placeholder{
+    position:absolute;
+    color: black;
+    
+    font-size: 12px;
+    padding-left: 4px;
+  }
+
+  .Row {
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 1000px) {
+    .LoginBackground {
+      border-radius: 20px;
+      padding: 15px;
+      width: 100%;
+      max-width: 500px;
+      color: whitesmoke;
+    }
+    .GradiantBackground{
+      position: absolute;
+      top: 30px;
+
+    }
+    .GradiantText{
+      font-size: 50px;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .LoginBackground {
+      border-radius: 20px;
+      background-color: #f1f1f1;
+      padding: 15px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .GradiantText{
+      font-size: 4vw;
+    }
+  }
+
+  @keyframes animation-gradient {
+    to {
+      background-position: 200%;
+    }
+  }
