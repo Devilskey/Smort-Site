@@ -1,0 +1,36 @@
+@use '../../../Color' as *;
+
+.ContentQuestion {
+    padding: 10px;
+    background-color: $answer-Background;
+    max-height: 300px; 
+    overflow-y: auto;
+}   
+
+.UserImgSimpel {
+    margin: 0 10px 0 0;
+    border-radius: 100%;
+    margin-bottom: 5px;
+}
+
+.AnswerBox{
+    padding: 4px 0px;
+
+    &:not(:last-of-type)  {
+    border-bottom: 1px solid $answer-Line;
+
+    }
+}
+
+.CreateAnswer {
+    padding: 10px;
+    width: 100%;
+
+    input {
+        width: 80%;
+    }
+
+    button {
+        width: 20%;
+    }
+}

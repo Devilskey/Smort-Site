@@ -8,8 +8,8 @@ import React, {
   import { Link } from "react-router-dom";
   import Style from "./NavbarMobile.module.scss"; 
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
-import { UploadContentModal, UploadContentModalHandle } from "../Modals/UploadContent.Modal";
 import { smortApi as smort } from "../../Api/smortApi";
+import { UploadContentModal, UploadContentModalHandle } from "../Modals/UploadContent/UploadContent.Modal";
   
   type Props = {
 	Search: (value: string) => void;
@@ -112,7 +112,7 @@ import { smortApi as smort } from "../../Api/smortApi";
 			<Link to={"/account"} className={Style.NavButton}>
 			  <div className={Style.User}>
 				<img
-				  src={smort.GetImageUrl(user?.profile_Picture)}
+				  src={smort.GetImageUrl(user?.profile_Picture, false)}
 				  width="60"
 				  height="60"
 				  className={Style.UserImg}

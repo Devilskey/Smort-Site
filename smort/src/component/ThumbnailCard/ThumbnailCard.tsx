@@ -3,40 +3,41 @@ import Style from './ThumbnailCard.module.scss'
 import { smortApi as smort } from "../../Api/smortApi";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
 import { createRef } from "react";
-import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen.Modal";
+import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen/ShowContentFullScreen.Modal";
 
 interface IProps {
   Post: ThumbnailObject
   deleteMode: boolean
 }
 
-export const ThumbnailCard = (props: IProps): JSX.Element => {
+export const ThumbnailCard = ({ Post, deleteMode }: IProps): JSX.Element => {
   const ShowContentFullScreenComponent = createRef<ShowContentFullScreenHandle>();
 
+  console.log(Post);
   return (
     <>
       <ShowContentFullScreen ref={ShowContentFullScreenComponent} />
-
       <Col xs={6} sm={6} md={4} xl={3} >
         <Card className={Style.Card}>
           <div className={Style.VideoLink}
             onClick={() => {
-              ShowContentFullScreenComponent.current?.toggleModal(props.Post.Id);
+              ShowContentFullScreenComponent.current?.toggleModal(Post.Id);
             }}>
-            <img
-              loading="lazy"
-              src={smort.GetImageUrl(props.Post.Thumbnail !== null ? props.Post.Thumbnail : props.Post.File_Id)}
-              className={Style.SquareImage} />
+            {Post.Type !== "Ask" &&
+              <img
+                loading="lazy"
+                src={smort.GetImageUrl(Post.Thumbnail ?? Post.File_Id, Post.Thumbnail === null)}
+                className={Style.SquareImage} />}
           </div>
 
-          {props.deleteMode &&
+          {deleteMode &&
             <Card.Footer>
               <button className={Style.DeleteButton}
                 onClick={() => {
-                  if (props.Post.Type === "img") {
-                    smort.DeleteImage(props.Post.Id);
+                  if (Post.Type === "img") {
+                    smort.DeleteImage(Post.Id);
                   } else {
-                    smort.DeleteVideo(props.Post.Id)
+                    smort.DeleteVideo(Post.Id)
                   }
                   setTimeout(() => {
                     window.location.reload()

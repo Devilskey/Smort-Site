@@ -6,7 +6,7 @@ import { IMyProfile } from "../Api/ApiObjects/userObjects";
 import { NavBarSmortPc } from "../component/NavbarPc";
 import { Container } from "react-bootstrap";
 import Style from './HomePage.module.scss';
-import { PostList } from "../component/VideoItemComponent/PostList";
+import { PostList } from "../component/PostItemComponent/PostList";
 import { ContentItem } from "../Api/ApiObjects/ContentObject";
 import { AndroidHandler } from "../PlatformSpecificScripts/Android";
 import { NavBarSmortMobile } from "../component/NavbarMobile/NavbarMobile";
@@ -71,11 +71,11 @@ export const HomePage = (): JSX.Element => {
                   <Link className={Style.FollowItem} to={`/account/${follow.User_Id_Followed}`} draggable="false">
                     <img width="100" height="100" 
                     alt="PFpUserSmorthub"
-                    src={`${smort.GetImageUrl(follow.Profile_Picture)}&size=${size.S}`} 
+                    src={`${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.S}`} 
                     srcSet={`
-                      ${smort.GetImageUrl(follow.Profile_Picture)}&size=${size.L} 1000w,
-                      ${smort.GetImageUrl(follow.Profile_Picture)}&size=${size.M} 720w,
-                    	${smort.GetImageUrl(follow.Profile_Picture)}&size=${size.S} 480w`}
+                      ${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.L} 1000w,
+                      ${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.M} 720w,
+                    	${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.S} 480w`}
                     draggable="false" />
                   </Link>
                 ))}

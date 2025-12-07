@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { smortApi as Smort } from "../../Api/smortApi";
+import { smortApi as Smort, smortApi } from "../../Api/smortApi";
 import Style from "./AdminPanel.module.scss"
 import { IUser } from "../../Api/ApiObjects/IUser";
 import { Button, Table } from "react-bootstrap";
@@ -27,6 +27,8 @@ export const AdminPanel = (): JSX.Element => {
                 <a className={Style.NavOption} onClick={() => NavigateTo("Reports")}>Reports</a>
                 <a className={Style.NavOption} onClick={() => NavigateTo("ManageContent")}>Manage Content</a>
             </header>
+            <hr />
+
             <div>
                 {AdminPanelPage === "Welcome" && <Welcome />}
                 {AdminPanelPage === "ManageUsers" && <ManageUsers />}
@@ -34,7 +36,6 @@ export const AdminPanel = (): JSX.Element => {
                 {AdminPanelPage === "ManageContent" && <ManageContent />}
 
             </div>
-
         </section>)
 }
 
@@ -77,7 +78,12 @@ export const ManageUsers = (): JSX.Element => {
                         <td>{user.Created_At}</td>
                         <td>{user.AllowedUser ? "Allowed" : "NotAllowed"}</td>
                         <td>
-                            <Button>{user.AllowedUser ? "Not Allowed" : "Allowed"}</Button>
+                            <Button onClick={()=>{
+                                smortApi.SetUserAlow(user.Id, !user.AllowedUser);
+                                user.AllowedUser =  !user.AllowedUser;
+                            }}>
+                                {user.AllowedUser ? "Not Allowed" : "Allow"}
+                            </Button>
                             <Button>Delete</Button>
                         </td>
 

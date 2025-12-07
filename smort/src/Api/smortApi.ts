@@ -1,4 +1,3 @@
-import { publicDecrypt, randomUUID } from "crypto";
 import { Api } from "./Api";
 import { ThumbnailObject } from "./ApiObjects/ThumbnailObjects";
 import { IMyProfile } from "./ApiObjects/userObjects";
@@ -9,9 +8,10 @@ import { httpHeaders } from "./httpHeaders"
 import { ContentItem } from "./ApiObjects/ContentObject";
 import { FollowingUser } from "./ApiObjects/FollowingObjects";
 import * as signalR from '@microsoft/signalr';
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { SmortTokenPayload } from "./enums/TokenPayload";
 import { IUser } from "./ApiObjects/IUser";
+import { Answer } from "./ApiObjects/Awnser";
 
 export class smortApi {
   public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
@@ -30,7 +30,7 @@ export class smortApi {
       this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
       return;
     }
-    else{
+    else {
       this.ApiUrl = "https://localhost:7047";
       return;
     }
@@ -47,7 +47,7 @@ export class smortApi {
   // }
 
   public static SetupNotifications() {
-    
+
 
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(`${this.ApiUrl}/Notify`, {
@@ -87,13 +87,14 @@ export class smortApi {
   }
 
 
-  public static GetUserRole():number {
-    if(this.Token !== null){
-    let decoded =  jwtDecode<SmortTokenPayload>(this.Token);
-    return decoded.role
+  public static GetUserRole(): number {
+    if (this.Token !== null) {
+      let decoded = jwtDecode<SmortTokenPayload>(this.Token);
+      return decoded.role
     }
     return -1;
   }
+
 
   public static getUser(): IMyProfile | undefined {
     if (this.User !== null) {
@@ -105,7 +106,6 @@ export class smortApi {
 
   public static IsLogedIn(): boolean {
     this.LoadCookies();
-    console.log(`[${this.Token}]`)
     if (this.Token === "Data received Empty") {
       return false;
     }
@@ -114,7 +114,7 @@ export class smortApi {
     }
     return false;
   }
-  
+
 
   public static async LoginAsync(email: string, password: string): Promise<boolean> {
     const httpHeader = {
@@ -189,14 +189,15 @@ export class smortApi {
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: IMyProfile = await response.json();
-        console.log(jsonData)
         this.User = jsonData;
       });
     return this.User;
   }
+
   public static async GetProfileAsync(id: number): Promise<IMyProfile> {
 
     let dataUser: IMyProfile = {
+      id: null,
       username: "",
       profile_Picture: 0
     };
@@ -204,10 +205,8 @@ export class smortApi {
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
       .then(async (response) => {
         const jsonData: any[] = await response.json();
-        console.log(jsonData)
         dataUser.username = jsonData[0].Username;
         dataUser.profile_Picture = jsonData[0].Profile_Picture;
-
       });
 
     return dataUser;
@@ -217,11 +216,11 @@ export class smortApi {
     return `${this.ApiUrl}/Images/GetUsersProfileImage?UserId=${UserId}`
   }
 
-  public static GetImageUrl(profile_Picture?: number) {
-    if (profile_Picture) {
-      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}`
+  public static GetImageUrl(id?: number, content: boolean = true) {
+    if (id) {
+      return `${this.ApiUrl}/Images/GetImage?ImageId=${id}&IsContent=${content}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&IsContent=${content}`
   }
 
   public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {
@@ -232,7 +231,6 @@ export class smortApi {
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
           const jsonData: ContentItem[] = await response.json();
-          console.log(jsonData);
           images = jsonData;
         });
       return images;
@@ -241,7 +239,6 @@ export class smortApi {
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`)
       .then(async (response) => {
         const jsonData: ContentItem[] = await response.json();
-        console.log(jsonData);
         images = jsonData;
       });
     return images;
@@ -253,8 +250,8 @@ export class smortApi {
       await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
+          
           const jsonData: ContentItem[] = await response.json();
-          console.log(jsonData);
           postImages = jsonData;
         });
       return postImages;
@@ -263,7 +260,6 @@ export class smortApi {
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`)
       .then(async (response) => {
         const jsonData: ContentItem[] = await response.json();
-        console.log(jsonData);
         postImages = jsonData;
       });
     return postImages;
@@ -274,7 +270,7 @@ export class smortApi {
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetAccountContentList?idUser=${userId}`).then(async (response) => {
       const jsonData: ThumbnailObject[] = await response.json();
       thumbnailData = jsonData;
-    }).catch((error) => console.log(error))
+    }).catch((error) => console.error(error))
     return thumbnailData;
   }
 
@@ -285,7 +281,7 @@ export class smortApi {
 
         const jsonData: ThumbnailObject[] = await response.json();
         thumbnailData = jsonData;
-      }).catch((error) => console.log(error))
+      }).catch((error) => console.error(error))
 
     return thumbnailData;
   }
@@ -297,7 +293,7 @@ export class smortApi {
 
         const jsonData: FollowingUser[] = await response.json();
         FollowingData = jsonData;
-      }).catch((error) => console.log(error))
+      }).catch((error) => console.error(error))
 
     return FollowingData;
   }
@@ -309,7 +305,7 @@ export class smortApi {
 
         const jsonData: FollowingUser[] = await response.json();
         FollowingData = jsonData;
-      }).catch((error) => console.log(error))
+      }).catch((error) => console.error(error))
 
     return FollowingData;
   }
@@ -436,6 +432,7 @@ export class smortApi {
   }
 
 
+
   public static async UploadVideo(video: File | null, title: string, description: string): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
@@ -475,10 +472,6 @@ export class smortApi {
             Title: title,
             Description: description,
           };
-
-          console.log(payload)
-          console.log("payload", payload.GUIDObjSender)
-
           try {
             await Api.SendApiRequestPostAsync(`${this.ApiUrl}/Videos/UploadVideo`, payload,
               httpHeaders.httpHeaderJsonWithToken(this.Token)
@@ -623,25 +616,85 @@ export class smortApi {
     return false;
   }
 
-  public static async  GetAllUsers(): Promise<IUser[]>{
+  public static async GetAllUsers(): Promise<IUser[]> {
     const HttpHeaderGet = {
       "Authorization": `Bearer ${this.Token}`,
       'Accept': 'text/plain',
     };
 
     try {
-        const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Admin/users/All`, HttpHeaderGet);
-        const data:IUser[] = await response.json();
-        
-        
-        if (Array.isArray(data)) {
-            return data as IUser[];
-        } else {
-            console.error("GetAllUsers: Response is not an array", data);
-            return [];
-        }
+      const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Admin/users/All`, HttpHeaderGet);
+      const data: IUser[] = await response.json();
+
+
+      if (Array.isArray(data)) {
+        return data as IUser[];
+      } else {
+        console.error("GetAllUsers: Response is not an array", data);
+        return [];
+      }
     } catch (error) {
-        ErrorHandler(error);
-        return []; 
-    }  }
+      ErrorHandler(error);
+      return [];
+    }
+  }
+
+  public static async SetUserAlow(UserId: number, Allow: boolean): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/Admin/users/PlatformAccess`, { Id: UserId, Allow: Allow }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+  public static async CreateQuestion(Content: string): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/AskMe/CreateQuestion`, { content: Content }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+  public static async CreateAnswer(Content: string, questionId: number): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/AskMe/CreateAnswer/${questionId}`, { content: Content }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+
+  public static async GetAwnser(questionId: number): Promise<Answer[] | undefined> {
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+
+    const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/AskMe/Answer/${questionId}`, HttpHeaderGet);
+
+    const jsonData: Answer[] = await response.json();
+    if (response.ok) {
+      return jsonData
+    }
+    return undefined;
+  }
 }

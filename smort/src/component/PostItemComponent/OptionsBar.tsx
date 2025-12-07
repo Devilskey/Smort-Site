@@ -5,7 +5,7 @@ import { smortApi as smort } from "../../Api/smortApi";
 import Style from './PostList.module.scss'
 
 
-export const OptionsButtons = ({post}:{post: ContentItem}) => {
+export const OptionsButtons = ({ post }: { post: ContentItem }) => {
   const [reload, setReload] = useState(0);
   const [localPost, setLocalPost] = useState(post);
 
@@ -21,7 +21,8 @@ export const OptionsButtons = ({post}:{post: ContentItem}) => {
           setReload((reload + 1))
         }
       });
-    }}>              {localPost.AlreadyLiked !== 0 ? (<> {localPost.Likes} <LikedIcon /> </>) : (<> {localPost.Likes} <LikeIcon /></>)}
+    }}>
+      {localPost.AlreadyLiked !== 0 ? (<div> {localPost.Likes} <LikedIcon /> </div>) : (<div> {localPost.Likes} <LikeIcon /></div>)}
     </button>
     </> :
       <div className={Style.LikeAmountText}> {`${localPost.Likes}`} <LikeIcon /> </div>

@@ -1,6 +1,6 @@
 
-import React, { createRef, JSX, useEffect, useRef, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { createRef, JSX, useEffect, useRef, useState } from "react"
+import {  useParams } from "react-router-dom"
 import { Card, Col, Container, Row } from "react-bootstrap";
 
 import { smortApi as smort } from "../../Api/smortApi";
@@ -9,14 +9,13 @@ import { NavBarSmortPc } from "../../component/NavbarPc";
 
 import Style from "./AccountPage.module.scss";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
-import { EditUserDataModal, EditUserDataModalHandle } from "../../component/Modals/EditUserData.Modal";
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { NavBarSmortMobile } from "../../component/NavbarMobile/NavbarMobile";
-import { ShowContentFullScreen } from "../../component/Modals/ShowContentFullScreen.Modal";
 import { UploadIcon } from "../../icons/Interections.icon";
 import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
 import { size } from "../../Api/enums/sizes";
-import { UploadContentModal, UploadContentModalHandle } from "../../component/Modals/UploadContent.Modal";
+import { EditUserDataModalHandle, EditUserDataModal } from "../../component/Modals/EditUserData/EditUserData.Modal";
+import { UploadContentModalHandle, UploadContentModal } from "../../component/Modals/UploadContent/UploadContent.Modal";
 
 
 export const AccountPage = (): JSX.Element => {
@@ -29,6 +28,9 @@ export const AccountPage = (): JSX.Element => {
   const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
   const EditUserComponent = createRef<EditUserDataModalHandle>();
   const UploadContentComponent = useRef<UploadContentModalHandle>(null);
+  const CreateAskQuestionComponent = useRef<UploadContentModalHandle>(null);
+
+  // const [Navigation, SetNavigation] = useState<"Content" | "Project">("Content");
 
   useEffect(() => {
     // Fetch user profile only once
@@ -50,7 +52,6 @@ export const AccountPage = (): JSX.Element => {
       setUser(smort.getUser())
     }
 
-    console.log(id)
     if (id !== undefined) {
       smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
         console.log(data);
@@ -82,12 +83,11 @@ export const AccountPage = (): JSX.Element => {
     console.log(search);
   }
 
-  console.log("ContentList:", ContentList);
-
   return (
     <>
       <EditUserDataModal ref={EditUserComponent} user={smort.getUser()!} />
-      <UploadContentModal ref={UploadContentComponent} />
+      <UploadContentModal ref={UploadContentComponent} isAskMe={false}/>
+      <UploadContentModal ref={CreateAskQuestionComponent} isAskMe/>
 
       <div className={Style.Page}>
         {!AndroidHandler.AndroidNavBarNeeded() &&
@@ -100,7 +100,7 @@ export const AccountPage = (): JSX.Element => {
               {user ? (
                 <div className={Style.UserImgSpace}>
                   <img
-                    src={`${smort.GetImageUrl(user.profile_Picture)}&size=${size.L}`}
+                    src={`${smort.GetImageUrl(user.profile_Picture, false)}&size=${size.L}`}
                     alt="User profile"
                     className={Style.UserImg}
                   />
@@ -151,9 +151,12 @@ export const AccountPage = (): JSX.Element => {
                   </>
                 }
               </div>
+
             </div>
           </div>
+
         </div>
+
         {/** Users Content */}
         <Container className={Style.Scroll}>
           <div>
@@ -162,14 +165,21 @@ export const AccountPage = (): JSX.Element => {
                 <Col key={"Upload"} xs={6} sm={6} md={4} xl={3} >
                   <Card className="card">
 
-                    <button className={Style.uploadContent} onClick={() => {
-                      console.log("CLICK");
+                    <div>
+                      <button className={Style.uploadContent} onClick={() => {
+                        UploadContentComponent.current?.toggleModal();
+                      }}>
+                        Upload Video <UploadIcon />
+                      </button>
+                    </div>
+                    <div>
+                      <button className={Style.uploadContent} onClick={() => {
+                        CreateAskQuestionComponent.current?.toggleModal();
+                      }}>
 
-                      UploadContentComponent.current?.toggleModal();
-                    }}>
-                      <UploadIcon />
-                    </button>
-
+                        Ask Question
+                      </button>
+                    </div>
                   </Card>
                 </Col>
               }
@@ -178,11 +188,12 @@ export const AccountPage = (): JSX.Element => {
               ))}
             </Row>
           </div>
-        </Container>
-        {AndroidHandler.AndroidNavBarNeeded() &&
+        </Container >
+        {
+          AndroidHandler.AndroidNavBarNeeded() &&
           <NavBarSmortMobile Search={Search} />
         }
-      </div>
+      </div >
     </>
   )
 }

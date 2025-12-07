@@ -2,12 +2,12 @@
 
 .HomeFeed {
     display: flex;
-    justify-content: center;
     overflow: hidden;
     flex: 1;
 }
 
 .Scroll {
+    background-color: red;
     flex-direction: column;
     overflow-y: scroll;
     flex: 1;

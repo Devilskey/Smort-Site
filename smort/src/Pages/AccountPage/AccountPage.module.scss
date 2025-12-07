@@ -13,7 +13,7 @@
 
     min-width: 100px;
     min-height: 100px;
-    
+
     object-fit: fill;
 
     border-radius: 100%;
@@ -38,12 +38,21 @@
 .Scroll {
     margin-top: 1rem;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
     flex: 1;
     padding-bottom: 40px;
     height: 90dvh;
 }
 
+.TypesOfContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px;
+    button {
+        width: 20%;
+    }
+}
 
 .Page {
     display: flex;
@@ -109,10 +118,13 @@
 
 .uploadContent {
     display: flex;
-    aspect-ratio: 1/1;
+    aspect-ratio: 2/1;
     width: 100%;
-    height: 100%;
     justify-content: center;
     align-items: center;
-}
+    font-size: 1rem;
 
+    svg {
+        margin: 10px;
+    }
+}

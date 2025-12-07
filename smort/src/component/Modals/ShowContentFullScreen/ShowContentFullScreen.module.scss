@@ -1,0 +1,38 @@
+@use '../../../Color' as *;
+
+.ImgContent {
+    width: 100%;
+}
+
+.VideoContainer {
+    max-height: 80vh;
+    width: 100%;
+    background-color: $VideoBackground;
+    display: flex;
+}
+
+.backgroundModalHeader {
+    background-color: $Post-Background;
+    border-bottom: $Following-Primary solid;
+}
+
+.backgroundModal {
+    background-color: $Post-Background;
+    width: 100%;
+    padding: 0px !important;
+}
+
+
+.contentTitle {
+    color: $Primary-Text;
+    font-size: 18px;
+    text-transform: capitalize;
+    width: 100%;
+    padding: 10px;
+}
+
+.Modal {
+    border-radius: solid black !important;
+    overflow: hidden;
+    --bs-modal-bg: none !important;
+}

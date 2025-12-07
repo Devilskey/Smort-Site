@@ -1,4 +1,4 @@
-$Primary-NavBar: #318CE7;
+$Primary-NavBar: #18181b;
 $Mobile-Navbar: rgb(41, 41, 41);
 
 $Logo-Background: #1b1b1b;
@@ -6,10 +6,14 @@ $Logo-Background: #1b1b1b;
 $Primary-Text: whitesmoke;
 
 $Post-Background: #444;
+
+$answer-Background: #666;
+$answer-Line: #444;
+
 $Thumbnail-Background: #111;
 
-$LikeButton: whitesmoke;
-$LikeButton-border: whitesmoke;
+$LikeButton: rgb(255, 255, 255);
+$LikeButton-border: rgb(255, 255, 255);
 
 $VideoBackground: black;
 
@@ -18,14 +22,14 @@ $nav-Button: white;
 $Primary-Delete: rgb(255, 65, 65);
 
 $UserInfoBackground: #111;
-$UserInfo-BorderBottom: #318CE7;
+$UserInfo-BorderBottom: rgb(73, 73, 73);
 
-$Following-Primary: #B9D9EB;
-$Following-Border: #318CE7;;
+$Following-Primary: #fff1fa;
+$Following-Border: #332e30;;
 
-$ScrollBar-Scrol: whitesmoke;
+$ScrollBar-Scrol: rgb(0, 0, 0);
 
-$ScrollBar-Scrol-Background: lightgray;
+$ScrollBar-Scrol-Background: rgb(112, 99, 103);
 
 
 $Primary-LikeButton: #D71868;

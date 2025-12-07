@@ -2,7 +2,7 @@
 import { JSX, useEffect, useRef, useState } from "react"
 import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import Style from './LoginPage.module.scss';
-import { smortApi as smort } from "../../Api/smortApi";
+import { smortApi as smort, smortApi } from "../../Api/smortApi";
 import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = (): JSX.Element => {
@@ -50,7 +50,6 @@ export const LoginPage = (): JSX.Element => {
     }
   };
   return (<>
-
     <div>
       <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
         <div className={Style.GradiantBackground}>

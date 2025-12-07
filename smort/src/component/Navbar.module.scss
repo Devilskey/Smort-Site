@@ -28,7 +28,7 @@
     }
 }
 
-.Logo{
+.Logo {
     background-color: $Logo-Background !important;
     border-radius: 100%;
     padding: 5px;
@@ -38,18 +38,14 @@
 
 .SearchBarDiv {
     display: flex;
-    flex: 1;
-    margin: 0px 10%;
-    font-size: 20px;
     border: solid;
     border-width: thin;
-    border-color: black;
     border-radius: 10px;
+    margin-left: auto;
 }
 
 .SearchButton {
     width: 15%;
-
 }
 
 .SearchBarText {
@@ -59,7 +55,7 @@
 }
 
 .Nav {
-    background-color: $Primary-NavBar  !important;
+    background-color: $Primary-NavBar !important;
     font-size: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
 }
