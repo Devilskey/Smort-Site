@@ -50,11 +50,12 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
     <div className={Style.ContentQuestion}>
       {(postAnswers.length !== 0) ? postAnswers.map((answer, idx) => (
 
-        <div  id={`Ask-${idx}`} className={Style.AnswerBox}> <img className={Style.UserImgSimpel}
-          loading="lazy"
-          alt="An image Uploaded to smort"
-          width="40px" height="40px"
-          src={`${smort.GetProfilePictureImageUrl(answer.User_Id)}&size=${size.S}`} />
+        <div id={`Ask-${idx}`} className={Style.AnswerBox}>
+          <img className={Style.UserImgSimpel}
+            loading="lazy"
+            alt="An image Uploaded to smort"
+            width="40px" height="40px"
+            src={`${smort.GetProfilePictureImageUrl(answer.User_Id)}&size=${size.S}`} />
           {answer.Answer}
         </div>
       )) : <div className={Style.ContentQuestion}> NO answers where given</div>}

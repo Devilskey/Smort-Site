@@ -37,11 +37,18 @@
 }
 
 .SearchBarDiv {
+    background-color: whitesmoke;
     display: flex;
     border: solid;
     border-width: thin;
-    border-radius: 10px;
+    border-radius: 6px;
     margin-left: auto;
+    div {
+        display: flex;
+        padding: 0px 4px;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .SearchButton {
