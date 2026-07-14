@@ -10,7 +10,6 @@ interface IAskQuestionProps {
   post: ContentItem
 }
 
-
 export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
   const [postAnswers, setPostAnswers] = useState<Answer[]>([]);
   const [answer, setAwnser] = useState<string>("")

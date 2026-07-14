@@ -5,6 +5,7 @@ import { IUser } from '../../../Api/ApiObjects/IUser';
 import { size } from '../../../Api/enums/sizes';
 import { IMyProfile } from '../../../Api/ApiObjects/userObjects';
 import { useParams } from 'react-router-dom';
+import { ReactElement } from 'react';
 
 export interface IProfileHeaderProps {
   user: IMyProfile | undefined,
@@ -26,7 +27,7 @@ export const ProfileHeader = ({
   setFollowerAmmount,
   setFollower,
   EditUserComponent
-}: IProfileHeaderProps): JSX.Element => {
+}: IProfileHeaderProps): ReactElement => {
   const { id } = useParams()
 
   return <div className={Style.UserInfoBackground}>

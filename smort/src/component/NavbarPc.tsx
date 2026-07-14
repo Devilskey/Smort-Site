@@ -1,6 +1,6 @@
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import { IMyProfile } from "../Api/ApiObjects/userObjects"
-import React, { useEffect, useState } from "react"
+import React, { ReactElement, useEffect, useState } from "react"
 import { smortApi as smort } from "../Api/smortApi"
 import Style from './Navbar.module.scss';
 import logo from '../SiteAssets/Smort_Logo.png';
@@ -13,7 +13,7 @@ interface props {
 
 
 
-export const NavBarSmortPc = (props: props): JSX.Element => {
+export const NavBarSmortPc = (props: props): ReactElement => {
 
   let InstallPromptEvent: any;
   const user = smort.getUser();

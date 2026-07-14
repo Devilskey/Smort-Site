@@ -1,54 +1,129 @@
 
-import { JSX, useEffect, useRef, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import Style from './LoginPage.module.scss';
-import { smortApi as smort, smortApi } from "../../Api/smortApi";
-import { Link, useNavigate } from "react-router-dom";
+import { smortApi as smort } from "../../Api/smortApi";
+import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { auth, githubProvider, googleProvider, waitForAuth } from "../../configs/FirebaseConfig";
 
-export const LoginPage = (): JSX.Element => {
+export enum Providers {
+  github,
+  google
+}
+
+export const LoginPage = (): ReactElement => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
+  const [errorCode, setErrorCode] = useState<string>("");
+
+  const homepageRoute = "/home";
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [Login, setLogin] = useState(true);
-  const inputRefrence = useRef<HTMLInputElement>(null)
-  const [ProfilePicture, setProfilePicture] = useState<File | null>(null);
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const HandleLoginErrors = (error: any) => {
+    switch (error.code) {
+      case 'auth/invalid-email':
+        setErrorCode('Invalid email adres')
+        break;
+      case 'auth/user-not-found':
+        setErrorCode('User not found')
+        break;
+      case 'auth/wrong-password':
+        setErrorCode('Wrong password')
+        break;
+      case 'auth/invalid-credential':
+        setErrorCode('Invalid credentials')
+        break;
+      case 'auth/too-many-requests':
+        setErrorCode('To many requests try again later')
+        break;
+      case 'auth/internal-error':
+        setErrorCode('Internal error try again later')
+        break;
+      case 'auth/weak-password':
+        setErrorCode('Password should be at least 6 characters!')
+        break;
+      default:
+        console.log(error)
+        setErrorCode('OOOPSie SoMeThInG BrOkE')
+        break;
+    }
+  }
+
+  useEffect(() => {
+    const handleRedirect = async () => {
+      const firebaseLogin = await waitForAuth();
+
+      if (!firebaseLogin) {
+        return;
+      }
+
+      smort.GetMyProfileAsync()
+        .then(user => {
+          navigate(homepageRoute);
+        })
+        .catch((error) => {
+        });
+    }
+    handleRedirect();
+  }, []);
 
   const submitLogin = (): void => {
-    smort.LoginAsync(email, password)
-      .then((Success: boolean) => {
-        console.log(Success)
-        if (Success) {
-          navigate("/Home");
-        } else {
-          setErrorMessage("failed to login please try again with a different password or email address");
-        }
-      })
-      .catch((error) => {
-        console.error("Login failed:", error);
-      });
+    signInWithEmailAndPassword(auth, email, password).then(async (Success) => {
+      const token = await auth.currentUser?.getIdToken();
+      window.localStorage.setItem("Token", token ?? "");
+      navigate(homepageRoute);
+    }).catch(HandleLoginErrors);
   };
+
+  const createNewAccount = (): void => {
+    createUserWithEmailAndPassword(auth, email, password).then(async (credentials) => {
+      const token = await auth.currentUser?.getIdToken();
+      window.localStorage.setItem("Token", token ?? "");
+      navigate(homepageRoute);
+
+      console.log(token);
+    }).catch(HandleLoginErrors);
+  }
+
+  const loginWithProvider = async (providerSelected: Providers) => {
+    let provider;
+    try {
+
+      switch (providerSelected) {
+        case Providers.google:
+          provider = googleProvider;
+          break;
+
+        case Providers.github:
+          provider = githubProvider;
+          break;
+
+        default:
+          setErrorCode('Unsupported provider was given Error 405')
+          throw new Error("Unsupported provider");
+      }
+
+      const result = await signInWithRedirect(auth, provider);
+
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
   const submitCreateAccount = (): void => {
-    if (!username || !ProfilePicture || !password || !email) {
-      setErrorMessage(`${username === "" ? "Username missing" : ""} 
-        ${!ProfilePicture ? "Profile picture missing " : ""} 
+    if (!username || !password || !email) {
+      setErrorCode(`${username === "" ? "Username missing" : ""} 
         ${password === "" ? "password missing " : ""} 
         ${email === "" ? "email missing " : ""} `)
       return;
     }
-
-    if (ProfilePicture !== null) {
-      smort.CreateAccountAsync(email, password, ProfilePicture, username)
-        .then(() => {
-          setLogin(!Login);
-        })
-        .catch((error) => {
-          console.error("Create account failed:", error);
-        });
-    }
+    createNewAccount();
   };
+
   return (<>
     <div>
       <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
@@ -58,64 +133,44 @@ export const LoginPage = (): JSX.Element => {
         <div className={Style.LoginBackground}>
           <h1 className="text-center">    {Login ? (<>inloggen</>) : (<> Aanmelden</>)}</h1>
           {Login ? (
-            <Form>
-              <Form.Group as={Row} className={Style.Row}>
-                <Col sm="12">
-                  <Form.Control
-                    defaultValue={email}
-                    className={Style.InputFields}
-                    type="text"
-                    placeholder="enter email"
-                    onChange={(Element) => { setEmail(Element.target.value) }} />
-                </Col>
-              </Form.Group>
+            <>
+              <Form>
+                <Form.Group as={Row} className={Style.Row}>
+                  <Col sm="12">
+                    <Form.Control
+                      defaultValue={email}
+                      className={Style.InputFields}
+                      type="text"
+                      placeholder="enter email"
+                      onChange={(Element) => { setEmail(Element.target.value) }} />
+                  </Col>
+                </Form.Group>
 
-              <Form.Group as={Row} className={Style.Row}>
-                <Col sm="12">
-                  <Form.Control
-                    type="password"
-                    className={Style.InputFields}
-                    defaultValue={password}
-                    placeholder="enter password"
-                    onChange={(Element) => { setPassword(Element.target.value) }} />
-                </Col>
-              </Form.Group>
-              <div className={"d-grid gap-2 " + Style.Submit}>
-                <Button size="lg" variant="primary" type="submit"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    submitLogin()
-                  }}>
-                  Login
-                </Button>
-              </div>
-            </Form>
+                <Form.Group as={Row} className={Style.Row}>
+                  <Col sm="12">
+                    <Form.Control
+                      type="password"
+                      className={Style.InputFields}
+                      defaultValue={password}
+                      placeholder="enter password"
+                      onChange={(Element) => { setPassword(Element.target.value) }} />
+                  </Col>
+                </Form.Group>
+                <div className={"d-grid gap-2 " + Style.Submit}>
+                  <Button size="lg" variant="primary" type="submit"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      submitLogin()
+                    }}>
+                    Login
+                  </Button>
+                </div>
+              </Form>
+              <Button onClick={() => loginWithProvider(Providers.google)}>Login Google</Button>
+              <Button onClick={() => loginWithProvider(Providers.github)}>Login Github</Button>
+            </>
           ) : (
             <> <Form>
-              <Form.Group as={Row} className={Style.Row}>
-                <Col>
-                  <input
-                    required
-                    type="file"
-                    placeholder="enter email"
-                    hidden
-                    onChange={(Element) => {
-                      setProfilePicture(Element.target.files?.[0] || null)
-
-                    }}
-                    ref={inputRefrence} />
-                  <div className={Style.ProfilePictureAddDiv}>
-                    <Button
-                      className={Style.PfPicture}
-                      onClick={() => {
-                        inputRefrence.current?.click()
-                      }}>
-                      {ProfilePicture ? (<img src={URL.createObjectURL(ProfilePicture)} />) : (<div> Upload Profile Picture</div>)}
-                    </Button>
-                  </div>
-                </Col>
-              </Form.Group>
-
               <Form.Group as={Row} className={Style.Row}>
                 <Col sm="12">
                   <Form.Control
@@ -152,21 +207,22 @@ export const LoginPage = (): JSX.Element => {
                   onClick={(event) => {
                     event.preventDefault();
                     submitCreateAccount()
+
                   }}>
                   Create new account
                 </Button>
               </div>
             </Form></>
           )}
-          {errorMessage !== "" &&
+          {errorCode !== "" &&
             <div className={Style.error}>
-              {errorMessage}
+              {errorCode}
             </div>}
 
 
           <Button className={Style.SwitchRequest} onClick={() => {
             setLogin(!Login)
-            setErrorMessage("");
+            setErrorCode("");
           }}>
             {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
           </Button>

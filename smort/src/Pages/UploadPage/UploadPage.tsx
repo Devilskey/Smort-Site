@@ -1,10 +1,10 @@
 import { Button } from 'react-bootstrap'
 import Style from './UploadPage.module.scss'
 import { smortApi as smort } from '../../Api/smortApi'
-import React, { createRef, useRef } from 'react'
+import React, { createRef, ReactElement, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 
-export const UploadPage = (): JSX.Element => {
+export const UploadPage = (): ReactElement => {
 
 	const [ContentFile, setContentFile] = React.useState<File | null>(null)
 	const [Title, setTitle] = React.useState<string>("")
@@ -17,7 +17,6 @@ export const UploadPage = (): JSX.Element => {
 			setContentFile(file)
 		}
 	}
-
 
 	const GetContentType = (): string => {
 		if (ContentFile === null) {
@@ -35,8 +34,8 @@ export const UploadPage = (): JSX.Element => {
 		return "Nan"
 	}
 
-	const ShowVideo = (): JSX.Element => (<video autoPlay className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
-	const ShowImage = (): JSX.Element => (<img className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
+	const ShowVideo = (): ReactElement => (<video autoPlay className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
+	const ShowImage = (): ReactElement => (<img className={Style.PreviewImage} src={ContentFile ? URL.createObjectURL(ContentFile) : ''} />);
 
 	return (
 		<div className={Style.Page}>

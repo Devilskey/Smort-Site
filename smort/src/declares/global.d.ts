@@ -8,3 +8,6 @@ declare module '*.module.scss' {
     export default value;
   }
 
+declare module '*.css';
+declare module '*.scss';
+declare module '*.sass';

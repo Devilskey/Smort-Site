@@ -7,12 +7,13 @@ import { OptionsButtons } from "./OptionsBar"
 import { SmortVideo } from "../MicroComponents/Video.smort"
 import { size } from "../../Api/enums/sizes"
 import { AskQuestion } from "../PostTypes/AskQuestion/AskQuestion"
+import { ReactElement } from "react"
 
 interface ContentProps {
   postsList: ContentItem[]
 }
 
-export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): JSX.Element => {
+export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): ReactElement => {
 
 
 

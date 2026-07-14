@@ -1,15 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { smortApi as Smort } from "../Api/smortApi";
 import { Role } from "../Api/enums/Roles";
-import { IMyProfile } from "../Api/ApiObjects/userObjects";
 
 interface LogedInRoutes {
     NeededRol: Role
 }
 
-
-export const RoleCheck = ({ NeededRol }: LogedInRoutes): JSX.Element => {
+export const RoleCheck = ({ NeededRol }: LogedInRoutes): ReactElement => {
     const [hasRole, setHasRole] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
 

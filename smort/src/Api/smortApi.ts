@@ -36,19 +36,7 @@ export class smortApi {
     }
   }
 
-
-  // public static async PingApi(): Promise<boolean> {
-  //   this.SetUpApiUrl();
-  //   let returneValue = false;
-  //   await fetch(this.ApiUrl).then((result) => {
-  //     returneValue = true;
-  //   }).catch((error) => console.error(error))
-  //   return returneValue;
-  // }
-
   public static SetupNotifications() {
-
-
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(`${this.ApiUrl}/Notify`, {
         accessTokenFactory: () => { return `${this.Token}` },
@@ -86,7 +74,6 @@ export class smortApi {
     }
   }
 
-
   public static GetUserRole(): number {
     if (this.Token !== null) {
       let decoded = jwtDecode<SmortTokenPayload>(this.Token);
@@ -95,90 +82,11 @@ export class smortApi {
     return -1;
   }
 
-
   public static getUser(): IMyProfile | undefined {
     if (this.User !== null) {
       return this.User;
     }
     return undefined;
-  }
-
-
-  public static IsLogedIn(): boolean {
-    this.LoadCookies();
-    if (this.Token === "Data received Empty") {
-      return false;
-    }
-    if (this.Token !== null) {
-      return true;
-    }
-    return false;
-  }
-
-
-  public static async LoginAsync(email: string, password: string): Promise<boolean> {
-    const httpHeader = {
-      "Content-Type": "application/json",
-      'Accept': 'text/plain'
-    };
-
-    let IsLoggedIn = false;
-
-    await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/Login`,
-      { email: email, password: password }, httpHeader)
-      .then((response) => response.text())
-      .then((token) => {
-        this.Token = token;
-        if (this.Token?.startsWith("ey")) {
-          IsLoggedIn = true;
-          if (typeof this.Token === 'string') {
-            Cookies.set("jwtToken", this.Token)
-          }
-        }
-      });
-    return IsLoggedIn;
-  }
-
-  public static async CreateAccountAsync(email: string, password: string, Profile_Picture: File, Username: string) {
-    const httpHeader = {
-      "Content-Type": "application/json",
-      'Accept': 'text/plain'
-    };
-
-    if (!email || !password || !Username || !Profile_Picture) {
-      return;
-    }
-
-    const reader = new FileReader();
-
-    let base64Pf = "";
-    const img = new Image();
-
-    reader.onload = async (event) => {
-      if (event.target?.result) {
-        const image = event.target.result as string;
-        const parts = image.split(',');
-
-        if (parts.length === 2) {
-          img.onload = async () => {
-            await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/CreateAccount`, {
-              email: email,
-              password: password,
-              username: Username,
-              profilePicture: parts[1],
-              size: {
-                Width: img.width,
-                Height: img.height
-              },
-            }, httpHeader);
-          };
-
-          img.src = URL.createObjectURL(Profile_Picture);
-        }
-      }
-    };
-
-    reader.readAsDataURL(Profile_Picture);
   }
 
   public static async GetMyProfileAsync(): Promise<IMyProfile> {
@@ -199,7 +107,8 @@ export class smortApi {
     let dataUser: IMyProfile = {
       id: null,
       username: "",
-      profile_Picture: 0
+      profile_Picture: 0,
+      Is_Account_Configured: false
     };
 
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
@@ -374,7 +283,6 @@ export class smortApi {
       return false;
     }
     return new Promise((resolve, reject) => {
-      let chunkUploadSuccessful = true;
       var UUIDApiCall = crypto.randomUUID();
 
       const chunkSize = (1024 * 1024) * 20;

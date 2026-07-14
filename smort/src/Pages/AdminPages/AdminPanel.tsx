@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { smortApi as Smort, smortApi } from "../../Api/smortApi";
 import Style from "./AdminPanel.module.scss"
 import { IUser } from "../../Api/ApiObjects/IUser";
@@ -6,7 +6,7 @@ import { Button, Table } from "react-bootstrap";
 
 type NavigationOptions = "Welcome" | "ManageUsers" | "Reports" | "ManageContent";
 
-export const AdminPanel = (): JSX.Element => {
+export const AdminPanel = (): ReactElement => {
     const User = Smort.getUser();
     // Welcome, Manage User 
 
@@ -39,7 +39,7 @@ export const AdminPanel = (): JSX.Element => {
         </section>)
 }
 
-export const ManageUsers = (): JSX.Element => {
+export const ManageUsers = (): ReactElement => {
     const [Users, setUsers] = useState<IUser[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -96,14 +96,14 @@ export const ManageUsers = (): JSX.Element => {
     </div>
 }
 
-export const Reports = (): JSX.Element => {
+export const Reports = (): ReactElement => {
     const User = Smort.getUser();
 
     return <div >
     </div>
 }
 
-export const ManageContent = (): JSX.Element => {
+export const ManageContent = (): ReactElement => {
     const User = Smort.getUser();
 
     return <div >
@@ -112,7 +112,7 @@ export const ManageContent = (): JSX.Element => {
 
 
 
-export const Welcome = (): JSX.Element => {
+export const Welcome = (): ReactElement => {
     const User = Smort.getUser();
 
     return <div className={Style.WelcomeUser}>

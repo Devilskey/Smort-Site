@@ -1,7 +1,7 @@
 
-import { createRef, JSX, useEffect, useRef, useState } from "react"
+import { createRef, ReactElement, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 import { smortApi as smort } from "../../Api/smortApi";
 import { IMyProfile } from "../../Api/ApiObjects/userObjects";
@@ -11,15 +11,12 @@ import Style from "./AccountPage.module.scss";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { NavBarSmortMobile } from "../../component/NavbarMobile/NavbarMobile";
-import { UploadIcon } from "../../icons/Interections.icon";
-import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
-import { size } from "../../Api/enums/sizes";
 import { EditUserDataModalHandle, EditUserDataModal } from "../../component/Modals/EditUserData/EditUserData.Modal";
 import { UploadContentModalHandle, UploadContentModal } from "../../component/Modals/UploadContent/UploadContent.Modal";
 import { ProfileHeader } from "./Components/ProfileHeader";
 
 
-export const AccountPage = (): JSX.Element => {
+export const AccountPage = (): ReactElement => {
   const [user, setUser] = useState<IMyProfile>();
   const { id } = useParams()
   const [ContentList, SetContentList] = useState<ThumbnailObject[] | null>(null);
@@ -31,10 +28,7 @@ export const AccountPage = (): JSX.Element => {
   const UploadContentComponent = useRef<UploadContentModalHandle>(null);
   const CreateAskQuestionComponent = useRef<UploadContentModalHandle>(null);
 
-  // const [Navigation, SetNavigation] = useState<"Content" | "Project">("Content");
-
   useEffect(() => {
-    // Fetch user profile only once
     if (smort.getUser() === undefined && id === undefined) {
 
       smort.GetMyProfileAsync()
@@ -105,40 +99,6 @@ export const AccountPage = (): JSX.Element => {
           setFollowerAmmount={setFollowerAmmount}
           setFollower={setFollower}
           EditUserComponent={EditUserComponent} />
-
-        {/* * Users Content
-        <Container >
-          {user !== undefined &&
-            <div className={Style.CreateContent}>
-              <button className={Style.uploadContent} onClick={() => {
-                UploadContentComponent.current?.toggleModal();
-              }}>
-                Upload Video <UploadIcon />
-              </button>
-
-              <button className={Style.uploadContent} onClick={() => {
-                CreateAskQuestionComponent.current?.toggleModal();
-              }}>
-                Ask Question
-              </button>
-            </div>
-          }
-
-          <div>
-            <Row xs={3} md={3} className="g-2" >
-              {user !== undefined &&
-                <Col key={"Upload"} xs={6} sm={6} md={4} xl={3} >
-                  <Card className="card">
-
-                  </Card>
-                </Col>
-              }
-              {ContentList?.map((item: ThumbnailObject, idx) => (
-                <ThumbnailCard Post={item} deleteMode={deleteMode} />
-              ))}
-            </Row>
-          </div>
-        </Container > */}
 
         <Container className={Style.Scroll}>
 

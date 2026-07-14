@@ -1,6 +1,3 @@
-import { size } from "../Api/enums/sizes";
-import { AndroidHandler } from "../PlatformSpecificScripts/Android";
-
 export class Setting {
     private static UrlHref = window.location.hostname;
 

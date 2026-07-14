@@ -2,7 +2,7 @@ import { Col, Card } from "react-bootstrap";
 import Style from './ThumbnailCard.module.scss'
 import { smortApi as smort } from "../../Api/smortApi";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
-import { createRef } from "react";
+import { createRef, ReactElement } from "react";
 import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen/ShowContentFullScreen.Modal";
 
 interface IProps {
@@ -10,7 +10,7 @@ interface IProps {
   deleteMode: boolean
 }
 
-export const ThumbnailCard = ({ Post, deleteMode }: IProps): JSX.Element => {
+export const ThumbnailCard = ({ Post, deleteMode }: IProps): ReactElement => {
   const ShowContentFullScreenComponent = createRef<ShowContentFullScreenHandle>();
 
   console.log(Post);

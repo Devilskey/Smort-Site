@@ -1,5 +1,5 @@
 
-import { JSX, useEffect, useRef, useState } from "react"
+import { ReactElement, useEffect, useRef, useState } from "react"
 import { smortApi as smort } from "../Api/smortApi"
 import { Link } from "react-router-dom"
 import { IMyProfile } from "../Api/ApiObjects/userObjects";
@@ -15,7 +15,7 @@ import { handleDragScroll } from "../core/DragScroll";
 import { size } from "../Api/enums/sizes";
 
 
-export const HomePage = (): JSX.Element => {
+export const HomePage = (): ReactElement => {
   const [user, setUser] = useState<IMyProfile>();
 
   const [ContentList, SetContentList] = useState<ContentItem[]>([]);
@@ -44,8 +44,6 @@ export const HomePage = (): JSX.Element => {
 
       });
     }
-
-
   }, []);
 
   useEffect(() => {
