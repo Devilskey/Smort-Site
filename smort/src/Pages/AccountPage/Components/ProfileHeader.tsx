@@ -5,6 +5,7 @@ import { IUser } from '../../../Api/ApiObjects/IUser';
 import { size } from '../../../Api/enums/sizes';
 import { IMyProfile } from '../../../Api/ApiObjects/userObjects';
 import { useParams } from 'react-router-dom';
+import { JSX } from 'react';
 
 export interface IProfileHeaderProps {
   user: IMyProfile | undefined,

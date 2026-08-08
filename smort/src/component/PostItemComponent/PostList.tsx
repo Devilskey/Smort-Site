@@ -7,6 +7,7 @@ import { OptionsButtons } from "./OptionsBar"
 import { SmortVideo } from "../MicroComponents/Video.smort"
 import { size } from "../../Api/enums/sizes"
 import { AskQuestion } from "../PostTypes/AskQuestion/AskQuestion"
+import { JSX } from "react";
 
 interface ContentProps {
   postsList: ContentItem[]

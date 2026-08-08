@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { smortApi as Smort, smortApi } from "../../Api/smortApi";
 import Style from "./AdminPanel.module.scss"
 import { IUser } from "../../Api/ApiObjects/IUser";

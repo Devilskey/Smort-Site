@@ -2,7 +2,7 @@ import { Col, Card } from "react-bootstrap";
 import Style from './ThumbnailCard.module.scss'
 import { smortApi as smort } from "../../Api/smortApi";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
-import { createRef } from "react";
+import { createRef, JSX } from "react";
 import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen/ShowContentFullScreen.Modal";
 
 interface IProps {

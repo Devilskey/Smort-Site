@@ -6,6 +6,7 @@ import Style from './Navbar.module.scss';
 import logo from '../SiteAssets/Smort_Logo.png';
 import { Link, useLocation } from "react-router-dom";
 import { AndroidHandler } from "../PlatformSpecificScripts/Android";
+import { JSX } from "react";
 
 interface props {
   Search: (search: string) => void;

@@ -1,4 +1,4 @@
-import React, { Component, forwardRef, useImperativeHandle, useState } from 'react';
+import React, { Component, forwardRef, JSX, useImperativeHandle, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap'; // Assuming you're using react-bootstrap
 import { EeditUserType } from '../../../Api/enums/EditUserEnum';
 import { smortApi as smort } from '../../../Api/smortApi';

@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap'
 import Style from './UploadPage.module.scss'
 import { smortApi as smort } from '../../Api/smortApi'
-import React, { createRef, useRef } from 'react'
+import React, { createRef, JSX, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 
 export const UploadPage = (): JSX.Element => {

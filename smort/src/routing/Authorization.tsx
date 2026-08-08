@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { JSX, ReactNode, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { smortApi as Smort } from "../Api/smortApi";
 import { Role } from "../Api/enums/Roles";

@@ -1,5 +1,6 @@
 import Style from "./ServerIssues.module.scss";
 import logo from "../SiteAssets/Smort_Logo.png"
+import { JSX } from "react";
 
 export const ServerIssues = ():JSX.Element => {
     return <section className={Style.Page}>

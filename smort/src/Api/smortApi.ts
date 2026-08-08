@@ -14,7 +14,7 @@ import { IUser } from "./ApiObjects/IUser";
 import { Answer } from "./ApiObjects/Awnser";
 
 export class smortApi {
-  public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
+  public static ApiUrl: string = "https://api.socials.devilskey.nl";
 
   protected static User: IMyProfile;
   protected static Token: string | null = null;
@@ -27,7 +27,7 @@ export class smortApi {
   public static SetUpApiUrl() {
     if (window.location.hostname.includes("devilskey.nl") ||
       window.location.hostname.includes("smorthub.nl")) {
-      this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
+      this.ApiUrl = "https://api.socials.devilskey.nl";
       return;
     }
     else {
