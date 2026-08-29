@@ -7,3 +7,7 @@ declare module '*.module.scss' {
     const value: string;
     export default value;
   }
+
+declare module '*.css';
+declare module '*.scss';
+declare module '*.sass';

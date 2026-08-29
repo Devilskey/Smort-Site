@@ -1,0 +1,160 @@
+@use '../../../Color' as *;
+
+.Page {
+    height: 100dvh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Actions {
+    display: flex;
+    flex-direction: row;
+}
+
+.PreviewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.backgroundModalHeader {
+    background-color: $Primary-Background;
+    border-bottom: $Following-Primary solid;
+    color: whitesmoke ;
+
+
+}
+
+.backgroundModal {
+    background-color: $Primary-Background;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .Form {
+        width: 100%;
+        height: 100%;
+        align-content: center;
+        justify-content: center;
+        button {
+           background-color: $Primary-Button ;
+           border:  none; 
+           width: 100%;
+           height: 50%;
+           background-color: rgba(126, 126, 126, 0.215) ;
+           border: $Following-Border-gradient dashed ;
+           color: $Following-Border-gradient;
+           font-size: 18px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           flex-direction: column;
+           i {
+            font-size: 50px;
+            margin: 16px;
+           }
+        }
+       
+    }
+
+    textarea {
+        width: 100%;
+    }
+}
+
+.backgroundModalfooter {
+    background-color: $Primary-Background !important ;
+    button {
+       background-color: $Primary-Button !important;
+       border: solid $Primary-Button-border 2px !important; 
+    }
+}
+
+.Modal {
+    border-radius: solid black !important;
+    overflow: hidden;
+    --bs-modal-bg: none !important;
+    color: whitesmoke !important;
+}
+
+.PostOption{
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: $OptionsForm-FotosAndVideo !important;
+    border-color:  $OptionsForm-FotosAndVideo-border !important;
+
+    height: 154px ;
+    width: 90%;
+    i {
+        font-size: 48px;
+    }
+}
+
+.AskOption {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: $OptionsForm-Ask !important;
+    border-color:  $OptionsForm-Ask-border !important;
+    height: 154px ;
+    width: 90%;
+    margin: 24px 0px;
+    i {
+        font-size: 48px;
+    }
+}
+
+
+
+@media (min-width: 1000px) {
+    .UploadOptions {
+        width: 30vw;
+    }
+
+    .UploadContentEmpty {
+        width: 100%;
+    }
+
+    .UploadContentFilled {
+        width: 100%;
+        max-height: 800px !important;
+        padding: 0px !important;
+        background-color: black;
+    }
+
+    .InputFields {
+        width: 500px;
+    }
+}
+
+
+@media (max-width: 1000px) {
+    .UploadOptions {
+        width: 100vw;
+    }
+
+    .UploadContentEmpty {
+        width: 100%;
+
+    }
+
+    .UploadContentFilled {
+        width: 100%;
+        max-height: 800px !important;
+        padding: 0px !important;
+        background-color: black;
+    }
+
+    .InputFields {
+        width: 100vw;
+    }
+}

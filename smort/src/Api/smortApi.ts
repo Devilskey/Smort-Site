@@ -1,31 +1,81 @@
-import { publicDecrypt, randomUUID } from "crypto";
 import { Api } from "./Api";
 import { ThumbnailObject } from "./ApiObjects/ThumbnailObjects";
 import { IMyProfile } from "./ApiObjects/userObjects";
-import { Video } from "./ApiObjects/VideoObject";
 import Cookies from 'js-cookie';
-import { PostImage } from "./ApiObjects/PostImageObjects";
 import { EeditUserType } from "./enums/EditUserEnum";
 import { ErrorHandler } from "./Logging";
 import { httpHeaders } from "./httpHeaders"
-export class smortApi {
+import { ContentItem } from "./ApiObjects/ContentObject";
+import { FollowingUser } from "./ApiObjects/FollowingObjects";
+import * as signalR from '@microsoft/signalr';
+import { jwtDecode } from "jwt-decode";
+import { SmortTokenPayload } from "./enums/TokenPayload";
+import { IUser } from "./ApiObjects/IUser";
+import { Answer } from "./ApiObjects/Awnser";
 
-  public static ApiUrl: string =  "https://devilskey.nl/apiSmortSocials"; //"https://localhost:7047";
+export class smortApi {
+  public static ApiUrl: string = "https://api.socials.devilskey.nl";
 
   protected static User: IMyProfile;
-  protected static Token: string | null = null;
+  public static Token: string | null = null;
   protected static LoggedIn: boolean = false;
 
-  public static LoadCookies(): void {
-    this.Token = Cookies.get("jwtToken") ?? null;
-  }
 
   public static SetUpApiUrl() {
     if (window.location.hostname.includes("devilskey.nl") ||
       window.location.hostname.includes("smorthub.nl")) {
-      this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
+      this.ApiUrl = "https://api.socials.devilskey.nl";
       return;
     }
+    else {
+      this.ApiUrl = "https://localhost:7147";
+      return;
+    }
+  }
+
+  public static SetupNotifications() {
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`${this.ApiUrl}/Notify`, {
+        accessTokenFactory: () => { return `${this.Token}` },
+        withCredentials: true,
+      })
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+
+    connection.start().then(() => console.log("Connected"))
+      .catch(err => console.error("Error connecting:", err));
+
+    connection.on("ReceiveNotificationVideo", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationFollow", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationFollowing", (message) =>
+      this.ManageNotificationsFromApi(message));
+
+    connection.on("ReceiveNotificationLike", (message) =>
+      this.ManageNotificationsFromApi(message));
+  }
+
+  private static ManageNotificationsFromApi(message: string) {
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: "SHOW_NOTIFICATION",
+        message,
+      });
+    } else {
+      alert(message)
+    }
+  }
+
+  public static GetUserRole(): number {
+    if (this.Token !== null) {
+      let decoded = jwtDecode<SmortTokenPayload>(this.Token);
+      return decoded.role
+    }
+    return -1;
   }
 
   public static getUser(): IMyProfile | undefined {
@@ -33,83 +83,6 @@ export class smortApi {
       return this.User;
     }
     return undefined;
-  }
-
-  public static IsLogedIn(): boolean {
-    this.LoadCookies();
-    console.log(`[${this.Token}]`)
-    if (this.Token === "Data received Empty") {
-      return false;
-    }
-    if (this.Token !== null) {
-      return true;
-    }
-    return false;
-  }
-
-  public static async LoginAsync(email: string, password: string): Promise<boolean> {
-    const httpHeader = {
-      "Content-Type": "application/json",
-      'Accept': 'text/plain'
-    };
-
-    let IsLoggedIn = false;
-
-    await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/Login`,
-      { email: email, password: password }, httpHeader)
-      .then((response) => response.text())
-      .then((token) => {
-        this.Token = token;
-        if (this.Token !== "Data received Empty" && this.Token !== "Already an account using this Email") {
-          IsLoggedIn = true;
-          if (typeof this.Token === 'string') {
-            Cookies.set("jwtToken", this.Token)
-          }
-        }
-      });
-    return IsLoggedIn;
-  }
-
-  public static async CreateAccountAsync(email: string, password: string, Profile_Picture: File, Username: string) {
-    const httpHeader = {
-      "Content-Type": "application/json",
-      'Accept': 'text/plain'
-    };
-
-    if (!email || !password || !Username || !Profile_Picture) {
-      return;
-    }
-
-    const reader = new FileReader();
-
-    let base64Pf = "";
-    const img = new Image();
-
-    reader.onload = async (event) => {
-      if (event.target?.result) {
-        const image = event.target.result as string;
-        const parts = image.split(',');
-
-        if (parts.length === 2) {
-          img.onload = async () => {
-            await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/CreateAccount`, {
-              email: email,
-              password: password,
-              username: Username,
-              profilePicture: parts[1],
-              size: {
-                Width: img.width,
-                Height: img.height
-              },
-            }, httpHeader);
-          };
-
-          img.src = URL.createObjectURL(Profile_Picture);
-        }
-      }
-    };
-
-    reader.readAsDataURL(Profile_Picture);
   }
 
   public static async GetMyProfileAsync(): Promise<IMyProfile> {
@@ -120,25 +93,25 @@ export class smortApi {
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: IMyProfile = await response.json();
-        console.log(jsonData)
         this.User = jsonData;
       });
     return this.User;
   }
+
   public static async GetProfileAsync(id: number): Promise<IMyProfile> {
 
     let dataUser: IMyProfile = {
+      id: null,
       username: "",
-      profile_Picture: 0
+      profile_Picture: 0,
+      Is_Account_Configured: false
     };
 
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
       .then(async (response) => {
         const jsonData: any[] = await response.json();
-        console.log(jsonData)
         dataUser.username = jsonData[0].Username;
         dataUser.profile_Picture = jsonData[0].Profile_Picture;
-
       });
 
     return dataUser;
@@ -148,92 +121,50 @@ export class smortApi {
     return `${this.ApiUrl}/Images/GetUsersProfileImage?UserId=${UserId}`
   }
 
-  public static GetImageUrl(profile_Picture?: number) {
-    if (profile_Picture) {
-      return `${this.ApiUrl}/Images/GetImage?ImageId=${profile_Picture}`
+  public static GetImageUrl(id?: number, content: boolean = true) {
+    if (id) {
+      return `${this.ApiUrl}/Images/GetImage?ImageId=${id}&IsContent=${content}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&IsContent=${content}`
   }
 
-
-
-
-  public static async GetImageAsync(imageId: string): Promise<PostImage[]> {
-    let images: PostImage[] = [];
+  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {
+    let images: ContentItem[] = [];
     if (this.Token !== null) {
 
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/GetImageFromId?id=${imageId}`,
+      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
-          console.log(jsonData);
+          const jsonData: ContentItem[] = await response.json();
           images = jsonData;
         });
       return images;
 
     }
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/GetImageFromId?id=${imageId}`)
+    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`)
       .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
-        console.log(jsonData);
+        const jsonData: ContentItem[] = await response.json();
         images = jsonData;
       });
     return images;
   }
 
-
-  public static async GetVideoAsync(videoId: string): Promise<Video[]> {
-    let videos: Video[] = [];
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/GetVideoFromId?id=${videoId}`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-    return videos;
-  }
-
-  public static async GetVideoListAsync(): Promise<Video[]> {
-    let videos: Video[] = [];
+  public static async GetContentList(search: string) {
+    let postImages: ContentItem[] = [];
     if (this.Token !== null) {
-
-
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Video/GetVideoList`,
+      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: Video[] = await response.json();
-          console.log(jsonData);
-          videos = jsonData;
-        });
-      return videos;
-    }
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/GetVideoList`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-    return videos;
-  }
-
-  public static async GetListImagePost() {
-    let postImages: PostImage[] = [];
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/GetImagePosts`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
-          console.log(jsonData);
+          
+          const jsonData: ContentItem[] = await response.json();
           postImages = jsonData;
         });
       return postImages;
     }
 
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/GetImagePosts`)
+    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentList?search=${search}`)
       .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
-        console.log(jsonData);
+        const jsonData: ContentItem[] = await response.json();
         postImages = jsonData;
       });
     return postImages;
@@ -244,7 +175,7 @@ export class smortApi {
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetAccountContentList?idUser=${userId}`).then(async (response) => {
       const jsonData: ThumbnailObject[] = await response.json();
       thumbnailData = jsonData;
-    }).catch((error) => console.log(error))
+    }).catch((error) => console.error(error))
     return thumbnailData;
   }
 
@@ -255,9 +186,33 @@ export class smortApi {
 
         const jsonData: ThumbnailObject[] = await response.json();
         thumbnailData = jsonData;
-      }).catch((error) => console.log(error))
+      }).catch((error) => console.error(error))
 
     return thumbnailData;
+  }
+
+  public static async GetFollowingAccounts(): Promise<FollowingUser[]> {
+    let FollowingData: FollowingUser[] = []
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Following/Following`,
+      httpHeaders.httpHeaderJsonWithToken(this.Token)).then(async (response) => {
+
+        const jsonData: FollowingUser[] = await response.json();
+        FollowingData = jsonData;
+      }).catch((error) => console.error(error))
+
+    return FollowingData;
+  }
+
+  public static async GetMostFollowed(): Promise<FollowingUser[]> {
+    let FollowingData: FollowingUser[] = []
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Following/MostFolowers`,
+      httpHeaders.httpHeaderJsonWithToken(this.Token)).then(async (response) => {
+
+        const jsonData: FollowingUser[] = await response.json();
+        FollowingData = jsonData;
+      }).catch((error) => console.error(error))
+
+    return FollowingData;
   }
 
   public static GetVideoUrl(VideoId: number) {
@@ -290,54 +245,6 @@ export class smortApi {
     return followersAmount;
   }
 
-  public static async GetSearchResultsImagePostAsync(Search: string): Promise<PostImage[]> {
-    let images: PostImage[] = [];
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/ImagePosts/SearchImagePost?Search=${Search}`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: PostImage[] = await response.json();
-          console.log(jsonData);
-          images = jsonData;
-        });
-      return images;
-    }
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/ImagePosts/SearchImagePost?Search=${Search}`)
-      .then(async (response) => {
-        const jsonData: PostImage[] = await response.json();
-        console.log(jsonData);
-        images = jsonData;
-      });
-
-    return images;
-  }
-
-  public static async GetSearchResultsAsync(Search: string): Promise<Video[]> {
-    let videos: Video[] = [];
-
-    if (this.Token !== null) {
-      await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Video/SearchVideo?Seach=${Search}`,
-        httpHeaders.httpHeaderJsonWithToken(this.Token))
-        .then(async (response) => {
-          const jsonData: Video[] = await response.json();
-          console.log(jsonData);
-          videos = jsonData;
-        });
-      return videos;
-    }
-
-
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Video/SearchVideo?Seach=${Search}`)
-      .then(async (response) => {
-        const jsonData: Video[] = await response.json();
-        console.log(jsonData);
-        videos = jsonData;
-      });
-
-    return videos;
-  }
-
   public static async FollowUser(IdUserToFollow: string) {
     await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/FollowUser?id=${IdUserToFollow}`, null,
       httpHeaders.httpHeaderJsonWithToken(this.Token)
@@ -365,14 +272,10 @@ export class smortApi {
   }
 
   public static async UploadPostImage(image: File | null, title: string, description: string): Promise<Boolean> {
-    if (!title || !description || !image) {
-      console.log("ERROR Empty" + !title + " : " + !description + " : " + !image)
-      console.log(image)
-
+    if (!description || !image) {
       return false;
     }
     return new Promise((resolve, reject) => {
-      let chunkUploadSuccessful = true;
       var UUIDApiCall = crypto.randomUUID();
 
       const chunkSize = (1024 * 1024) * 20;
@@ -430,17 +333,16 @@ export class smortApi {
   }
 
 
-  public static async UploadVideo(video: File | null, thumbnail: File | null, title: string, description: string):Promise<boolean> {
+
+  public static async UploadVideo(video: File | null, title: string, description: string): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
 
-      if (!title || !description || !video || !thumbnail) {
+      if (!description || !video) {
         return;
       }
 
       var UUIDApiCall = crypto.randomUUID();
-      console.log(thumbnail)
-
       const chunkSize = (1024 * 1024) * 20;
       const totalChunks = Math.ceil(video.size / chunkSize);
 
@@ -451,32 +353,8 @@ export class smortApi {
 
         const reader = new FileReader();
 
-        let base64Thumbnail = "";
-
         let width = 0;
         let height = 0;
-
-        if (thumbnail) {
-          const thumbnailReader = new FileReader();
-          thumbnailReader.onload = (event) => {
-            if (event.target?.result) {
-              const Image = event.target.result as string;
-              const parts = Image.split(',');
-              if (parts.length === 2) {
-                base64Thumbnail = parts[1];
-              }
-            }
-          };
-          thumbnailReader.readAsDataURL(thumbnail);
-
-          const img = new Image();
-          img.onload = (event) => {
-            width = img.width;
-            height = img.height;
-
-          }
-          img.src = URL.createObjectURL(thumbnail);
-        }
 
         reader.readAsDataURL(chunk);
         reader.onload = async () => {
@@ -485,7 +363,6 @@ export class smortApi {
           const payload = {
             GUIDObjSender: UUIDApiCall,
             MediaData: base64Chunk,
-            Thumbnail: base64Thumbnail,
             size: {
               Width: width,
               Height: height
@@ -496,10 +373,6 @@ export class smortApi {
             Title: title,
             Description: description,
           };
-
-          console.log(payload)
-          console.log("payload", payload.GUIDObjSender)
-
           try {
             await Api.SendApiRequestPostAsync(`${this.ApiUrl}/Videos/UploadVideo`, payload,
               httpHeaders.httpHeaderJsonWithToken(this.Token)
@@ -508,13 +381,13 @@ export class smortApi {
                 resolve(true);
               }
             });
-            } catch (error) {
-              console.error(`Error uploading chunk ${chunkNumber}:`, error);
-              reject(false);
-            }
-          };
-        }
-      });
+          } catch (error) {
+            console.error(`Error uploading chunk ${chunkNumber}:`, error);
+            reject(false);
+          }
+        };
+      }
+    });
   }
 
   public static DeleteUser(DeletedName: string) {
@@ -642,5 +515,129 @@ export class smortApi {
         break;
     }
     return false;
+  }
+
+  public static async GetAllUsers(): Promise<IUser[]> {
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+    };
+
+    try {
+      const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Admin/users/All`, HttpHeaderGet);
+      const data: IUser[] = await response.json();
+
+
+      if (Array.isArray(data)) {
+        return data as IUser[];
+      } else {
+        console.error("GetAllUsers: Response is not an array", data);
+        return [];
+      }
+    } catch (error) {
+      ErrorHandler(error);
+      return [];
+    }
+  }
+
+  public static async SetUserAlow(UserId: number, Allow: boolean): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/Admin/users/PlatformAccess`, { Id: UserId, Allow: Allow }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+  public static async CreateQuestion(Content: string): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/AskMe/CreateQuestion`, { content: Content }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+  public static async CreateAnswer(Content: string, questionId: number): Promise<boolean> {
+
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+    const response = await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/AskMe/CreateAnswer/${questionId}`, { content: Content }, HttpHeaderGet);
+    if (response.ok) {
+      return true
+    }
+    return false
+  }
+
+
+  public static async GetAwnser(questionId: number): Promise<Answer[] | undefined> {
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+
+    const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/AskMe/Answer/${questionId}`, HttpHeaderGet);
+
+    const jsonData: Answer[] = await response.json();
+    if (response.ok) {
+      return jsonData
+    }
+    return undefined;
+  }
+
+  public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
+    const httpHeader = {
+      "Content-Type": "application/json",
+      'Accept': 'text/plain',
+      "Authorization": `Bearer ${this.Token}`,
+    };
+
+    if (!email || !Username || !Profile_Picture) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    let base64Pf = "";
+    const img = new Image();
+
+    reader.onload = async (event) => {
+      if (event.target?.result) {
+        const image = event.target.result as string;
+        const parts = image.split(',');
+
+        if (parts.length === 2) {
+          img.onload = async () => {
+            await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/ConfigureUserData`, {
+              email: email,
+              username: Username,
+              profilePicture: parts[1],
+              size: {
+                Width: img.width,
+                Height: img.height
+              },
+            }, httpHeader);
+          };
+
+          img.src = URL.createObjectURL(Profile_Picture);
+        }
+      }
+    };
+
+    reader.readAsDataURL(Profile_Picture);
   }
 }

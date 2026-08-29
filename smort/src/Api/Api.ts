@@ -9,6 +9,15 @@ export class Api {
         return await fetch(apiUrl, options);
     }
 
+    public static async SendApiRequestPostWithBodyAsync(apiUrl:string, body:any, headers:any){
+        const options = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+        }
+       return await fetch(apiUrl, options);
+    }
+
     public static async SendApiRequestWithHeaderGetAsync(apiUrl:string, headers:any):Promise<any> {
         const options = {
             method: 'GET',

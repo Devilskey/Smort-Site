@@ -1,50 +1,46 @@
-import { BrowserRouter, Routes, Route, useLocation, matchRoutes, useNavigate, } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { HomePage } from "./Pages/HomePage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
-import { useEffect } from "react";
-const SiteRouter = (): JSX.Element => {
+import { AdminPanel } from "./Pages/AdminPages/AdminPanel";
+import { ForceRefresh } from "./routing/ForceRefresh";
+import { AuthorizationNeededRouting } from "./routing/Authorization";
+import { RoleCheck } from "./routing/RoleCheck";
+import { Role } from "./Api/enums/Roles";
+import { ReactElement } from "react";
+import { SetupPage } from "./Pages/SetupPage/SetupPage";
+import { AuthorizationWithoutConfiguration } from "./routing/AuthorizationWithoutConfiguration";
 
+const SiteRouter = (): ReactElement => {
     return (
         <BrowserRouter>
-        <ForceRefresh/>
+
+            <ForceRefresh />
+
             <Routes>
-                <Route path="/login" element={<LoginPage />} key="Login" />
-                <Route path="/account/:id/" element={<AccountPage />} key="AccountOtherUser" />
-                <Route path="/account" element={<AccountPage />} key="MyAccount" />
-                <Route path="/home/:ContentType/:id" element={<HomePage />} key="HomeWithSelectedVideo" />
+                
+                <Route path="*" element={<LoginPage />} />
 
-                <Route path="*" element={<HomePage />} />
+                <Route element={<AuthorizationNeededRouting />}>
+
+                    <Route path="/account/:id" element={<AccountPage />} />
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/home" element={<HomePage />} />
+
+                    <Route element={<RoleCheck NeededRol={Role.Admin} />}>
+                        <Route path="/Smort/Admin" element={<AdminPanel />} />
+                    </Route>
+
+                </Route>
+                <Route element={<AuthorizationWithoutConfiguration />}>
+                    <Route path="/Setup" element={<SetupPage />} />
+                </Route>
+                
             </Routes>
+
         </BrowserRouter>
-    )
+    );
 }
 
-const ForceRefresh = () => {
-    const location = useLocation();
-    const forceRefreshRouteKeys = ["AccountOtherUser", "MyAccount", "HomeWithSelectedVideo"];
-
-    useEffect(() => {
-        if (forceRefreshRouteKeys.some((key) => key === location.key)) {
-            window.location.reload();
-        }
-    }, [location]);
-
-    return null;
-  };
-
-export const PageNavigation = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const refreshPage = () => {
-        navigate(0); 
-        navigate(location.pathname, { replace: true });
-    };
-    
-    refreshPage();
-    return(<></>)
-
-}
 
 export default SiteRouter;

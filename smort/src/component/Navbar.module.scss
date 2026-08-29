@@ -1,50 +1,87 @@
-.UserText{
-    color:lightslategray;
+@use '../Color' as *;
+
+.UserText {
+    color: $Primary-Text;
     font-size: 20px;
     margin: 0px 10px;
+    text-transform: capitalize;
 
 }
-.UserImg{
+
+.UserImg {
     border-radius: 100px;
 }
 
-.User{
-    display: inline-flex;
-    align-items: center;
-    margin: 0 20px;
-}
-.SearchBarDiv{
-    flex: 1;
-    font-size: 20px;
-    border-radius: 50px;
-    border-width: thin;
-    
-    Button {
-        border-width: thin;
+@media (min-width: 991px) {
+    .User {
+        display: inline-flex;
+        align-items: center;
+        margin: 0 20px;
     }
 }
 
-.SearchBarText{
- display: flex !important;
- justify-content: center !important;
- flex: 1;
-}
-
-.Nav{
-    background-color: rgb(41, 41, 41) !important;
-    font-size: 20px;
-    color: whitesmoke;
-}
-
-.navItem{
-    *{
-        display: flex !important;
+@media (max-width: 991px) {
+    .User {
+        display: flex;
         justify-content: center;
+        align-items: center;
     }
+}
+
+.Logo {
+    background-color: $Logo-Background !important;
+    border-radius: 100%;
+    padding: 5px;
+    width: 70px;
+    height: 70px;
+}
+
+.SearchBarDiv {
+    background-color: whitesmoke;
+    display: flex;
+    border: solid;
+    border-width: thin;
+    border-radius: 6px;
+    margin-left: auto;
+    div {
+        display: flex;
+        padding: 0px 4px;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.SearchButton {
+    width: 15%;
+}
+
+.SearchBarText {
+    display: flex !important;
+    justify-content: center !important;
     width: 100%;
 }
 
-.collapse{
-    background-color: white;
-    color: whitesmoke;
+.Nav {
+    background-color: $Primary-NavBar !important;
+    font-size: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+}
+
+.navItem {
+    * {
+        display: flex !important;
+        justify-content: center;
+    }
+
+    width: 100%;
+}
+
+.collapse {
+    background-color: white !important;
+    color: $Primary-Text;
+}
+
+.WhiteTekst {
+    color: $Primary-Text;
+    text-align: center;
 }

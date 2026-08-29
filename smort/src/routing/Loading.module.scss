@@ -1,0 +1,11 @@
+  @use '../Color' as *;
+
+.LoadingScreen {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: $Primary-Background;
+    align-items: center;
+    justify-content: center;
+    color: #D71868;
+}

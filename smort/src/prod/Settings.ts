@@ -1,15 +1,14 @@
 export class Setting {
     private static UrlHref = window.location.hostname;
 
-
     public static Console() {
-        if(!this.IsPartOfNetwork()){
-            return;
-        }
-        console.log = () => {}
-        console.error = () => {}
-        console.warn = () => {}
-        console.info = () => {}
+        // if(!this.IsPartOfNetwork()){
+        //     return;
+        // }
+        // console.log = () => {}
+        // console.error = () => {}
+        // console.warn = () => {}
+        // console.info = () => {}
     }
 
     private static IsPartOfNetwork():boolean {

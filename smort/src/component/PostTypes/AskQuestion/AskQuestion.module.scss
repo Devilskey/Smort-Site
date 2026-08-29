@@ -1,0 +1,48 @@
+@use '../../../Color' as *;
+
+.ContentQuestion{
+    max-height: 300px; 
+    overflow-y: auto;
+
+
+    :nth-child(even) {
+        background-color: $answer-Background-even;
+    }
+
+    :nth-child(odd) {
+        background-color: $answer-Background-uneven;
+    }
+}   
+
+.UserImgSimpel {
+    margin: 0 10px 0 0;
+    border-radius: 100%;
+    margin-bottom: 5px;
+}
+
+.AnswerBox{
+    padding: 12px 12px;
+    
+
+    &:not(:last-of-type)  {
+    border-bottom: 1px solid $answer-Line;
+
+    }
+}
+
+.CreateAnswer {
+    padding: 10px;
+    width: 100%;
+
+    input {
+        width: 100%;
+        margin-bottom: 6px;
+    }
+
+    button {
+               background-color: $Primary-Button !important;
+       border: solid $Primary-Button-border 2px !important; 
+
+        width: 100%;
+    }
+}

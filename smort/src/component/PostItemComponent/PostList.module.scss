@@ -1,0 +1,139 @@
+@use '../../Color' as *;
+
+.loading{
+    display: flex;
+    justify-content: center;
+    width: 100vw !important;
+    align-items: center;
+    color: #D71868;
+    font-size: 20px;
+  }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 84px;
+
+  .UserImgSimpel {
+    margin: 0 10px 0 0;
+    border-radius: 100%;
+    margin-bottom: 5px;
+    border: $Following-Border-gradient solid 2px;
+    
+  }
+
+  .contentItem {
+    box-shadow: 0px 4px 24px rgba(138, 116, 116, 0.194);
+    margin: 1rem 0rem;
+    color: $Primary-Text;
+    border: transparent solid 1px;
+    border-radius: 100%;
+  }
+
+  .UserLink {
+    font-size: 20px;
+    color: $Primary-Text;
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+
+
+  .ContentImg {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    width: 100%;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .Options {
+    color: white;
+    padding: 5px;
+  }
+
+  .User {
+    padding: 10px;
+  }
+
+  video {
+    width: 100%;
+  }
+
+  .contentTitle {
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+
+  .contentDescription {
+    font-size: 15px;
+  }
+
+  .VideoContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: $Primary-Background;
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .LikedColor i {
+    color: #D71868  ;  
+    font-size: 24px;
+  }
+
+  .LikeButton {
+    display: flex;
+    font-size: 20px;
+    border-radius: 8px;
+    min-width: 60px;
+    border: none;
+    background-color: transparent ;
+    color: $LikeButton-border ;
+    div {
+      padding-top: 3px;
+      height: 40px;
+    }
+  }
+
+  .LikeAmountText {
+    font-size: 25px;
+  }
+
+  @media (max-width: 1080px) {
+    .contentItem {
+      border-radius: 12px;
+      width: 90%;
+      position: relative;
+    }
+
+    .ContentImg {
+      min-height: 320px;
+      max-height: 340px;
+    }
+
+    .VideoContainer {
+
+      max-height: 300px;
+    }
+  }
+
+  @media (min-width: 1081px) {
+
+    .ContentImg {
+      min-height: 320px;
+      max-height: 600px;
+    }
+
+    .contentItem {
+      position: relative;
+      border-radius: 12px;
+      width: 50%;
+    }
+  }
+}

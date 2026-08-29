@@ -1,15 +1,18 @@
 import React from 'react';
 
 import SiteRouter from './Router';
-import { smortApi as smort } from './Api/smortApi';
-
+import { ServerIssues } from './Errors/ServerIssues';
+import { TranslationProvider } from './translations/TranslationProvider';
+import Style from './App.module.scss'
 
 
 const App: React.FC = () => {
-  smort.SetUpApiUrl();
-
-  return(
-      <SiteRouter/>
+  return (
+    <TranslationProvider>
+      <section className={Style.App}>
+        {true == true ? <SiteRouter /> : <ServerIssues />}
+      </section>
+    </TranslationProvider>
   );
 };
 
