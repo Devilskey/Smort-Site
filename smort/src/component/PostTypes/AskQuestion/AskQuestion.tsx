@@ -5,19 +5,19 @@ import { ContentItem } from "../../../Api/ApiObjects/ContentObject";
 import { smortApi as smort } from "../../../Api/smortApi";
 import { size } from "../../../Api/enums/sizes";
 import { Answer } from "../../../Api/ApiObjects/Awnser";
+import { useTranslation } from "../../../translations/TranslationProvider";
+import { Button } from "react-bootstrap";
+import { Img } from "../../../core/ImprovedControls/Img";
 
 interface IAskQuestionProps {
   post: ContentItem
 }
 
 export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
+  const { t } = useTranslation();
   const [postAnswers, setPostAnswers] = useState<Answer[]>([]);
   const [answer, setAwnser] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    console.log(postAnswers);
-  }, [postAnswers, loading, answer])
 
   useEffect(() => {
     smort.GetAwnser(post.Id).then((awnser) => {
@@ -41,7 +41,6 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
       setAwnser("");
     }).catch((error) => {
       setLoading(false);
-      console.log(error);
     })
   }
 
@@ -50,14 +49,14 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
       {(postAnswers.length !== 0) ? postAnswers.map((answer, idx) => (
 
         <div id={`Ask-${idx}`} className={Style.AnswerBox}>
-          <img className={Style.UserImgSimpel}
+          <Img className={Style.UserImgSimpel}
             loading="lazy"
             alt="An image Uploaded to smort"
             width="40px" height="40px"
             src={`${smort.GetProfilePictureImageUrl(answer.User_Id)}&size=${size.S}`} />
           {answer.Answer}
         </div>
-      )) : <div className={Style.ContentQuestion}> NO answers where given</div>}
+      )) : <div className={Style.ContentQuestion}>{t('askQuestion.noAnswers')}</div>}
 
     </div>
     <div className={Style.CreateAnswer}>
@@ -66,11 +65,11 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
         onChange={(event) => {
           setAwnser(event.target.value);
         }} />
-      <button
+      <Button
         onClick={submitAnswer}
         disabled={answer === ""}>
-        answer
-      </button>
+        {t('askQuestion.answerButton')}
+      </Button>
     </div>
   </>
 }

@@ -1,0 +1,30 @@
+  @use '../../Color' as *;
+  
+  .Options {
+    color: white;
+    padding: 5px;
+  }
+
+
+  .LikedColor i {
+      color: #D71868  ;  
+      font-size: 30px;
+    }
+  
+  .LikeButton {
+    display: flex;
+    font-size: 24px;
+    border-radius: 8px;
+    min-width: 60px;
+    border: none !important;
+    background-color: transparent !important;
+    color: $LikeButton-border ;
+    div {
+      padding-top: 3px;
+      height: 40px;
+    }
+  }
+
+  .LikeAmountText {
+    font-size: 30px !important;  
+  }

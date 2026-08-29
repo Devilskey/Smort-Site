@@ -8,25 +8,25 @@ import { SmortVideo } from "../MicroComponents/Video.smort"
 import { size } from "../../Api/enums/sizes"
 import { AskQuestion } from "../PostTypes/AskQuestion/AskQuestion"
 import { ReactElement } from "react"
+import { Spinner } from "react-bootstrap"
+import { Img } from "../../core/ImprovedControls/Img"
 
 interface ContentProps {
   postsList: ContentItem[]
 }
 
 export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): ReactElement => {
-
-
-
-  console.log()
-  return (<>
-    {loading ? <p>loading</p> :
+  var i = 1;
+ return (<>
+  
+    {loading ? <div className={Style.loading}><Spinner/></div> :
       <div className={Style.content}>
         {posts.map((post, idx) => (
           <div className={Style.contentItem} key={idx}>
             <div className={Style.User}>
               <Link to={`/account/${post.User_Id}`}
                 className={Style.UserLink}>
-                <img className={Style.UserImgSimpel}
+                <Img className={Style.UserImgSimpel}
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   width="40px" height="40px"
@@ -43,7 +43,7 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
               </div>}
             {post.Type === "img" &&
               <div className={Style.ContentImg}>
-                <img
+                <Img
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   srcSet={`

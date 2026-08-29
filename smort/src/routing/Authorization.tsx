@@ -3,6 +3,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { smortApi as Smort } from "../Api/smortApi";
 import { IMyProfile } from "../Api/ApiObjects/userObjects";
 import { waitForAuth } from "../configs/FirebaseConfig";
+import { LoadingScreen } from "./Loading";
 
 
 export const AuthorizationNeededRouting = (): ReactElement => {
@@ -23,7 +24,6 @@ export const AuthorizationNeededRouting = (): ReactElement => {
 
         Smort.GetMyProfileAsync()
             .then(user => {
-                console.log(user)
                 setUser(user)
                 setLoading(false)
             })
@@ -40,14 +40,14 @@ export const AuthorizationNeededRouting = (): ReactElement => {
     }, [loading]);
 
     if (loading) {
-        return <div>Loading...</div>; // Show a loading state until the check is complete
+        return <LoadingScreen/>; // Show a loading state until the check is complete
     }
 
     if (!user) {
         return <Navigate to="/Login" replace />
     }
 
-    if(!user.Is_Account_Configured) {
+    if(!(user as any).is_Account_Configured) {
         return <Navigate to="/Setup" replace />
     }
 

@@ -8,6 +8,7 @@
 
 }
 
+
 .UserImg {
     border-radius: 100px;
     width: 50px;
@@ -27,7 +28,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        aspect-ratio: 1/1;
 
     }
 }
@@ -41,10 +41,38 @@
     color: $nav-Button;
     background: transparent;
     padding: 5px;
-    border: solid $nav-Button 2px;
-    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 0px 0px 2px rgba(64, 60, 60, 0.359);
+    height: 100%;
+    border-radius: 12px;
+    i {
+        font-size: 20px !important;
+    }
     flex: 1;
+}
 
+.NavButtonUpload {
+    text-align: center;
+    color: $nav-Button;
+    background: $Login-Icon;
+    padding: 5px;
+    border: solid $nav-Button 2px;
+    border-radius: 40px;
+    flex: 0.4;;
+}
+
+.NavButtonActive{
+    text-align: center;
+    color: $nav-Button;
+    background: $Primary-Button-Active;
+    box-shadow: 0px 0px 0px 2px rgba(64, 60, 60, 0.359);
+
+    padding: 5px;
+    border-radius: 12px;
+    flex: 1;
+     i {
+        font-size: 24px !important;
+    }
 }
 
 .NavItems {
@@ -56,13 +84,18 @@
 }
 
 .Nav {
+    margin: 0px 0px 5px 0px;
     display: flex;
+    position: absolute;
     flex-direction: column;
     bottom: 0;
     background-color: $Mobile-Navbar !important;
     font-size: 20px;
     color: $Primary-Text;
-    width: 100%;
+    width: 94%;
+    align-self: center;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 26px rgba(0, 0, 0, 0.545);
 }
 
 .navItem {

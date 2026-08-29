@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ffmpeg/core": "^0.12.6",
-    "@ffmpeg/ffmpeg": "^0.11.5",
-    "@microsoft/signalr": "^8.0.7",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "bootstrap": "^5.3.3",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@microsoft/signalr": "^10.0.11",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "bootstrap": "^5.3.8",
     "crypto-browserify": "^3.3.0",
-    "firebase": "^12.12.1",
-    "js-cookie": "^3.0.5",
+    "firebase": "^12.17.1",
+    "js-cookie": "^3.0.8",
     "jwt-decode": "^4.0.0",
-    "lodash": "^4.17.21",
-    "react": "^19.2.5",
-    "react-bootstrap": "^2.10.5",
-    "react-dom": "^19.2.5",
-    "react-router-dom": "^6.26.2",
+    "lodash": "^4.18.1",
+    "react": "^19.2.8",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2",
     "react-scripts": "^5.0.1",
-    "sass": "^1.79.4"
+    "sass": "^1.102.0"
   },
   "scripts": {
     "start": "react-scripts start ",
@@ -47,13 +47,14 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
-    "@types/lodash": "^4.17.16",
-    "@types/node": "^22.7.4",
+    "@types/lodash": "^4.17.25",
+    "@types/node": "^26.2.0",
     "@types/node-sass": "^4.11.7",
-    "cssnano": "^7.0.6",
+    "cssnano": "^8.0.5",
     "eslint": "^8.57.1",
-    "fs-extra": "^11.2.0",
+    "eslint-config-react-app": "^7.0.1",
+    "fs-extra": "^11.4.0",
     "javascript-obfuscator": "^4.1.1",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^7.4.1"
   }
 }

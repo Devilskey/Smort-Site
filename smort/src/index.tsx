@@ -4,11 +4,11 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Setting } from './prod/Settings';
 import { smortApi } from './Api/smortApi';
+import { checkRedirect } from './configs/FirebaseConfig';
 
 
 smortApi.SetUpApiUrl();
 Setting.Console();
-smortApi.LoadCookies();
 smortApi.SetupNotifications();
 
 const rootElement = document.getElementById('root');

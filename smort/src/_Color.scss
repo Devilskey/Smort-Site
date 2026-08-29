@@ -1,13 +1,24 @@
 $Primary-NavBar: #18181b;
-$Mobile-Navbar: rgb(41, 41, 41);
+$Mobile-Navbar: #202434;
+
+$Primary-Background: #0f111a;
+
 
 $Logo-Background: #1b1b1b;
 
+$Login-Icon: #d8407f;
+$Login-Icon-background: #891c49aa;
+
+
 $Primary-Text: whitesmoke;
+$black-Text: #1b1b1b;
+
 
 $Post-Background: #444;
 
-$answer-Background: #666;
+$answer-Background-even: #0c0e1a;
+$answer-Background-uneven: #191d30;
+
 $answer-Line: #444;
 
 $Thumbnail-Background: #111;
@@ -21,11 +32,12 @@ $nav-Button: white;
 
 $Primary-Delete: rgb(255, 65, 65);
 
-$UserInfoBackground: #111;
+$User-Info-Background: #060813;
 $UserInfo-BorderBottom: rgb(73, 73, 73);
 
 $Following-Primary: #fff1fa;
-$Following-Border: #332e30;;
+$Following-Border: #1d4e9d;
+$Following-Border-gradient: #d8407f; 
 
 $ScrollBar-Scrol: rgb(0, 0, 0);
 
@@ -33,3 +45,20 @@ $ScrollBar-Scrol-Background: rgb(112, 99, 103);
 
 
 $Primary-LikeButton: #D71868;
+
+$Primary-Button: #b12d64;
+$Primary-Button-Hover: #6d0f36;
+$Primary-Button-border: #ae2760;
+
+$Primary-Button-Active: #c14d7d;
+
+
+$Loading-Color-Light: #2b2d3d;
+$Loading-Color-Dark: #0f111a;
+
+$OptionsForm-FotosAndVideo : #4663c1;
+$OptionsForm-FotosAndVideo-border: #293e83;
+
+$OptionsForm-Ask : #bf3770;
+$OptionsForm-Ask-border : #7d1f46;
+

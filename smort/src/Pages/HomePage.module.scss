@@ -29,6 +29,7 @@
     height: 100dvh;
     display: flex;
     flex-direction: column;
+    background-color: $Primary-Background;
 
 }
 
@@ -56,8 +57,14 @@
     display: flex;
     flex-direction: column;
     img {
-        border: solid $Following-Border 2px;
+        border: 4px solid transparent;
         border-radius: 50%;
+    
+        background:
+            linear-gradient($Following-Border, $Following-Border-gradient)
+            padding-box,
+            linear-gradient($Following-Border, $Following-Border-gradient)
+            border-box;
     }
 }
 
@@ -65,20 +72,17 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 1rem 0rem;
+    margin: 1rem 0rem 0rem 0rem;
 }
 
 .Followings {
     flex-direction: row;
     display: inline-flex;
-    background-color: $Following-Primary;
-    border: solid $Following-Border 4px;
     align-items: center;
     border-radius: 20px;
     overflow: auto;
     padding: 5px;
     gap: 10px;
-    min-height: 110px;
     &::-webkit-scrollbar {
         display: none;
     }

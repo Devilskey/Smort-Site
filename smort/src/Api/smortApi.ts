@@ -14,24 +14,21 @@ import { IUser } from "./ApiObjects/IUser";
 import { Answer } from "./ApiObjects/Awnser";
 
 export class smortApi {
-  public static ApiUrl: string = "https://devilskey.nl/apiSmortSocials";
+  public static ApiUrl: string = "https://api.socials.devilskey.nl";
 
   protected static User: IMyProfile;
-  protected static Token: string | null = null;
+  public static Token: string | null = null;
   protected static LoggedIn: boolean = false;
 
-  public static LoadCookies(): void {
-    this.Token = Cookies.get("jwtToken") ?? null;
-  }
 
   public static SetUpApiUrl() {
     if (window.location.hostname.includes("devilskey.nl") ||
       window.location.hostname.includes("smorthub.nl")) {
-      this.ApiUrl = "https://devilskey.nl/apiSmortSocials";
+      this.ApiUrl = "https://api.socials.devilskey.nl";
       return;
     }
     else {
-      this.ApiUrl = "https://localhost:7047";
+      this.ApiUrl = "https://localhost:7147";
       return;
     }
   }
@@ -63,7 +60,6 @@ export class smortApi {
   }
 
   private static ManageNotificationsFromApi(message: string) {
-    console.log(message)
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({
         type: "SHOW_NOTIFICATION",
@@ -277,9 +273,6 @@ export class smortApi {
 
   public static async UploadPostImage(image: File | null, title: string, description: string): Promise<Boolean> {
     if (!description || !image) {
-      console.log("ERROR Empty" + !title + " : " + !description + " : " + !image)
-      console.log(image)
-
       return false;
     }
     return new Promise((resolve, reject) => {
@@ -604,5 +597,47 @@ export class smortApi {
       return jsonData
     }
     return undefined;
+  }
+
+  public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
+    const httpHeader = {
+      "Content-Type": "application/json",
+      'Accept': 'text/plain',
+      "Authorization": `Bearer ${this.Token}`,
+    };
+
+    if (!email || !Username || !Profile_Picture) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    let base64Pf = "";
+    const img = new Image();
+
+    reader.onload = async (event) => {
+      if (event.target?.result) {
+        const image = event.target.result as string;
+        const parts = image.split(',');
+
+        if (parts.length === 2) {
+          img.onload = async () => {
+            await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/ConfigureUserData`, {
+              email: email,
+              username: Username,
+              profilePicture: parts[1],
+              size: {
+                Width: img.width,
+                Height: img.height
+              },
+            }, httpHeader);
+          };
+
+          img.src = URL.createObjectURL(Profile_Picture);
+        }
+      }
+    };
+
+    reader.readAsDataURL(Profile_Picture);
   }
 }

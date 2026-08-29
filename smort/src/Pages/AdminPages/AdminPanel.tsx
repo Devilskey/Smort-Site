@@ -3,10 +3,12 @@ import { smortApi as Smort, smortApi } from "../../Api/smortApi";
 import Style from "./AdminPanel.module.scss"
 import { IUser } from "../../Api/ApiObjects/IUser";
 import { Button, Table } from "react-bootstrap";
+import { useTranslation } from "../../translations/TranslationProvider";
 
 type NavigationOptions = "Welcome" | "ManageUsers" | "Reports" | "ManageContent";
 
 export const AdminPanel = (): ReactElement => {
+    const { t } = useTranslation();
     const User = Smort.getUser();
     // Welcome, Manage User 
 
@@ -23,9 +25,9 @@ export const AdminPanel = (): ReactElement => {
     return (
         <section className={Style.Page}>
             <header className={Style.Nav}>
-                <a className={Style.NavOption} onClick={() => NavigateTo("ManageUsers")}>Manage Users</a>
-                <a className={Style.NavOption} onClick={() => NavigateTo("Reports")}>Reports</a>
-                <a className={Style.NavOption} onClick={() => NavigateTo("ManageContent")}>Manage Content</a>
+                <a className={Style.NavOption} onClick={() => NavigateTo("ManageUsers")}>{t('admin.manageUsers')}</a>
+                <a className={Style.NavOption} onClick={() => NavigateTo("Reports")}>{t('admin.reports')}</a>
+                <a className={Style.NavOption} onClick={() => NavigateTo("ManageContent")}>{t('admin.manageContent')}</a>
             </header>
             <hr />
 
@@ -40,6 +42,7 @@ export const AdminPanel = (): ReactElement => {
 }
 
 export const ManageUsers = (): ReactElement => {
+    const { t } = useTranslation();
     const [Users, setUsers] = useState<IUser[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -52,7 +55,6 @@ export const ManageUsers = (): ReactElement => {
 
     const GetUsers = async () => {
         const users = await Smort.GetAllUsers();
-        console.log(users)
         setUsers(users as IUser[])
         setLoading(false)
     }
@@ -61,11 +63,11 @@ export const ManageUsers = (): ReactElement => {
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Created At</th>
-                    <th>Allowed</th>
-                    <th>Actions</th>
+                    <th>{t('admin.tableNumber')}</th>
+                    <th>{t('admin.tableUsername')}</th>
+                    <th>{t('admin.tableCreatedAt')}</th>
+                    <th>{t('admin.tableAllowed')}</th>
+                    <th>{t('admin.tableActions')}</th>
 
                 </tr>
 
@@ -76,15 +78,15 @@ export const ManageUsers = (): ReactElement => {
                         <td>{user.Id}</td>
                         <td>{user.Username}</td>
                         <td>{user.Created_At}</td>
-                        <td>{user.AllowedUser ? "Allowed" : "NotAllowed"}</td>
+                        <td>{user.AllowedUser ? t('admin.allowed') : t('admin.notAllowed')}</td>
                         <td>
-                            <Button onClick={()=>{
+                            <Button onClick={() =>{
                                 smortApi.SetUserAlow(user.Id, !user.AllowedUser);
                                 user.AllowedUser =  !user.AllowedUser;
                             }}>
-                                {user.AllowedUser ? "Not Allowed" : "Allow"}
+                                {user.AllowedUser ? t('admin.notAllowed') : t('admin.allow')}
                             </Button>
-                            <Button>Delete</Button>
+                            <Button>{t('admin.delete')}</Button>
                         </td>
 
                     </tr>
@@ -113,9 +115,10 @@ export const ManageContent = (): ReactElement => {
 
 
 export const Welcome = (): ReactElement => {
+    const { t } = useTranslation();
     const User = Smort.getUser();
 
     return <div className={Style.WelcomeUser}>
-        <h5> Welcome Admin : {User?.username}</h5>
+        <h5>{`${t('admin.welcomeAdmin')} ${User?.username}`}</h5>
     </div>
 }

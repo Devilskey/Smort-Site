@@ -13,6 +13,7 @@ import { NavBarSmortMobile } from "../component/NavbarMobile/NavbarMobile";
 import { FollowingUser } from "../Api/ApiObjects/FollowingObjects";
 import { handleDragScroll } from "../core/DragScroll";
 import { size } from "../Api/enums/sizes";
+import { Img } from "../core/ImprovedControls/Img";
 
 
 export const HomePage = (): ReactElement => {
@@ -48,7 +49,6 @@ export const HomePage = (): ReactElement => {
 
   useEffect(() => {
     smort.GetContentList(search).then((result: ContentItem[]) => {
-      console.log(result)
       SetContentList(result)
     })
   }, [search]);
@@ -67,7 +67,7 @@ export const HomePage = (): ReactElement => {
               <div className={Style.Followings} ref={scrollRef} onDrag={() => handleDragScroll(scrollRef)}>
                 {following.map((follow) => (
                   <Link className={Style.FollowItem} to={`/account/${follow.User_Id_Followed}`} draggable="false">
-                    <img width="100" height="100" 
+                    <Img width="100" height="100" 
                     alt="PFpUserSmorthub"
                     src={`${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.S}`} 
                     srcSet={`

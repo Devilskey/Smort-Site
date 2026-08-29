@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { smortApi as Smort } from "../Api/smortApi";
 import { Role } from "../Api/enums/Roles";
+import { LoadingScreen } from "./Loading";
 
 interface LogedInRoutes {
     NeededRol: Role
@@ -30,12 +31,9 @@ export const RoleCheck = ({ NeededRol }: LogedInRoutes): ReactElement => {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingScreen/>;
     }
 
-    if (loading) {
-        return <div>Loading...</div>; 
-    }
 
     if (!hasRole) {
         return <Navigate to="/home" replace />

@@ -23,7 +23,6 @@ export const AuthorizationWithoutConfiguration = () => {
 
         Smort.GetMyProfileAsync()
             .then(user => {
-                console.log(user)
                 setUser(user)
                 setLoading(false)
             })

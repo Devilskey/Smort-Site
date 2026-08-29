@@ -1,0 +1,23 @@
+@use '../../Color' as *;
+
+video {
+  animation: pulse 1.5s ease-in-out infinite;
+  background-color: $Loading-Color-Light;
+  width: 100%;
+  height: 100%;
+}
+
+video.loaded {
+  animation: none;
+  background-color: rgb(28, 28, 28) !important;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    background-color: $Loading-Color-Light;
+  }
+
+  50% {
+    background-color: $Loading-Color-Dark;
+  }
+}

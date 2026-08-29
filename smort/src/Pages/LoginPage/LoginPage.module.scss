@@ -1,126 +1,178 @@
-  .title {
-    color: #333;
-    font-size: 24px;
-  }
-
-  .Submit {
-    margin: 10px 0px;
-  }
+  @use '../../Color' as *;
 
   .LoginPage {
-    min-height: 100vh;
-    flex-direction: column;
-  }
-
-  .GradiantBackground {
-    background: linear-gradient(90deg, #FF00FF, #FF00FF, #FF00FF, #9400D3, #FFD700, #00FFFF, #FF4500, #FF00FF, #FF00FF, #FF00FF);
-    animation: animation-gradient 10s linear infinite;
-    background-size: 1000%;
-    -webkit-background-clip: text;
-  }
-
-  .error {
-    background-color: #ffcab6;
-    border: solid rgba($color: #000000, $alpha: 0.3) 2px;
-    padding: 5px;
-    margin-bottom: 10px;
-  }
-
-  .GradiantText {
-    color: -webkit-linear-gradient(#eee, #333) !important;
-    text-transform: uppercase;
-    text-align: center;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: animation-gradient 10s linear infinite;
-
-  }
-
-  .SwitchRequest {
-    margin-right: 10px;
-    width: 100%;
-  }
-
-  Link {
-    text-decoration: none;
-  }
-
-  .PfPicture {
-    width: 12rem;
-    height: 12rem;
-    margin-bottom: 10px;
-    border-radius: 200px !important;
-    border-color: gray !important;
-    background-color: white !important;
-    color: black !important;
+      min-height: 100vh;
+      flex-direction: column;
+      background-color: $Primary-Background !important;
     
-    img {
+
+    .LoginBackground {
+      color: $Primary-Text !important;
+    }
+
+    button {
+      background-color: $Primary-Button !important;
+      border: solid $Primary-Button-border 2px !important;
+      color: $Primary-Text !important;
+    }
+
+
+    .containerOauthlogin {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      margin-top: 12px;
+
+      button {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+      }
+
+      i {
+        margin-bottom: -4px;
+        font-size: 1.2rem;
+        margin-right: 6px;
+      }
+    }
+
+    .Submit {
+      margin: 10px 0px;
+    }
+
+  
+
+    .ContinueWithText {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+
+      hr {
+        flex: 1;
+        border: none;
+        border-top: 1px solid #ccc;
+      }
+    }
+
+    .error {
+      background-color: #ffcab6;
+      border: solid rgba($color: #000000, $alpha: 0.3) 2px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    .GradiantText {
+      color: -webkit-linear-gradient(#eee, #333) !important;
+      text-transform: uppercase;
+      text-align: center;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: animation-gradient 10s linear infinite;
+
+    }
+
+    .SwitchRequest {
+      margin-right: 10px;
+      margin-top: 12px;
       width: 100%;
-      height: 100%;
+      background-color: transparent !important;
+    }
+
+    Link {
+      text-decoration: none;
+    }
+
+    .PfPicture {
+      width: 12rem;
+      height: 12rem;
+      margin-bottom: 10px;
+      border-radius: 200px !important;
+      border-color: gray !important;
+      background-color: white !important;
+      color: black !important;
+
+      img {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+
+    * {
       overflow: hidden;
     }
-  }
 
-  * {
-    overflow: hidden;
-  }
-
-  .ProfilePictureAddDiv {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .input {
-    position: relative;
-  }
-
-  .placeholder{
-    position:absolute;
-    color: black;
-    
-    font-size: 12px;
-    padding-left: 4px;
-  }
-
-  .Row {
-    margin-top: 0.5rem;
-  }
-
-  @media (max-width: 1000px) {
-    .LoginBackground {
-      border-radius: 20px;
-      padding: 15px;
+    .ProfilePictureAddDiv {
+      display: flex;
+      justify-content: center;
       width: 100%;
-      max-width: 500px;
-      color: whitesmoke;
     }
-    .GradiantBackground{
+
+    .input {
+      position: relative;
+    }
+
+    .placeholder {
       position: absolute;
-      top: 30px;
+      color: black;
 
-    }
-    .GradiantText{
-      font-size: 50px;
-    }
-  }
-
-  @media (min-width: 1000px) {
-    .LoginBackground {
-      border-radius: 20px;
-      background-color: #f1f1f1;
-      padding: 15px;
-      width: 100%;
-      max-width: 500px;
+      font-size: 12px;
+      padding-left: 4px;
     }
 
-    .GradiantText{
-      font-size: 4vw;
+    .Row {
+      margin-top: 0.5rem;
     }
-  }
 
-  @keyframes animation-gradient {
-    to {
-      background-position: 200%;
+    .LoginIcon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 10rem;
+      color: $Login-Icon;
+      background: radial-gradient(circle, $Login-Icon-background 30%, $Primary-Background 50%);
+      align-items: center;
+      aspect-ratio: 2/1;
+    }
+
+
+    @media (max-width: 1000px) {
+      .LoginBackground {
+        border-radius: 20px;
+        padding: 15px;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      .GradiantBackground {
+        position: absolute;
+        top: 30px;
+
+      }
+
+      .GradiantText {
+        font-size: 50px;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .LoginBackground {
+        border-radius: 20px;
+        padding: 15px;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      .GradiantText {
+        font-size: 4vw;
+      }
+    }
+
+    @keyframes animation-gradient {
+      to {
+        background-position: 200%;
+      }
     }
   }

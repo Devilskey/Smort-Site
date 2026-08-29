@@ -4,8 +4,10 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import Style from './LoginPage.module.scss';
 import { smortApi as smort } from "../../Api/smortApi";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
-import { auth, githubProvider, googleProvider, waitForAuth } from "../../configs/FirebaseConfig";
+import { createUserWithEmailAndPassword, getRedirectResult, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { auth, checkRedirect, githubProvider, googleProvider, waitForAuth } from "../../configs/FirebaseConfig";
+import { useTranslation } from "../../translations/TranslationProvider";
+import { GithubLogo, GoogleLogo, UsersIcon } from "../../core/Icon";
 
 export enum Providers {
   github,
@@ -14,7 +16,6 @@ export enum Providers {
 
 export const LoginPage = (): ReactElement => {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
 
   const [errorCode, setErrorCode] = useState<string>("");
 
@@ -22,6 +23,22 @@ export const LoginPage = (): ReactElement => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [Login, setLogin] = useState(true);
+  const { t } = useTranslation();
+
+  
+  useEffect(() => {
+
+    const getAuth = async () => {
+      await checkRedirect();
+
+      const user = await waitForAuth();
+      if (user || auth.currentUser) {
+        navigate('/home');
+      }
+    }
+    getAuth();
+
+  }, []);
 
   const HandleLoginErrors = (error: any) => {
     switch (error.code) {
@@ -32,44 +49,25 @@ export const LoginPage = (): ReactElement => {
         setErrorCode('User not found')
         break;
       case 'auth/wrong-password':
-        setErrorCode('Wrong password')
+        setErrorCode(t('login.errorWrongPassword'))
         break;
       case 'auth/invalid-credential':
-        setErrorCode('Invalid credentials')
+        setErrorCode(t('login.errorInvalidCredential'))
         break;
       case 'auth/too-many-requests':
-        setErrorCode('To many requests try again later')
+        setErrorCode(t('login.errorTooManyRequests'))
         break;
       case 'auth/internal-error':
-        setErrorCode('Internal error try again later')
+        setErrorCode(t('login.errorInternalError'))
         break;
       case 'auth/weak-password':
-        setErrorCode('Password should be at least 6 characters!')
+        setErrorCode(t('login.errorWeakPassword'))
         break;
       default:
-        console.log(error)
-        setErrorCode('OOOPSie SoMeThInG BrOkE')
+        setErrorCode(t('login.errorDefault'))
         break;
     }
   }
-
-  useEffect(() => {
-    const handleRedirect = async () => {
-      const firebaseLogin = await waitForAuth();
-
-      if (!firebaseLogin) {
-        return;
-      }
-
-      smort.GetMyProfileAsync()
-        .then(user => {
-          navigate(homepageRoute);
-        })
-        .catch((error) => {
-        });
-    }
-    handleRedirect();
-  }, []);
 
   const submitLogin = (): void => {
     signInWithEmailAndPassword(auth, email, password).then(async (Success) => {
@@ -84,14 +82,12 @@ export const LoginPage = (): ReactElement => {
       const token = await auth.currentUser?.getIdToken();
       window.localStorage.setItem("Token", token ?? "");
       navigate(homepageRoute);
-
-      console.log(token);
     }).catch(HandleLoginErrors);
   }
 
   const loginWithProvider = async (providerSelected: Providers) => {
-    let provider;
     try {
+      let provider;
 
       switch (providerSelected) {
         case Providers.google:
@@ -107,18 +103,18 @@ export const LoginPage = (): ReactElement => {
           throw new Error("Unsupported provider");
       }
 
-      const result = await signInWithRedirect(auth, provider);
+      await signInWithRedirect(auth, provider);
 
     } catch (error) {
       console.error("Login failed:", error);
+      setErrorCode(t('login.errorDefault'));
     }
   };
 
   const submitCreateAccount = (): void => {
-    if (!username || !password || !email) {
-      setErrorCode(`${username === "" ? "Username missing" : ""} 
-        ${password === "" ? "password missing " : ""} 
-        ${email === "" ? "email missing " : ""} `)
+    if (!password || !email) {
+      setErrorCode(` ${password === "" ? t('login.passwordMissing') : ""} 
+        ${email === "" ? t('login.emailMissing') : ""}`)
       return;
     }
     createNewAccount();
@@ -127,11 +123,16 @@ export const LoginPage = (): ReactElement => {
   return (<>
     <div>
       <Container fluid className={"d-flex justify-content-center align-items-center " + Style.LoginPage}>
-        <div className={Style.GradiantBackground}>
+        {/* <div className={Style.GradiantBackground}>
           <h1 className={Style.GradiantText + " " + Style.Title}>Smort</h1>
-        </div>
+        </div> */}
         <div className={Style.LoginBackground}>
-          <h1 className="text-center">    {Login ? (<>inloggen</>) : (<> Aanmelden</>)}</h1>
+
+          <div className={Style.LoginIcon}>
+            <UsersIcon/>
+          </div>
+
+          <h1 className="text-center">{Login ? t('login.titleSignIn') : t('login.titleSignUp')}</h1>
           {Login ? (
             <>
               <Form>
@@ -141,7 +142,7 @@ export const LoginPage = (): ReactElement => {
                       defaultValue={email}
                       className={Style.InputFields}
                       type="text"
-                      placeholder="enter email"
+                      placeholder={t('login.placeholderEmail')}
                       onChange={(Element) => { setEmail(Element.target.value) }} />
                   </Col>
                 </Form.Group>
@@ -152,7 +153,7 @@ export const LoginPage = (): ReactElement => {
                       type="password"
                       className={Style.InputFields}
                       defaultValue={password}
-                      placeholder="enter password"
+                      placeholder={t('login.placeholderPassword')}
                       onChange={(Element) => { setPassword(Element.target.value) }} />
                   </Col>
                 </Form.Group>
@@ -162,70 +163,78 @@ export const LoginPage = (): ReactElement => {
                       event.preventDefault();
                       submitLogin()
                     }}>
-                    Login
+                    {t('login.buttonLogin')}
                   </Button>
                 </div>
               </Form>
-              <Button onClick={() => loginWithProvider(Providers.google)}>Login Google</Button>
-              <Button onClick={() => loginWithProvider(Providers.github)}>Login Github</Button>
             </>
           ) : (
-            <> <Form>
-              <Form.Group as={Row} className={Style.Row}>
-                <Col sm="12">
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="enter Username"
-                    className={Style.InputFields}
-                    onChange={(Element) => { setUsername(Element.target.value) }} />
-                </Col>
-              </Form.Group>
+            <> 
+              <Form>
+                <Form.Group as={Row} className={Style.Row}>
+                  <Col sm="12">
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder={t('login.placeholderEmail')}
+                      className={Style.InputFields}
+                      onChange={(Element) => { setEmail(Element.target.value) }} />
+                  </Col>
+                </Form.Group>
 
-              <Form.Group as={Row} className={Style.Row}>
-                <Col sm="12">
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="enter email"
-                    className={Style.InputFields}
-                    onChange={(Element) => { setEmail(Element.target.value) }} />
-                </Col>
-              </Form.Group>
+                <Form.Group as={Row} className={Style.Row} >
+                  <Col>
+                    <Form.Control type="password"
+                      required
+                      placeholder={t('login.placeholderPassword')}
+                      className={Style.InputFields}
+                      onChange={(Element) => { setPassword(Element.target.value) }} />
+                  </Col>
 
-              <Form.Group as={Row} className={Style.Row} >
-                <Col>
-                  <Form.Control type="password"
-                    required
-                    placeholder="enter password"
-                    className={Style.InputFields}
-                    onChange={(Element) => { setPassword(Element.target.value) }} />
-                </Col>
-              </Form.Group>
-              <div className={"d-grid gap-2 " + Style.Submit}>
-                <Button size="lg" variant="primary" type="submit"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    submitCreateAccount()
+                </Form.Group>
+                <div className={"d-grid gap-2 " + Style.Submit}>
+                  <Button size="lg" variant="primary" type="submit"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      submitCreateAccount()
 
-                  }}>
-                  Create new account
-                </Button>
-              </div>
-            </Form></>
+                    }}>
+                    {t('login.buttonCreateAccount')}
+                  </Button>
+                </div>
+              </Form>
+            </>
           )}
           {errorCode !== "" &&
             <div className={Style.error}>
               {errorCode}
             </div>}
+   
 
+          <div className={Style.ContinueWithText}>
+            <hr />
+            <div>{t('login.continueWithText')}</div>
+            <hr />
+          </div>
 
-          <Button className={Style.SwitchRequest} onClick={() => {
-            setLogin(!Login)
-            setErrorCode("");
-          }}>
-            {Login ? (<>Aanmelden</>) : (<>inloggen</>)}
-          </Button>
+          <div className={Style.containerOauthlogin}>
+            <Button onClick={ () =>  loginWithProvider(Providers.google)}>
+              <GoogleLogo/>{t('login.buttonLoginGoogle')}
+              </Button>
+            <Button onClick={ () =>  loginWithProvider(Providers.github)}>
+              <GithubLogo/>{ t('login.buttonLoginGithub')} 
+            </Button>
+          </div>
+
+            <footer>
+              <hr/>
+              <Button className={Style.SwitchRequest} onClick={() => {
+                setLogin(!Login)
+                setErrorCode("");
+              }}>
+                {Login ? t('login.switchToSignUp') : t('login.switchToSignIn')}
+              </Button>
+            </footer>
         </div>
       </Container>
     </div>

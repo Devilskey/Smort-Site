@@ -1,0 +1,61 @@
+@use '../../../Color' as *;
+
+.ModalColor{
+    
+    background-color: $Primary-Background !important;
+    color: whitesmoke;
+
+
+    .PrimaryButton {
+
+        color: whitesmoke;
+       background-color: $Primary-Button !important;
+       border: solid $Primary-Button-border 2px !important; 
+        width: 100%;
+        &:hover {
+        }
+    }
+
+    .SecondaryButton {
+        color: whitesmoke;
+        background: transparent;
+       border: solid $Primary-Delete 2px !important; 
+
+        &:hover {
+            color: #fff;
+        }
+    width: 100%;
+            margin: 8px 0px;
+
+    }
+    .DeleteMeInputField{
+        
+    width: 100%;
+    margin-right: 8px;
+    }
+}
+
+
+
+.Form {
+    margin: 16px 0px;
+    label {
+
+    }
+
+    input {
+        width: 100%;
+
+    }
+
+    button {
+        margin: 8px 0px;
+
+        width: 100%;
+    }
+
+      button {
+       background-color: $Primary-Button !important;
+       border: solid $Primary-Button-border 2px !important; 
+    }
+}

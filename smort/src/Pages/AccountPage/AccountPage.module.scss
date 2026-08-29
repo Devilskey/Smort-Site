@@ -21,12 +21,12 @@
 }
 
 .Scroll {
-    margin-top: 1rem;
     flex-direction: column;
     overflow-y: auto;
-    flex: 1;
     padding-bottom: 40px;
     height: 90dvh;
+    margin-bottom: 55px;
+
 }
 
 .TypesOfContent {
@@ -44,16 +44,8 @@
     display: flex;
     height: 100dvh;
     flex-direction: column;
-}
+    background-color: $Primary-Background;
 
-
-.EditUser {
-    aspect-ratio: 1/1;
-    border-radius: 100%;
-
-    svg {
-        margin-bottom: 15px;
-    }
 }
 
 .SquareImage {
@@ -62,11 +54,26 @@
     aspect-ratio: 1 / 1;
 }
 
+
+.loading{
+    display: flex;
+    justify-content: center;
+    width: 100vw !important;
+    align-items: center;
+    color: #D71868;
+    font-size: 20px;
+  }
+
 .CreateContent {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
+    width: 100cw;
+
+    button {
+       background-color: $Primary-Button !important;
+       border: solid $Primary-Button-border 2px !important; 
+    }
 }
 
 .uploadContent {
@@ -74,4 +81,9 @@
     padding: 0.3rem;
     font-size: 18px;
     border-radius: 20px;
+}
+
+.EditUser {
+    height: 40px;
+    align-self: center;
 }

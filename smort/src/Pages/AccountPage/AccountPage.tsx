@@ -1,7 +1,7 @@
 
 import { createRef, ReactElement, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
 
 import { smortApi as smort } from "../../Api/smortApi";
 import { IMyProfile } from "../../Api/ApiObjects/userObjects";
@@ -14,6 +14,8 @@ import { NavBarSmortMobile } from "../../component/NavbarMobile/NavbarMobile";
 import { EditUserDataModalHandle, EditUserDataModal } from "../../component/Modals/EditUserData/EditUserData.Modal";
 import { UploadContentModalHandle, UploadContentModal } from "../../component/Modals/UploadContent/UploadContent.Modal";
 import { ProfileHeader } from "./Components/ProfileHeader";
+import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
+import { UploadIcon } from "../../icons/Interections.icon";
 
 
 export const AccountPage = (): ReactElement => {
@@ -29,19 +31,19 @@ export const AccountPage = (): ReactElement => {
   const CreateAskQuestionComponent = useRef<UploadContentModalHandle>(null);
 
   useEffect(() => {
-    if (smort.getUser() === undefined && id === undefined) {
+    if (id !== undefined) {
+      smort.GetProfileAsync(Number(id))
+        .then((profile: any) => {
+          profile.id = id;
+          setUser(profile)
+        })
+        .catch((error) => console.error("Failed to fetch profile:", error));
+    }
+    else  if (smort.getUser() ===  undefined) {
 
       smort.GetMyProfileAsync()
         .then((profile) => setUser(profile))
         .catch((error) => setUser(undefined));
-    }
-    else if (id !== undefined) {
-      smort.GetProfileAsync(Number(id))
-        .then((profile: any) => {
-
-          setUser(profile)
-        })
-        .catch((error) => console.error("Failed to fetch profile:", error));
     }
     else {
       setUser(smort.getUser())
@@ -49,7 +51,6 @@ export const AccountPage = (): ReactElement => {
 
     if (id !== undefined) {
       smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
-        console.log(data);
         SetContentList(data);
       })
       smort.GetFollowersAsync(id).then((FollowerAmmount: string) => {
@@ -64,7 +65,6 @@ export const AccountPage = (): ReactElement => {
     else {
 
       smort.GetMyContent().then((data: ThumbnailObject[]) => {
-        console.log(data);
         SetContentList(data);
       })
       smort.GetMyFollowersAsync().then((FollowerAmmount: string) => {
@@ -78,31 +78,81 @@ export const AccountPage = (): ReactElement => {
     console.log(search);
   }
 
+  const isThisUser = ():boolean => {
+    var LoggedinUser = smort.getUser();
+    if(LoggedinUser !== undefined){
+
+       if(id === undefined || id === null){
+        return true
+       }
+       if(id === LoggedinUser.id?.toString()){
+          return true;
+       }
+    }
+      //  user !== undefined ||  id === user?.id?.toString()
+
+    return false
+  }
+
   return (
     <>
       <EditUserDataModal ref={EditUserComponent} user={smort.getUser()!} />
-      <UploadContentModal ref={UploadContentComponent} isAskMe={false} />
-      <UploadContentModal ref={CreateAskQuestionComponent} isAskMe />
-
+      <UploadContentModal ref={UploadContentComponent} isAskMeAhead={false} />
+      <UploadContentModal ref={CreateAskQuestionComponent} isAskMeAhead />
 
       <div className={Style.Page}>
         {!AndroidHandler.AndroidNavBarNeeded() &&
           <NavBarSmortPc Search={Search} />
         }
         {/** Users Information */}
+       <div className={Style.Scroll}>
+
         <ProfileHeader
           user={user}
-          deleteMode={deleteMode}
           FollowerAmmount={FollowerAmmount}
           Follower={Follower}
-          setDeleteMode={setDeleteMode}
           setFollowerAmmount={setFollowerAmmount}
           setFollower={setFollower}
-          EditUserComponent={EditUserComponent} />
+          EditUserComponent={EditUserComponent}
+          PostCount={ContentList?.length ?? 0} />
 
-        <Container className={Style.Scroll}>
 
-        </Container>
+          {(isThisUser()) && 
+            <div className={Style.CreateContent}>
+              <Button className={Style.EditUser} onClick={() => {
+                  setDeleteMode(!deleteMode)
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                  </svg> 
+              </Button>
+
+              <Button className={Style.uploadContent} onClick={() => {
+                UploadContentComponent.current?.toggleModal();
+              }}>
+                Upload Video <UploadIcon />
+              </Button>
+
+              <Button className={Style.uploadContent} onClick={() => {
+                CreateAskQuestionComponent.current?.toggleModal();
+              }}>
+                Ask Question
+              </Button>
+            </div>
+          }
+
+          <Container>
+            <Row xs={3} md={3} className="g-2" >
+              {  ContentList == null && <div className={Style.loading}><Spinner/></div> }
+              {ContentList?.filter((item) => item.Type != "Ask").map((item: ThumbnailObject, idx) => (
+                <ThumbnailCard Post={item} deleteMode={deleteMode} />
+              ))}
+            </Row>
+          </Container>
+
+
+        </div>
         {
           AndroidHandler.AndroidNavBarNeeded() &&
           <NavBarSmortMobile Search={Search} />

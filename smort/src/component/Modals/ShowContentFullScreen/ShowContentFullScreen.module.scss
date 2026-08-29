@@ -2,7 +2,10 @@
 
 .ImgContent {
     width: 100%;
+    border-radius: 12px;
 }
+
+
 
 .VideoContainer {
     max-height: 80vh;
@@ -12,14 +15,12 @@
 }
 
 .backgroundModalHeader {
-    background-color: $Post-Background;
-    border-bottom: $Following-Primary solid;
+    border-bottom: $Following-Primary solid 1px;
+    background-color: $Primary-Background !important;
 }
 
 .backgroundModal {
-    background-color: $Post-Background;
-    width: 100%;
-    padding: 0px !important;
+    background-color: $Primary-Background !important;
 }
 
 
@@ -31,8 +32,32 @@
     padding: 10px;
 }
 
+
 .Modal {
     border-radius: solid black !important;
-    overflow: hidden;
-    --bs-modal-bg: none !important;
+    background-color: $Primary-Background !important;
+
+    button {
+       background-color: $Primary-Button ;
+       border: solid $Primary-Button-border 2px ; 
+       color: whitesmoke;
+       *:first-letter {
+          text-transform: uppercase;
+       }
+    }
+    .UserImgSimpel {
+        margin: 0 10px 0 0;
+        border-radius: 100%;
+        margin-bottom: 5px;
+        border: $Following-Border-gradient solid 2px;
+    }
+
+    .UserLink {
+        font-size: 20px;
+        color: $Primary-Text;
+        text-transform: capitalize;
+        text-decoration: none;
+  }
+ 
+
 }

@@ -6,6 +6,8 @@ import Style from './Navbar.module.scss';
 import logo from '../SiteAssets/Smort_Logo.png';
 import { Link, useLocation } from "react-router-dom";
 import { AndroidHandler } from "../PlatformSpecificScripts/Android";
+import { useTranslation } from "../translations/TranslationProvider";
+import { Img } from "../core/ImprovedControls/Img";
 
 interface props {
   Search: (search: string) => void;
@@ -16,6 +18,7 @@ interface props {
 export const NavBarSmortPc = (props: props): ReactElement => {
 
   let InstallPromptEvent: any;
+  const { t } = useTranslation();
   const user = smort.getUser();
   const [search, setSearch] = useState<string>("");
 
@@ -30,7 +33,7 @@ export const NavBarSmortPc = (props: props): ReactElement => {
     <>
       <Navbar expand="lg" className={Style.Nav}>
         <Container>
-          <Navbar.Brand as={Link} to="/Home"><img
+          <Navbar.Brand as={Link} to="/home"><Img
             src={logo}
             width="60"
             height="60"
@@ -58,7 +61,7 @@ export const NavBarSmortPc = (props: props): ReactElement => {
               {user !== undefined ? (
                 <div className={Style.User}>
                   <div className={Style.UserText}> {user?.username}</div>
-                  <img
+                  <Img
                     src={smort.GetImageUrl(user?.profile_Picture, false)}
                     width="60"
                     height="60"
@@ -66,7 +69,7 @@ export const NavBarSmortPc = (props: props): ReactElement => {
                     alt="" />
                 </div>) :
                 (<div className={Style.WhiteTekst}>
-                  Login/ Create Account
+                  {t('navbar.loginCreateAccount')}
                 </div>)
               }
             </Nav.Link>
@@ -75,7 +78,7 @@ export const NavBarSmortPc = (props: props): ReactElement => {
             <div className={Style.WhiteTekst} onClick={() => {
               InstallPromptEvent.prompt();
             }}>
-              Install App
+              {t('navbar.installApp')}
             </div>
           }
 

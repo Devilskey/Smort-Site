@@ -3,7 +3,10 @@ import Style from './ThumbnailCard.module.scss'
 import { smortApi as smort } from "../../Api/smortApi";
 import { ThumbnailObject } from "../../Api/ApiObjects/ThumbnailObjects";
 import { createRef, ReactElement } from "react";
+import { useTranslation } from "../../translations/TranslationProvider";
 import { ShowContentFullScreen, ShowContentFullScreenHandle } from "../Modals/ShowContentFullScreen/ShowContentFullScreen.Modal";
+import { TrashIcon } from "../../core/Icon";
+import { Img } from "../../core/ImprovedControls/Img";
 
 interface IProps {
   Post: ThumbnailObject
@@ -11,9 +14,9 @@ interface IProps {
 }
 
 export const ThumbnailCard = ({ Post, deleteMode }: IProps): ReactElement => {
+  const { t } = useTranslation();
   const ShowContentFullScreenComponent = createRef<ShowContentFullScreenHandle>();
 
-  console.log(Post);
   return (
     <>
       <ShowContentFullScreen ref={ShowContentFullScreenComponent} />
@@ -24,29 +27,29 @@ export const ThumbnailCard = ({ Post, deleteMode }: IProps): ReactElement => {
               ShowContentFullScreenComponent.current?.toggleModal(Post.Id);
             }}>
             {Post.Type !== "Ask" &&
-              <img
-                loading="lazy"
-                src={smort.GetImageUrl(Post.Thumbnail ?? Post.File_Id, Post.Thumbnail === null)}
-                className={Style.SquareImage} />}
-          </div>
+            <div>
+                <Img
+                  loading="lazy"
+                  src={smort.GetImageUrl(Post.Thumbnail ?? Post.File_Id, Post.Thumbnail === null)}
+                  className={Style.SquareImage} />
 
-          {deleteMode &&
-            <Card.Footer>
-              <button className={Style.DeleteButton}
-                onClick={() => {
-                  if (Post.Type === "img") {
-                    smort.DeleteImage(Post.Id);
-                  } else {
-                    smort.DeleteVideo(Post.Id)
-                  }
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 1000)
-                }}>
-                Delete
-              </button>
-            </Card.Footer>
+                {deleteMode &&
+                 <button className={Style.DeleteButton}
+                   onClick={() => {
+                     if (Post.Type === "img") {
+                       smort.DeleteImage(Post.Id);
+                     } else {
+                       smort.DeleteVideo(Post.Id)
+                     }
+                     setTimeout(() => {
+                       window.location.reload()
+                     }, 1000)
+                   }}>
+                    <TrashIcon/>
+                 </button> }
+              </div>
           }
+          </div>
         </Card>
       </Col>
     </>)

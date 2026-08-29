@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ContentItem } from "../../Api/ApiObjects/ContentObject";
-import { LikedIcon, LikeIcon } from "../../icons/Interections.icon";
 import { smortApi as smort } from "../../Api/smortApi";
-import Style from './PostList.module.scss'
+import Style from './OptionsBar.module.scss'
+import { LikedIcon, LikeIcon } from "../../core/Icon";
 
 
 export const OptionsButtons = ({ post }: { post: ContentItem }) => {
@@ -22,10 +22,10 @@ export const OptionsButtons = ({ post }: { post: ContentItem }) => {
         }
       });
     }}>
-      {localPost.AlreadyLiked !== 0 ? (<div> {localPost.Likes} <LikedIcon /> </div>) : (<div> {localPost.Likes} <LikeIcon /></div>)}
+      {localPost.AlreadyLiked !== 0 ? (<div className={Style.LikedColor}>  <LikedIcon /> {localPost.Likes}</div>) : (<div><LikeIcon />  {localPost.Likes} </div>)}
     </button>
     </> :
-      <div className={Style.LikeAmountText}> {`${localPost.Likes}`} <LikeIcon /> </div>
+      <div className={Style.LikeAmountText}><LikeIcon /> {`${localPost.Likes}`}  </div>
     }
 
   </div>);
