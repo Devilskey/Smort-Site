@@ -128,14 +128,14 @@ export class smortApi {
     return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&IsContent=${content}`
   }
 
-  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {
-    let images: ContentItem[] = [];
+  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem | undefined> {
+    let images: ContentItem | undefined = undefined;
     if (this.Token !== null) {
 
       await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: ContentItem[] = await response.json();
+          const jsonData: ContentItem = await response.json();
           images = jsonData;
         });
       return images;
@@ -143,7 +143,7 @@ export class smortApi {
     }
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`)
       .then(async (response) => {
-        const jsonData: ContentItem[] = await response.json();
+        const jsonData: ContentItem = await response.json();
         images = jsonData;
       });
     return images;
@@ -346,6 +346,8 @@ export class smortApi {
       const chunkSize = (1024 * 1024) * 20;
       const totalChunks = Math.ceil(video.size / chunkSize);
 
+      console.log(totalChunks);
+
       for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
         let start = chunkNumber * chunkSize;
         let end = Math.min(start + chunkSize, video.size);
@@ -377,7 +379,9 @@ export class smortApi {
             await Api.SendApiRequestPostAsync(`${this.ApiUrl}/Videos/UploadVideo`, payload,
               httpHeaders.httpHeaderJsonWithToken(this.Token)
             ).then(async response => {
-              if (await response.text() === "Saved the new Post" && response.ok) {
+              var text = await response.text();
+              console.log(text )
+              if (text === "Saved the new Post" && response.ok) {
                 resolve(true);
               }
             });

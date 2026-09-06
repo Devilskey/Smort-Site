@@ -17,7 +17,7 @@ export type ShowContentFullScreenHandle = {
 
 export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ }, ref) => {
   const [Show, setShow] = useState<boolean>(false);
-  const [ContentItem, setContentItem] = useState<ContentItem[]>([]);
+  const [ContentItem, setContentItem] = useState<ContentItem | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
     if (ContentId !== -1) {
       smort.GetContentItemAsync(ContentId.toString()).then((item) => {
         setContentItem(item);
+        console.log(item);
         setShow(true);
       }).catch(console.error)
     } else {
@@ -50,34 +51,34 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
           </Button>
         </Modal.Header>
         <Modal.Body className={Style.backgroundModal}>
-          {ContentItem.length > 0 &&
+          {ContentItem &&
             <>
             <div className={Style.User}>
-              <Link to={`/account/${ContentItem[0].User_Id}`}
+              <Link to={`/account/${ContentItem.User_Id}`}
                 className={Style.UserLink}>
                 <Img className={Style.UserImgSimpel}
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   width="55px" height="55px"
-                  src={`${smort.GetProfilePictureImageUrl(ContentItem[0].User_Id)}&size=${size.M}`} />
-                {ContentItem[0].Username}
+                  src={`${smort.GetProfilePictureImageUrl(ContentItem.User_Id)}&size=${size.M}`} />
+                {ContentItem.Username}
               </Link>
             </div>
             
-              <div className={Style.contentTitle}> {ContentItem[0].Description}</div>
-              {ContentItem[0].Type === "img" ?
+              <div className={Style.contentTitle}> {ContentItem.Description}</div>
+              {ContentItem.Type === "img" ?
                 <div>
                   <Img
                     loading="lazy"
-                    src={smort.GetImageUrl(ContentItem[0].File_Id)}
+                    src={smort.GetImageUrl(ContentItem.File_Id)}
                     className={Style.ImgContent} />
                 </div>
                 :
                 <div className={Style.VideoContainer}>
-                  <SmortVideo content={ContentItem[0]} />
+                  <SmortVideo content={ContentItem} />
                 </div>
               }
-              <OptionsButtons post={ContentItem[0]} />
+              <OptionsButtons post={ContentItem} />
 
             </>
           }
