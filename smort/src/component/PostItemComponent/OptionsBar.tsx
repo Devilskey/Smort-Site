@@ -7,7 +7,6 @@ import { LikedIcon, LikeIcon } from "../../core/Icon";
 
 export const OptionsButtons = ({ post }: { post: ContentItem }) => {
   const [localPost, setLocalPost] = useState(post);
-  const [reload, setReload] = useState(0);
 
   return (<div className={Style.Options} id={`Options-${post.id}`}>
     {smort.getUser() !== undefined ? <>
@@ -20,9 +19,6 @@ export const OptionsButtons = ({ post }: { post: ContentItem }) => {
             alreadyLiked: value === "RemoveLike" ? 0 : 1,
           }));
         }
-          console.log(localPost)
-          console.log(value)
-          setReload(reload + 1);
       });
     }}>
       {localPost.alreadyLiked !== 0 ? (<div className={Style.LikedColor}>  <LikedIcon /> {localPost.likes}</div>) : (<div><LikeIcon />  {localPost.likes} </div>)}
