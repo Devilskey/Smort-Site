@@ -20,7 +20,7 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    smort.GetAwnser(post.Id).then((awnser) => {
+    smort.GetAwnser(post.id).then((awnser) => {
       if (awnser) {
         setPostAnswers(awnser);
       }
@@ -31,12 +31,12 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
   const submitAnswer = (): void => {
     setLoading(true);
     const newAnswser = new Answer();
-    newAnswser.Answer = answer;
-    newAnswser.User_Id = smort.getUser()?.id ?? -1;
+    newAnswser.answer = answer;
+    newAnswser.userId = smort.getUser()?.id ?? -1;
 
     setPostAnswers(prev => [...prev, newAnswser]);
 
-    smort.CreateAnswer(answer, post.Id).then((successfull) => {
+    smort.CreateAnswer(answer, post.id).then((successfull) => {
       setLoading(false);
       setAwnser("");
     }).catch((error) => {
@@ -53,8 +53,8 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
             loading="lazy"
             alt="An image Uploaded to smort"
             width="40px" height="40px"
-            src={`${smort.GetProfilePictureImageUrl(answer.User_Id)}&size=${size.S}`} />
-          {answer.Answer}
+            src={`${smort.GetProfilePictureImageUrl(answer.userId)}&size=${size.S}`} />
+          {answer.answer}
         </div>
       )) : <div className={Style.ContentQuestion}>{t('askQuestion.noAnswers')}</div>}
 

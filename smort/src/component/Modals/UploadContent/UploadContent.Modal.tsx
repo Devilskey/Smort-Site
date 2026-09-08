@@ -131,8 +131,8 @@ export const UploadContentModal = forwardRef<UploadContentModalHandle, IUploadCo
                             {preview || <>{t('uploadContent.prompt')}<PhotoFilmIcon/></>}
 
                         </Button>
-                    } : 
-                </div>: 
+                    }
+                </div>:
                 <>
                     <Button className={Style.AskOption} onClick={()=> { 
                         setselectPostType('Ask') 

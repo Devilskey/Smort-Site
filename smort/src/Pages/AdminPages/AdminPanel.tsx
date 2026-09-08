@@ -77,7 +77,7 @@ export const ManageUsers = (): ReactElement => {
                     <tr>
                         <td>{user.Id}</td>
                         <td>{user.Username}</td>
-                        <td>{user.Created_At}</td>
+                        <td>{user.CreatedAt}</td>
                         <td>{user.AllowedUser ? t('admin.allowed') : t('admin.notAllowed')}</td>
                         <td>
                             <Button onClick={() =>{

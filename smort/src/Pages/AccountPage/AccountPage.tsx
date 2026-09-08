@@ -16,6 +16,7 @@ import { UploadContentModalHandle, UploadContentModal } from "../../component/Mo
 import { ProfileHeader } from "./Components/ProfileHeader";
 import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
 import { UploadIcon } from "../../icons/Interections.icon";
+import {PlusIcon} from "../../core/Icon";
 
 
 export const AccountPage = (): ReactElement => {
@@ -117,7 +118,7 @@ export const AccountPage = (): ReactElement => {
           PostCount={ContentList?.length ?? 0} />
 
 
-          {(isThisUser()) && 
+          {(isThisUser() && !AndroidHandler.IsUsingAndroid()) &&
             <div className={Style.CreateContent}>
               <Button className={Style.EditUser} onClick={() => {
                   setDeleteMode(!deleteMode)
@@ -131,13 +132,7 @@ export const AccountPage = (): ReactElement => {
               <Button className={Style.uploadContent} onClick={() => {
                 UploadContentComponent.current?.toggleModal();
               }}>
-                Upload Video <UploadIcon />
-              </Button>
-
-              <Button className={Style.uploadContent} onClick={() => {
-                CreateAskQuestionComponent.current?.toggleModal();
-              }}>
-                Ask Question
+                Create Post <PlusIcon />
               </Button>
             </div>
           }
@@ -145,7 +140,7 @@ export const AccountPage = (): ReactElement => {
           <Container>
             <Row xs={3} md={3} className="g-2" >
               {  ContentList == null && <div className={Style.loading}><Spinner/></div> }
-              {ContentList?.filter((item) => item.Type != "Ask").map((item: ThumbnailObject, idx) => (
+              {ContentList?.filter((item) => item.type != "Ask").map((item: ThumbnailObject, idx) => (
                 <ThumbnailCard Post={item} deleteMode={deleteMode} />
               ))}
             </Row>

@@ -47,7 +47,7 @@ export const AuthorizationNeededRouting = (): ReactElement => {
         return <Navigate to="/Login" replace />
     }
 
-    if(!(user as any).is_Account_Configured) {
+    if(!(user as any).isAccountConfigured) {
         return <Navigate to="/Setup" replace />
     }
 

@@ -4,7 +4,6 @@ export class AndroidHandler {
 	}
 
 	public static PWArunning():boolean{
-		console.log(window.matchMedia("(display-mode: standalone)").matches)
 		return window.matchMedia("(display-mode: standalone)").matches;
 	}
 

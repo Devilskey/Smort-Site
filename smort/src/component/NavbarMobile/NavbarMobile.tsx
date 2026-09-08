@@ -115,7 +115,7 @@ import { Img } from "../../core/ImprovedControls/Img";
 			<Link to={"/account"} className={location.pathname === "/account" ? Style.NavButtonActive : Style.NavButton}>
 			  <div className={Style.User}>
 				<Img
-				  src={smort.GetImageUrl(user?.profile_Picture, false)}
+				  src={smort.GetImageUrl(user?.profilePicture, false)}
 				  width="60"
 				  height="60"
 				  className={Style.UserImg}

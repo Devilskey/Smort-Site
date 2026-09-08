@@ -93,6 +93,7 @@ export class smortApi {
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: IMyProfile = await response.json();
+        console.log(jsonData);
         this.User = jsonData;
       });
     return this.User;
@@ -103,15 +104,15 @@ export class smortApi {
     let dataUser: IMyProfile = {
       id: null,
       username: "",
-      profile_Picture: 0,
-      Is_Account_Configured: false
+      profilePicture: 0,
+      isAccountConfigured: false
     };
 
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
       .then(async (response) => {
         const jsonData: any[] = await response.json();
         dataUser.username = jsonData[0].Username;
-        dataUser.profile_Picture = jsonData[0].Profile_Picture;
+        dataUser.profilePicture = jsonData[0].Profile_Picture;
       });
 
     return dataUser;
@@ -125,17 +126,17 @@ export class smortApi {
     if (id) {
       return `${this.ApiUrl}/Images/GetImage?ImageId=${id}&IsContent=${content}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&IsContent=${content}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profilePicture}&IsContent=${content}`
   }
 
-  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem[]> {
-    let images: ContentItem[] = [];
+  public static async GetContentItemAsync(cotentId: string): Promise<ContentItem | undefined> {
+    let images: ContentItem | undefined = undefined;
     if (this.Token !== null) {
 
       await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`,
         httpHeaders.httpHeaderJsonWithToken(this.Token))
         .then(async (response) => {
-          const jsonData: ContentItem[] = await response.json();
+          const jsonData: ContentItem = await response.json();
           images = jsonData;
         });
       return images;
@@ -143,7 +144,7 @@ export class smortApi {
     }
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetContentFromId?id=${cotentId}`)
       .then(async (response) => {
-        const jsonData: ContentItem[] = await response.json();
+        const jsonData: ContentItem = await response.json();
         images = jsonData;
       });
     return images;
@@ -157,6 +158,7 @@ export class smortApi {
         .then(async (response) => {
           
           const jsonData: ContentItem[] = await response.json();
+          console.log(jsonData);
           postImages = jsonData;
         });
       return postImages;
@@ -346,6 +348,8 @@ export class smortApi {
       const chunkSize = (1024 * 1024) * 20;
       const totalChunks = Math.ceil(video.size / chunkSize);
 
+      console.log(totalChunks);
+
       for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
         let start = chunkNumber * chunkSize;
         let end = Math.min(start + chunkSize, video.size);
@@ -377,7 +381,9 @@ export class smortApi {
             await Api.SendApiRequestPostAsync(`${this.ApiUrl}/Videos/UploadVideo`, payload,
               httpHeaders.httpHeaderJsonWithToken(this.Token)
             ).then(async response => {
-              if (await response.text() === "Saved the new Post" && response.ok) {
+              var text = await response.text();
+              console.log(text )
+              if (text === "Saved the new Post" && response.ok) {
                 resolve(true);
               }
             });

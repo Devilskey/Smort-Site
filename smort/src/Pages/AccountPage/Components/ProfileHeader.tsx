@@ -41,7 +41,7 @@ export const ProfileHeader = ({
           <div className={Style.UserImgSpace}>
             <Img
               
-              src={`${smort.GetImageUrl(user.profile_Picture, false)}&size=${size.L}`}
+              src={`${smort.GetImageUrl(user.profilePicture, false)}&size=${size.L}`}
               alt="User profile"
               width="200x"
               height="200px"

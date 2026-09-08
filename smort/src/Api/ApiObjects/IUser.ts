@@ -1,6 +1,6 @@
 export interface IUser {
     Id: number;
     Username: string;
-    Created_At: string; 
+    CreatedAt: string; 
     AllowedUser: boolean;
 }

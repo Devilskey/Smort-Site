@@ -4,6 +4,7 @@ import { IMyProfile } from "../Api/ApiObjects/userObjects";
 import { waitForAuth } from "../configs/FirebaseConfig";
 
 import { smortApi as Smort } from "../Api/smortApi";
+import { LoadingScreen } from "./Loading";
 
 export const AuthorizationWithoutConfiguration = () => {
     const [user, setUser] = useState<IMyProfile | undefined>()
@@ -39,7 +40,7 @@ export const AuthorizationWithoutConfiguration = () => {
     }, [loading]);
 
     if (loading) {
-        return <div>Loading...</div>; // Show a loading state until the check is complete
+        return  <LoadingScreen/>; // Show a loading state until the check is complete
     }
     if (!user) {
         return <Navigate to="/Login" replace />

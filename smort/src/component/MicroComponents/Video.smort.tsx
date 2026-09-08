@@ -34,7 +34,7 @@ export const SmortVideo = (props: props) => {
         <Video  
         ref={videoRef}
         className={Style.PleasePlayMe} 
-        src={smort.GetVideoUrl(props.content.Id)} 
+        src={smort.GetVideoUrl(props.content.id)} 
         loop 
         onClick={(event:any) => {
             const videoElement = event.currentTarget;
