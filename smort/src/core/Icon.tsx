@@ -28,4 +28,5 @@ export const PlayIcon = ():ReactElement =>
     <i className="fa-regular fa-circle-play"></i>
 export const QuestionIcon = ():ReactElement => 
     <i className="fa-solid fa-square-poll-horizontal"></i>
-
+export const InboxIcon = ():ReactElement => 
+    <i className="fa-solid fa-inbox"></i>

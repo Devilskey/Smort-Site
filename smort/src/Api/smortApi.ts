@@ -108,7 +108,7 @@ export class smortApi {
       isAccountConfigured: false
     };
 
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`, httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: any[] = await response.json();
         dataUser.username = jsonData[0].Username;
@@ -174,7 +174,7 @@ export class smortApi {
 
   public static async GetUsersContent(userId: number): Promise<ThumbnailObject[]> {
     let thumbnailData: ThumbnailObject[] = []
-    await Api.SendApiRequestGetAsync(`${this.ApiUrl}/Posts/GetAccountContentList?idUser=${userId}`).then(async (response) => {
+    await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Posts/GetAccountContentList?idUser=${userId}`, httpHeaders.httpHeaderJsonWithToken(this.Token)).then(async (response) => {
       const jsonData: ThumbnailObject[] = await response.json();
       thumbnailData = jsonData;
     }).catch((error) => console.error(error))

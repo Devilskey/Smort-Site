@@ -13,7 +13,7 @@ const localeMessages: Record<LocaleCode, Messages> = {
   "nl-NL": nlNL,
 };
 
-const normalizeLocale = (rawLocale: string): LocaleCode => {
+export const normalizeLocale = (rawLocale: string): LocaleCode => {
   const locale = rawLocale?.toLowerCase().replace("_", "-") ?? "en";
 
   if (locale === "en-us") {
@@ -37,9 +37,12 @@ export const getBrowserLocale = (): LocaleCode => {
   }
 
   const nav = window.navigator as Navigator & { languages?: readonly string[] };
-  const browserLanguage = Array.isArray(nav.languages) && nav.languages.length > 0
+  const browserLanguage = localStorage.getItem("language") ? localStorage.getItem("language") : 
+   Array.isArray(nav.languages) && nav.languages.length > 0
     ? nav.languages[0]
     : nav.language || "en";
+    
+  console.log(browserLanguage )
 
   return normalizeLocale(browserLanguage);
 };

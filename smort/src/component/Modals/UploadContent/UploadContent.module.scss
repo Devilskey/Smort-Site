@@ -5,7 +5,7 @@
     width: 100vw;
     display: flex;
     flex-direction: column;
-    color: whitesmoke;
+    color: $Primary-Text;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +26,7 @@
 .backgroundModalHeader {
     background-color: $Primary-Background;
     border-bottom: $Following-Primary solid;
-    color: whitesmoke ;
+    color: $Primary-Text ;
 
 
 }
@@ -80,7 +80,7 @@
     border-radius: solid black !important;
     overflow: hidden;
     --bs-modal-bg: none !important;
-    color: whitesmoke !important;
+    color: $Primary-Text !important;
 }
 
 .PostOption{

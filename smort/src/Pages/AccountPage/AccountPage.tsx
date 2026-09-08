@@ -52,7 +52,7 @@ export const AccountPage = (): ReactElement => {
 
     if (id !== undefined) {
       smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
-        SetContentList(data);
+        SetContentList(data.reverse());
       })
       smort.GetFollowersAsync(id).then((FollowerAmmount: string) => {
         setFollowerAmmount(FollowerAmmount)
@@ -66,7 +66,7 @@ export const AccountPage = (): ReactElement => {
     else {
 
       smort.GetMyContent().then((data: ThumbnailObject[]) => {
-        SetContentList(data);
+        SetContentList(data.reverse());
       })
       smort.GetMyFollowersAsync().then((FollowerAmmount: string) => {
         setFollowerAmmount(FollowerAmmount)
@@ -148,10 +148,10 @@ export const AccountPage = (): ReactElement => {
 
 
         </div>
-        {
-          AndroidHandler.AndroidNavBarNeeded() &&
-          <NavBarSmortMobile Search={Search} />
-        }
+          {
+            AndroidHandler.AndroidNavBarNeeded() &&
+            <NavBarSmortMobile Search={Search} />
+          }
       </div >
     </>
   )

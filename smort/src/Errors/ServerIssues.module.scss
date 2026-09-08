@@ -1,3 +1,5 @@
+@use '../Color' as *;
+
 .Page {
     width: 100dvw;
     height: 100dvh;
@@ -6,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: whitesmoke;
+    color: $Primary-Text;
     padding: 20px;
     text-align: center;
 }

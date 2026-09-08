@@ -33,7 +33,7 @@
   
   
 .SquareImage {
-    width: 98%;
+    width: 100%;
     object-fit: cover;
     aspect-ratio: 1 / 1;
     border-radius: 12px;
@@ -47,4 +47,5 @@
 
 .Card{
     background-color: $Thumbnail-Background !important;
+    border: none !important;
 }

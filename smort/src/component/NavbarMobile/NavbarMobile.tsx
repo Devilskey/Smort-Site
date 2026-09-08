@@ -10,8 +10,9 @@ import React, {
 import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { smortApi as smort } from "../../Api/smortApi";
 import { UploadContentModal, UploadContentModalHandle } from "../Modals/UploadContent/UploadContent.Modal";
-import { HomeIcon, PlusIcon, SearchIcon } from "../../core/Icon";
+import { HomeIcon, InboxIcon, PlusIcon, SearchIcon } from "../../core/Icon";
 import { Img } from "../../core/ImprovedControls/Img";
+import { useTranslation } from "../../translations/TranslationProvider";
   
   type Props = {
 	Search: (value: string) => void;
@@ -23,6 +24,8 @@ import { Img } from "../../core/ImprovedControls/Img";
   
 	const UploadContentComponent = useRef<UploadContentModalHandle>(null);
 	const InstallPromptEventRef = useRef<any>(null);
+
+	const { t } = useTranslation();
 
   	const navigate = useNavigate();
   	const location = useLocation();
@@ -52,7 +55,6 @@ import { Img } from "../../core/ImprovedControls/Img";
 	  <div className={Style.Nav}>
 		<UploadContentModal ref={UploadContentComponent} />
   
-		<Navbar expand="lg">
 		  <Container>
 			<input
 			  type="text"
@@ -71,32 +73,10 @@ import { Img } from "../../core/ImprovedControls/Img";
 			<Link className={location.pathname === "/home" ? Style.NavButtonActive : Style.NavButton} to={"/home"}>
 			  {/* Home icon */}
 			  <HomeIcon/>
+			  <div>{t("mobileNavbar.home")}</div>
+
 			</Link>
 
-			{AndroidHandler.IsUsingAndroid() && !AndroidHandler.PWArunning() && (
-			  <div
-				className={Style.NavButton}
-				onClick={() => {
-				  InstallPromptEventRef.current?.prompt();
-				}}
-			  >
-				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
-				  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-				  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-				</svg>
-			  </div>
-			)} 
-  
-			<button
-			  className={Style.NavButtonUpload}
-			  onClick={() => {
-				UploadContentComponent.current?.toggleModal();
-			  }}
-			>
-			  <PlusIcon/>
-			</button>
-			
-  
 			<button
 			  className={Style.NavButton }
 			  onClick={() => {
@@ -105,10 +85,34 @@ import { Img } from "../../core/ImprovedControls/Img";
 					console.log("navigating to home")
 					navigate('/home')
 				}
-			  }}
-			>
+			  }}>
 			  <SearchIcon/>
+			  <div>{t("mobileNavbar.search")}</div>
 			</button>
+
+			
+			<button
+			  className={Style.NavButtonUpload}
+			  onClick={() => {
+				UploadContentComponent.current?.toggleModal();
+			  }}>
+			  <PlusIcon/>
+			</button>
+			
+  			<button
+			  className={Style.NavButton }
+			  onClick={() => {
+				setSearchBarDisplayState(!SearchBarDisplayState);
+				if(!SearchBarDisplayState){
+					console.log("navigating to home")
+					navigate('/home')
+				}
+			  }}>
+			  <InboxIcon/>
+			  <div>{t("mobileNavbar.notify")}</div>
+			</button>
+
+
   
 	
   
@@ -116,15 +120,16 @@ import { Img } from "../../core/ImprovedControls/Img";
 			  <div className={Style.User}>
 				<Img
 				  src={smort.GetImageUrl(user?.profilePicture, false)}
-				  width="60"
-				  height="60"
+				  width="40"
+				  height="40"
 				  className={Style.UserImg}
 				  alt=""
 				/>
 			  </div>
+			  <div>{t("mobileNavbar.profile")}</div>
+
 			</Link>
 		  </Container>
-		</Navbar>
 	  </div>
 	);
   };

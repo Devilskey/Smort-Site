@@ -20,9 +20,9 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    smort.GetAwnser(post.id).then((awnser) => {
+    smort.GetAwnser(post.id).then((awnser:Answer[] | undefined) => {
       if (awnser) {
-        setPostAnswers(awnser);
+        setPostAnswers(awnser.reverse());
       }
     }).catch(console.error)
   }, [])

@@ -1,64 +1,353 @@
-$Primary-NavBar: #18181b;
-$Mobile-Navbar: #202434;
 
-$Primary-Background: #0f111a;
+:root {
+  --Primary-NavBar: #18181b;
+  --Mobile-Navbar: #202434;
+
+  --Primary-Background: #0f111a;
+
+  --Logo-Background: #1b1b1b;
+  --Login-Icon: #d8407f;
+  --Login-Icon-background: #891c49aa;
+
+  --Primary-Text: whitesmoke;
+  --black-Text: #1b1b1b;
+
+  --Post-Background: #1a1d2c;
+
+  --answer-Background-even: #2b3046;
+  --answer-Background-uneven: #131526;
+
+  --answer-Line: #444;
+
+  --Thumbnail-Background: #111;
+
+  --LikeButton: rgb(255, 255, 255);
+  --LikeButton-border: rgb(255, 255, 255);
+
+  --VideoBackground: black;
+
+  --nav-Button: white;
+
+  --Primary-Delete: rgb(255, 65, 65);
+
+  --User-Info-Background: #060813;
+  --UserInfo-BorderBottom: rgb(73, 73, 73);
+
+  --Following-Primary: #fff1fa;
+  --Following-Border: #1d4e9d;
+  --Following-Border-gradient: #d8407f;
+
+  --ScrollBar-Scrol: rgb(0, 0, 0);
+  --ScrollBar-Scrol-Background: rgb(112, 99, 103);
+
+  --Primary-LikeButton: #D71868;
+
+  --Primary-Button: #b12d64;
+  --Primary-Button-Hover: #6d0f36;
+  --Primary-Button-border: #ae2760;
+
+  --Primary-Button-Active: #c14d7d;
+
+  --Loading-Color-Light: #2b2d3d;
+  --Loading-Color-Dark: #0f111a;
+
+  --OptionsForm-FotosAndVideo: #4663c1;
+  --OptionsForm-FotosAndVideo-border: #293e83;
+
+  --OptionsForm-Ask: #bf3770;
+  --OptionsForm-Ask-border: #7d1f46;
+
+  --User-State-Border: #5e5e5e;
+}
+
+[data-theme="Light"] {
+
+  --Primary-NavBar: #ffffff;
+
+  --Mobile-Navbar: #f8f8fa;
+
+  --Primary-Background: #f1f2f5;
+
+  --Logo-Background: #f7f7f9;
+
+  --Login-Icon: #d8407f;
+
+  --Login-Icon-background: #f7d6e5aa;
+
+  --Primary-Text: #18181b;
+
+  --black-Text: #18181b;
+
+  --Post-Background: #ffffff;
+
+  --answer-Background-even: #f7f7f9;
+
+  --answer-Background-uneven: #eeeeF2;
+
+  --answer-Line: #d9d9df;
+
+  --Thumbnail-Background: #e7e7eb;
+
+  --LikeButton: rgb(24, 24, 27);
+
+  --LikeButton-border: rgb(24, 24, 27);
+
+  --VideoBackground: black;
+
+  --nav-Button: #18181b;
+
+  --Primary-Delete: rgb(239, 68, 68);
+
+  --User-Info-Background: #f8f8fa;
+
+  --UserInfo-BorderBottom: rgb(222, 222, 228);
+
+  --Following-Primary: #fff4fa;
+
+  --Following-Border: #315ca8;
+
+  --Following-Border-gradient: #d8407f;
+
+  --ScrollBar-Scrol: rgb(197, 197, 204);
+
+  --ScrollBar-Scrol-Background: rgb(238, 238, 242);
+
+  --Primary-LikeButton: #d71868;
+
+  --Primary-Button: #b12d64;
+
+  --Primary-Button-Hover: #8f174d;
+
+  --Primary-Button-border: #ae2760;
+
+  --Primary-Button-Active: #c14d7d;
+
+  --Loading-Color-Light: #e8e8ed;
+
+  --Loading-Color-Dark: #dcdce2;
+
+  --OptionsForm-FotosAndVideo: #4663c1;
+
+  --OptionsForm-FotosAndVideo-border: #293e83;
+
+  --OptionsForm-Ask: #bf3770;
+
+  --OptionsForm-Ask-border: #7d1f46;
+
+  --User-State-Border: #b8b8c0;
+
+}
+
+[data-theme="Samurai"] {
+
+--Primary-NavBar: #141314;
+
+--Mobile-Navbar: #202434;
+
+--Primary-Background: #0f111a;
+
+--Logo-Background: #1b1b1b;
+
+--Login-Icon: #FFB020;
+
+--Login-Icon-background: #A11E1Eaa;
+
+--Primary-Text: whitesmoke;
+
+--black-Text: #1b1b1b;
+
+--Post-Background: #1a1d2c;
+
+--answer-Background-even: #2b3046;
+
+--answer-Background-uneven: #131526;
+
+--answer-Line: #444;
+
+--Thumbnail-Background: #111;
+
+--LikeButton: rgb(255, 255, 255);
+
+--LikeButton-border: rgb(255, 255, 255);
+
+--VideoBackground: black;
+
+--nav-Button: white;
+
+--Primary-Delete: #E53935;
+
+--User-Info-Background: #060813;
+
+--UserInfo-BorderBottom: rgb(73, 73, 73);
+
+--Following-Primary: #FFF4D6;
+
+--Following-Border: #FFB020;
+
+--Following-Border-gradient: #E53935;
+
+--ScrollBar-Scrol: rgb(0, 0, 0);
+
+--ScrollBar-Scrol-Background: #706367;
+
+--Primary-LikeButton: #FFB020;
+
+--Primary-Button: #D93432;
+
+--Primary-Button-Hover: #8F1818;
+
+--Primary-Button-border: #E53935;
+
+--Primary-Button-Active: #FF6B35;
+
+--Loading-Color-Light: #2b2d3d;
+
+--Loading-Color-Dark: #0f111a;
+
+--OptionsForm-FotosAndVideo: #FF9F1C;
+
+--OptionsForm-FotosAndVideo-border: #C46A00;
+
+--OptionsForm-Ask: #A11E1E;
+
+--OptionsForm-Ask-border: #701414;
+
+--User-State-Border: #5e5e5e;
+}
 
 
-$Logo-Background: #1b1b1b;
+[data-theme="Pony"] {
 
-$Login-Icon: #d8407f;
-$Login-Icon-background: #891c49aa;
+--Primary-NavBar: #141314;
 
+--Mobile-Navbar: #202434;
 
-$Primary-Text: whitesmoke;
-$black-Text: #1b1b1b;
+--Primary-Background: #100D18;
 
+--Logo-Background: #1b1b1b;
 
-$Post-Background: #1a1d2c;
+--Login-Icon: #FF5FA2;
 
-$answer-Background-even: #0c0e1a;
-$answer-Background-uneven: #191d30;
+--Login-Icon-background: #B88CFFaa;
 
-$answer-Line: #444;
+--Primary-Text: #FFF7FC;
 
-$Thumbnail-Background: #111;
+--black-Text: #1b1b1b;
 
-$LikeButton: rgb(255, 255, 255);
-$LikeButton-border: rgb(255, 255, 255);
+--Post-Background: #191423;
 
-$VideoBackground: black;
+--answer-Background-even: #302340;
 
-$nav-Button: white;
+--answer-Background-uneven: #13111F;
 
-$Primary-Delete: rgb(255, 65, 65);
+--answer-Line: #443451;
 
-$User-Info-Background: #060813;
-$UserInfo-BorderBottom: rgb(73, 73, 73);
+--Thumbnail-Background: #111;
 
-$Following-Primary: #fff1fa;
-$Following-Border: #1d4e9d;
-$Following-Border-gradient: #d8407f; 
+--LikeButton: rgb(255, 255, 255);
 
-$ScrollBar-Scrol: rgb(0, 0, 0);
+--LikeButton-border: rgb(255, 255, 255);
 
-$ScrollBar-Scrol-Background: rgb(112, 99, 103);
+--VideoBackground: black;
 
+--nav-Button: white;
 
-$Primary-LikeButton: #D71868;
+--Primary-Delete: #F2388F;
 
-$Primary-Button: #b12d64;
-$Primary-Button-Hover: #6d0f36;
-$Primary-Button-border: #ae2760;
+--User-Info-Background: #0B0812;
 
-$Primary-Button-Active: #c14d7d;
+--UserInfo-BorderBottom: #443451;
 
+--Following-Primary: #FFF0F8;
 
-$Loading-Color-Light: #2b2d3d;
-$Loading-Color-Dark: #0f111a;
+--Following-Border: #B88CFF;
 
-$OptionsForm-FotosAndVideo : #4663c1;
-$OptionsForm-FotosAndVideo-border: #293e83;
+--Following-Border-gradient: #FF5FA2;
 
-$OptionsForm-Ask : #bf3770;
-$OptionsForm-Ask-border : #7d1f46;
+--ScrollBar-Scrol: rgb(0, 0, 0);
 
+--ScrollBar-Scrol-Background: #706070;
+
+--Primary-LikeButton: #FF5FA2;
+
+--Primary-Button: #FF5FA2;
+
+--Primary-Button-Hover: #D9367A;
+
+--Primary-Button-border: #F2388F;
+
+--Primary-Button-Active: #FF9FCB;
+
+--Loading-Color-Light: #302B3D;
+
+--Loading-Color-Dark: #100D18;
+
+--OptionsForm-FotosAndVideo: #7EA7FF;
+
+--OptionsForm-FotosAndVideo-border: #536FC4;
+
+--OptionsForm-Ask: #B88CFF;
+
+--OptionsForm-Ask-border: #805AC7;
+
+--User-State-Border: #5e5e5e;
+}
+
+$Primary-NavBar: var(--Primary-NavBar);
+$Mobile-Navbar: var(--Mobile-Navbar);
+
+$Primary-Background: var(--Primary-Background);
+
+$Logo-Background: var(--Logo-Background);
+$Login-Icon: var(--Login-Icon);
+$Login-Icon-background: var(--Login-Icon-background);
+
+$Primary-Text: var(--Primary-Text);
+$black-Text: var(--black-Text);
+
+$Post-Background: var(--Post-Background);
+
+$answer-Background-even: var(--answer-Background-even);
+$answer-Background-uneven: var(--answer-Background-uneven);
+
+$answer-Line: var(--answer-Line);
+
+$Thumbnail-Background: var(--Thumbnail-Background);
+
+$LikeButton: var(--LikeButton);
+$LikeButton-border: var(--LikeButton-border);
+
+$VideoBackground: var(--VideoBackground);
+
+$nav-Button: var(--nav-Button);
+
+$Primary-Delete: var(--Primary-Delete);
+
+$User-Info-Background: var(--User-Info-Background);
+$UserInfo-BorderBottom: var(--UserInfo-BorderBottom);
+
+$Following-Primary: var(--Following-Primary);
+$Following-Border: var(--Following-Border);
+$Following-Border-gradient: var(--Following-Border-gradient);
+
+$ScrollBar-Scrol: var(--ScrollBar-Scrol);
+$ScrollBar-Scrol-Background: var(--ScrollBar-Scrol-Background);
+
+$Primary-LikeButton: var(--Primary-LikeButton);
+
+$Primary-Button: var(--Primary-Button);
+$Primary-Button-Hover: var(--Primary-Button-Hover);
+$Primary-Button-border: var(--Primary-Button-border);
+
+$Primary-Button-Active: var(--Primary-Button-Active);
+
+$Loading-Color-Light: var(--Loading-Color-Light);
+$Loading-Color-Dark: var(--Loading-Color-Dark);
+
+$OptionsForm-FotosAndVideo: var(--OptionsForm-FotosAndVideo);
+$OptionsForm-FotosAndVideo-border: var(--OptionsForm-FotosAndVideo-border);
+
+$OptionsForm-Ask: var(--OptionsForm-Ask);
+$OptionsForm-Ask-border: var(--OptionsForm-Ask-border);
+
+$user-State-Border: var(--User-State-Border);

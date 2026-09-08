@@ -4,6 +4,7 @@
     border-bottom: $UserInfo-BorderBottom solid 2px;
     background-color: $User-Info-Background;
     color: $Primary-Text;
+    margin-bottom: 12px;
 
     .FollowButtonFollow {
         height: 30px;
@@ -118,8 +119,8 @@
         margin-bottom: 12px;
         padding: 6px;
         display: flex;
-        border-top: solid rgba(245, 245, 245, 0.321) 1px;
-        border-bottom: solid rgba(245, 245, 245, 0.321) 1px;
+        border-top: solid $user-State-Border 1px;
+        border-bottom: solid $user-State-Border 1px;
 
         .UserStatItem {
 
@@ -132,7 +133,7 @@
 
         }
         .UserStatItem:not(:last-child){
-          border-right: solid rgba(245, 245, 245, 0.321) 1px;
+          border-right: solid $user-State-Border 1px;
         }
 
         label {

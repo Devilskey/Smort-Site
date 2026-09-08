@@ -24,7 +24,8 @@
   }
 
   .contentItem {
-    box-shadow: 0px 4px 24px rgba(138, 116, 116, 0.194);
+    // box-shadow: 0px 4px 24px rgba(138, 116, 116, 0.194);
+    background-color: $Post-Background;
     margin: 1rem 0rem;
     color: $Primary-Text;
     border: transparent solid 1px;
