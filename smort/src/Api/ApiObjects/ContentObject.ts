@@ -1,12 +1,12 @@
 export interface ContentItem {
-    Id: number;
-    Title: string;
-    Description: string;
-    User_Id: number;
-    File_Id: number;
-    Created_At: string;
-    Username: string;
-    Likes: number;
-    AlreadyLiked: number;
-    Type:string;
+    id: number;
+    title: string;
+    description: string;
+    userId: number;
+    fileId: number;
+    created_at: string;
+    username: string;
+    likes: number;
+    alreadyLiked: number;
+    type:string;
   }

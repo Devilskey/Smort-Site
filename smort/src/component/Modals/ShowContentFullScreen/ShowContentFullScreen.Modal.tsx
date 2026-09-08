@@ -54,23 +54,23 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
           {ContentItem &&
             <>
             <div className={Style.User}>
-              <Link to={`/account/${ContentItem.User_Id}`}
+              <Link to={`/account/${ContentItem.userId}`}
                 className={Style.UserLink}>
                 <Img className={Style.UserImgSimpel}
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   width="55px" height="55px"
-                  src={`${smort.GetProfilePictureImageUrl(ContentItem.User_Id)}&size=${size.M}`} />
-                {ContentItem.Username}
+                  src={`${smort.GetProfilePictureImageUrl(ContentItem.userId)}&size=${size.M}`} />
+                {ContentItem.username}
               </Link>
             </div>
             
-              <div className={Style.contentTitle}> {ContentItem.Description}</div>
-              {ContentItem.Type === "img" ?
+              <div className={Style.contentTitle}> {ContentItem.description}</div>
+              {ContentItem.type === "img" ?
                 <div>
                   <Img
                     loading="lazy"
-                    src={smort.GetImageUrl(ContentItem.File_Id)}
+                    src={smort.GetImageUrl(ContentItem.fileId)}
                     className={Style.ImgContent} />
                 </div>
                 :

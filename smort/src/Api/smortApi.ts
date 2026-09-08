@@ -93,6 +93,7 @@ export class smortApi {
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: IMyProfile = await response.json();
+        console.log(jsonData);
         this.User = jsonData;
       });
     return this.User;
@@ -103,15 +104,15 @@ export class smortApi {
     let dataUser: IMyProfile = {
       id: null,
       username: "",
-      profile_Picture: 0,
-      Is_Account_Configured: false
+      profilePicture: 0,
+      isAccountConfigured: false
     };
 
     await Api.SendApiRequestGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`)
       .then(async (response) => {
         const jsonData: any[] = await response.json();
         dataUser.username = jsonData[0].Username;
-        dataUser.profile_Picture = jsonData[0].Profile_Picture;
+        dataUser.profilePicture = jsonData[0].Profile_Picture;
       });
 
     return dataUser;
@@ -125,7 +126,7 @@ export class smortApi {
     if (id) {
       return `${this.ApiUrl}/Images/GetImage?ImageId=${id}&IsContent=${content}`
     }
-    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profile_Picture}&IsContent=${content}`
+    return `${this.ApiUrl}/Images/GetImage?ImageId=${this.User?.profilePicture}&IsContent=${content}`
   }
 
   public static async GetContentItemAsync(cotentId: string): Promise<ContentItem | undefined> {
@@ -157,6 +158,7 @@ export class smortApi {
         .then(async (response) => {
           
           const jsonData: ContentItem[] = await response.json();
+          console.log(jsonData);
           postImages = jsonData;
         });
       return postImages;

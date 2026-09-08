@@ -1,7 +1,7 @@
 export class ThumbnailObject{
-    public Id:number = 0;
-    public Title:string = "";
-    public Thumbnail:number = 0;
-    public File_Id: number = 0;
-    public Type: string = "";
+    public id:number = 0;
+    public title:string = "";
+    public thumbnail:number = 0;
+    public fileId: number = 0;
+    public type: string = "";
 }

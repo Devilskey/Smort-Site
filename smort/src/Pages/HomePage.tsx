@@ -66,14 +66,14 @@ export const HomePage = (): ReactElement => {
             <div className={Style.FollowingsMenu}>
               <div className={Style.Followings} ref={scrollRef} onDrag={() => handleDragScroll(scrollRef)}>
                 {following.map((follow) => (
-                  <Link className={Style.FollowItem} to={`/account/${follow.User_Id_Followed}`} draggable="false">
+                  <Link className={Style.FollowItem} to={`/account/${follow.userIdFollowed}`} draggable="false">
                     <Img width="100" height="100" 
                     alt="PFpUserSmorthub"
-                    src={`${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.S}`} 
+                    src={`${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.S}`} 
                     srcSet={`
-                      ${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.L} 1000w,
-                      ${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.M} 720w,
-                    	${smort.GetImageUrl(follow.Profile_Picture, false)}&size=${size.S} 480w`}
+                      ${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.L} 1000w,
+                      ${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.M} 720w,
+                    	${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.S} 480w`}
                     draggable="false" />
                   </Link>
                 ))}

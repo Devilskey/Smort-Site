@@ -24,22 +24,22 @@ export const ThumbnailCard = ({ Post, deleteMode }: IProps): ReactElement => {
         <Card className={Style.Card}>
           <div className={Style.VideoLink}
             onClick={() => {
-              ShowContentFullScreenComponent.current?.toggleModal(Post.Id);
+              ShowContentFullScreenComponent.current?.toggleModal(Post.id);
             }}>
-            {Post.Type !== "Ask" &&
+            {Post.type !== "Ask" &&
             <div>
                 <Img
                   loading="lazy"
-                  src={smort.GetImageUrl(Post.Thumbnail ?? Post.File_Id, Post.Thumbnail === null)}
+                  src={smort.GetImageUrl(Post.thumbnail ?? Post.fileId, Post.thumbnail === null)}
                   className={Style.SquareImage} />
 
                 {deleteMode &&
                  <button className={Style.DeleteButton}
                    onClick={() => {
-                     if (Post.Type === "img") {
-                       smort.DeleteImage(Post.Id);
+                     if (Post.type === "img") {
+                       smort.DeleteImage(Post.id);
                      } else {
-                       smort.DeleteVideo(Post.Id)
+                       smort.DeleteVideo(Post.id)
                      }
                      setTimeout(() => {
                        window.location.reload()

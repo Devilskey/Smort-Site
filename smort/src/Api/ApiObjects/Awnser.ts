@@ -1,4 +1,4 @@
 export class Answer {
-  public User_Id: number = 0
-  public Answer: string = "";
+  public userId: number = 0
+  public answer: string = "";
 }

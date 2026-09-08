@@ -24,35 +24,35 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
         {posts.map((post, idx) => (
           <div className={Style.contentItem} key={idx}>
             <div className={Style.User}>
-              <Link to={`/account/${post.User_Id}`}
+              <Link to={`/account/${post.userId}`}
                 className={Style.UserLink}>
                 <Img className={Style.UserImgSimpel}
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   width="40px" height="40px"
-                  src={`${smort.GetProfilePictureImageUrl(post.User_Id)}&size=${size.S}`} />
-                {post.Username}
+                  src={`${smort.GetProfilePictureImageUrl(post.userId)}&size=${size.S}`} />
+                {post.username}
               </Link>
-              <div className={Style.contentTitle}>{post.Description}</div>
+              <div className={Style.contentTitle}>{post.description}</div>
             </div>
 
-            {post.Type === "vid" &&
+            {post.type === "vid" &&
               <div className={Style.VideoContainer}>
                 <SmortVideo content={post} />
 
               </div>}
-            {post.Type === "img" &&
+            {post.type === "img" &&
               <div className={Style.ContentImg}>
                 <Img
                   loading="lazy"
                   alt="An image Uploaded to smort"
                   srcSet={`
-                    ${smort.GetImageUrl(post.File_Id)}&size=${size.M}`}
+                    ${smort.GetImageUrl(post.fileId)}&size=${size.M}`}
                   sizes="width: 100%" />
               </div>
             }
 
-            {post.Type === "Ask" &&
+            {post.type === "Ask" &&
               <>
               <AskQuestion post={post}/>
               </>

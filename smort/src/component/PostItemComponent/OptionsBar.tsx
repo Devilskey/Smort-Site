@@ -6,27 +6,29 @@ import { LikedIcon, LikeIcon } from "../../core/Icon";
 
 
 export const OptionsButtons = ({ post }: { post: ContentItem }) => {
-  const [reload, setReload] = useState(0);
   const [localPost, setLocalPost] = useState(post);
+  const [reload, setReload] = useState(0);
 
-  return (<div className={Style.Options}>
-    {smort.getUser() !== undefined ? <><button className={Style.LikeButton} onClick={() => {
-      smort.likeContent(localPost.Id, localPost.Type).then(value => {
+  return (<div className={Style.Options} id={`Options-${post.id}`}>
+    {smort.getUser() !== undefined ? <>
+    <button className={Style.LikeButton} onClick={() => {
+      smort.likeContent(localPost.id, localPost.type).then(value => {
         if (value !== "") {
           setLocalPost(prevPost => ({
             ...prevPost,
-            Likes: value === "RemoveLike" ? prevPost.Likes - 1 : prevPost.Likes + 1,
-            AlreadyLiked: value === "RemoveLike" ? 0 : 1
+            likes: value === "RemoveLike" ? prevPost.likes - 1 : prevPost.likes + 1,
+            alreadyLiked: value === "RemoveLike" ? 0 : 1,
           }));
-          setReload((reload + 1))
         }
+          console.log(localPost)
+          console.log(value)
+          setReload(reload + 1);
       });
     }}>
-      {localPost.AlreadyLiked !== 0 ? (<div className={Style.LikedColor}>  <LikedIcon /> {localPost.Likes}</div>) : (<div><LikeIcon />  {localPost.Likes} </div>)}
+      {localPost.alreadyLiked !== 0 ? (<div className={Style.LikedColor}>  <LikedIcon /> {localPost.likes}</div>) : (<div><LikeIcon />  {localPost.likes} </div>)}
     </button>
     </> :
-      <div className={Style.LikeAmountText}><LikeIcon /> {`${localPost.Likes}`}  </div>
+      <div className={Style.LikeAmountText}><LikeIcon /> {`${localPost.likes}`}  </div>
     }
-
   </div>);
 }

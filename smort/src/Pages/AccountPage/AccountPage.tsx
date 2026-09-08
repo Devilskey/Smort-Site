@@ -140,7 +140,7 @@ export const AccountPage = (): ReactElement => {
           <Container>
             <Row xs={3} md={3} className="g-2" >
               {  ContentList == null && <div className={Style.loading}><Spinner/></div> }
-              {ContentList?.filter((item) => item.Type != "Ask").map((item: ThumbnailObject, idx) => (
+              {ContentList?.filter((item) => item.type != "Ask").map((item: ThumbnailObject, idx) => (
                 <ThumbnailCard Post={item} deleteMode={deleteMode} />
               ))}
             </Row>

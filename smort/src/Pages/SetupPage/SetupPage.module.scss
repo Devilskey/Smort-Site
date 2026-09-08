@@ -8,6 +8,7 @@
     height: 100dvh;
     width: 100%;
     overflow: hidden;
+    background-color: $Primary-Background;
 }
 
 @media (min-width: 1000px) {
@@ -33,6 +34,13 @@
             aspect-ratio: 1/1;
             width: 20%;
             border-radius: 50%;
+            border: 2px dashed $OptionsForm-Ask-border;
+            background-color: transparent;
+
+            &:hover{
+                background-color: transparent;
+                border: 2px solid $OptionsForm-Ask-border;
+            }
 
             img{
                 width: 100%;
@@ -60,6 +68,8 @@
         .SubmitButton{
             margin-top: 1rem;
             width: 100%;
+            background-color: $OptionsForm-Ask;
+            border: 2px solid $OptionsForm-Ask-border;
         }
     }
 }
