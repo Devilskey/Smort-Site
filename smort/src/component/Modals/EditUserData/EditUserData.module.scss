@@ -3,12 +3,12 @@
 .ModalColor{
     
     background-color: $Primary-Background !important;
-    color: whitesmoke;
+    color: $Primary-Text;
 
 
     .PrimaryButton {
 
-        color: whitesmoke;
+        color: $Primary-Text;
        background-color: $Primary-Button !important;
        border: solid $Primary-Button-border 2px !important; 
         width: 100%;
@@ -17,7 +17,7 @@
     }
 
     .SecondaryButton {
-        color: whitesmoke;
+        color: $Primary-Text;
         background: transparent;
        border: solid $Primary-Delete 2px !important; 
 

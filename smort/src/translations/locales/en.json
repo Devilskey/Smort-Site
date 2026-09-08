@@ -30,6 +30,11 @@
   "navbar.loginCreateAccount": "Login / Create Account",
   "navbar.installApp": "Install App",
 
+  "mobileNavbar.search": "Search",
+  "mobileNavbar.notify": "Inbox",
+  "mobileNavbar.profile": "Profile",
+  "mobileNavbar.home": "Home",
+
   "uploadContent.title": "Upload content",
   "uploadContent.placeholderDescription": "Description...",
   "uploadContent.placeholderQuestion": "Ask question...",
@@ -51,6 +56,10 @@
   "editAccount.changeUsernameBtn": "Change username",
   "editAccount.changePasswordBtn": "Change password",
   "editAccount.changeEmailBtn": "Change email",
+  "editAccount.selectedLanguage": "Selected language",
+  "editAccount.selectedTheme": "Selected theme",
+  "editAccount.titleAccountData": "Account data",
+  "editAccount.titleSettings": "Site settings",
 
   "thumbnail.delete": "Delete",
 
@@ -80,5 +89,13 @@
   "profile.followers": "Followers",
   "profile.Posts": "Posts",
   "profile.follow": "Follow",
-  "profile.unfollow": "Unfollow"
+  "profile.unfollow": "Unfollow",
+
+  "langs.NL": "Dutch",
+  "langs.EN": "English",
+
+  "themes.default (dark)": "Default (Dark)",
+  "themes.light": "Light",
+  "themes.Samurai": "Samurai",
+  "themes.pony": "Pony"
 }

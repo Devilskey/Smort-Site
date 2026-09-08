@@ -31,6 +31,11 @@
   "navbar.loginCreateAccount": "Inloggen / Account aanmaken",
   "navbar.installApp": "Installeer app",
 
+  "mobileNavbar.search": "Zoeken",
+  "mobileNavbar.notify": "inbox",
+  "mobileNavbar.profile": "Profiel",
+  "mobileNavbar.home": "Thuis",
+
   "uploadContent.title": "Inhoud uploaden",
   "uploadContent.placeholderDescription": "Beschrijving...",
   "uploadContent.placeholderQuestion": "Stel een vraag...",
@@ -52,6 +57,10 @@
   "editAccount.changeUsernameBtn": "Wijzig gebruikersnaam",
   "editAccount.changePasswordBtn": "Wijzig wachtwoord",
   "editAccount.changeEmailBtn": "Wijzig e-mail",
+  "editAccount.selectedLanguage": "Selected language",
+  "editAccount.selectedTheme": "Selected theme",
+  "editAccount.titleAccountData": "Account data",
+  "editAccount.titleSettings": "website instellingen",
 
   "thumbnail.delete": "Verwijderen",
 
@@ -81,5 +90,14 @@
   "profile.followers": "Volgers",
   "profile.Posts": "Berichten",
   "profile.follow": "Volg",
-  "profile.unfollow": "Ontvolg"
+  "profile.unfollow": "Ontvolg",
+
+  "langs.NL": "Nederlands",
+  "langs.EN": "Engels",
+
+  "themes.default (dark)": "Standaard (donker)",
+  "themes.light": "Licht",
+  "themes.Samurai": "Samurai",
+  "themes.pony": "Pony"
+  
 }

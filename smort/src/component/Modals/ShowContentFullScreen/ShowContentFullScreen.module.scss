@@ -40,7 +40,7 @@
     button {
        background-color: $Primary-Button ;
        border: solid $Primary-Button-border 2px ; 
-       color: whitesmoke;
+       color: $Primary-Text;
        *:first-letter {
           text-transform: uppercase;
        }
