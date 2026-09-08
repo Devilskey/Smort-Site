@@ -97,6 +97,8 @@
             aspect-ratio: 1/1;
             width: 40%;
             border-radius: 50%;
+            border: 2px dashed $OptionsForm-Ask-border;
+            background-color: transparent;
 
             img{
                 width: 100%;
@@ -124,6 +126,9 @@
         .SubmitButton{
             margin-top: 1rem;
             width: 100%;
+            background-color: $OptionsForm-Ask;
+            border: 2px solid $OptionsForm-Ask-border;
+
         }
     }
 }
