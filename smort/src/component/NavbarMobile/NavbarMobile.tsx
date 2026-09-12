@@ -1,13 +1,10 @@
 import React, {
 	useEffect,
 	useRef,
-	useState,
-	MutableRefObject,
   } from "react";
-  import { Container, Navbar } from "react-bootstrap";
-  import { Link, useLocation, useNavigate } from "react-router-dom";
+  import { Container } from "react-bootstrap";
+  import { Link, useLocation } from "react-router-dom";
   import Style from "./NavbarMobile.module.scss"; 
-import { AndroidHandler } from "../../PlatformSpecificScripts/Android";
 import { smortApi as smort } from "../../Api/smortApi";
 import { UploadContentModal, UploadContentModalHandle } from "../Modals/UploadContent/UploadContent.Modal";
 import { HomeIcon, InboxIcon, PlusIcon, SearchIcon } from "../../core/Icon";
@@ -19,15 +16,12 @@ import { useTranslation } from "../../translations/TranslationProvider";
   };
   
   export const NavBarSmortMobile: React.FC<Props> = ({ Search }) => {
-	const [SearchBarDisplayState, setSearchBarDisplayState] = useState(false);
-	const [alreadyInstalled, setAlreadyInstalled] = useState(false);
   
 	const UploadContentComponent = useRef<UploadContentModalHandle>(null);
 	const InstallPromptEventRef = useRef<any>(null);
 
 	const { t } = useTranslation();
 
-  	const navigate = useNavigate();
   	const location = useLocation();
 	
   
@@ -35,10 +29,7 @@ import { useTranslation } from "../../translations/TranslationProvider";
 	  const handler = (event: any) => {
 		event.preventDefault();
 		InstallPromptEventRef.current = event;
-  
-		const isInstalled = window.matchMedia("(display-mode: standalone)").matches;
-		setAlreadyInstalled(isInstalled);
-	  };
+  	  };
   
 	  window.addEventListener("beforeinstallprompt", handler);
   
@@ -47,48 +38,27 @@ import { useTranslation } from "../../translations/TranslationProvider";
 	  };
 	}, []);
   
-	const GetVisibility = () => (SearchBarDisplayState ? "flex" : "none");
   
 	const user = smort.getUser();
   
 	return (
 	  <div className={Style.Nav}>
 		<UploadContentModal ref={UploadContentComponent} />
-  
-		  <Container>
-			<input
-			  type="text"
-			  className={`${Style.SearchBarText}`}
-			  style={{ display: GetVisibility() }}
-			  onChange={(event) => {
-				const value = event.target.value;
-				Search(value);
-			  }}
-			/>
-			
-		  </Container>
-		  
+
   
 		  <Container className={Style.NavItems}>
-			<Link className={location.pathname === "/home" ? Style.NavButtonActive : Style.NavButton} to={"/home"}>
+			<Link className={location.pathname.toLowerCase() === "/home" ? Style.NavButtonActive : Style.NavButton} to={"/home"}>
 			  {/* Home icon */}
 			  <HomeIcon/>
 			  <div>{t("mobileNavbar.home")}</div>
 
 			</Link>
 
-			<button
-			  className={Style.NavButton }
-			  onClick={() => {
-				setSearchBarDisplayState(!SearchBarDisplayState);
-				if(!SearchBarDisplayState){
-					console.log("navigating to home")
-					navigate('/home')
-				}
-			  }}>
+			<Link to='/search'
+			  className={location.pathname.toLowerCase() === "/search" ? Style.NavButtonActive : Style.NavButton}>
 			  <SearchIcon/>
 			  <div>{t("mobileNavbar.search")}</div>
-			</button>
+			</Link>
 
 			
 			<button
@@ -99,24 +69,15 @@ import { useTranslation } from "../../translations/TranslationProvider";
 			  <PlusIcon/>
 			</button>
 			
-  			<button
-			  className={Style.NavButton }
-			  onClick={() => {
-				setSearchBarDisplayState(!SearchBarDisplayState);
-				if(!SearchBarDisplayState){
-					console.log("navigating to home")
-					navigate('/home')
-				}
-			  }}>
+  			<Link to='/inbox'
+			  className={location.pathname.toLowerCase() === "/inbox" ? Style.NavButtonActive : Style.NavButton}>
 			  <InboxIcon/>
 			  <div>{t("mobileNavbar.notify")}</div>
-			</button>
+			</Link>
 
 
   
-	
-  
-			<Link to={"/account"} className={location.pathname === "/account" ? Style.NavButtonActive : Style.NavButton}>
+			<Link to={"/account"} className={location.pathname.toLowerCase() === "/account" ? Style.NavButtonActive : Style.NavButton}>
 			  <div className={Style.User}>
 				<Img
 				  src={smort.GetImageUrl(user?.profilePicture, false)}

@@ -1,0 +1,32 @@
+@use '../../Color' as *;
+
+
+.Page{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: $Primary-Background;
+    color: $Primary-Text;
+
+    .SearchSection{
+        display: flex;
+        justify-content: center;
+        margin: 12px 0px;
+        input {
+            width: 100%;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+    }
+
+    .ResultsSection{
+        height: 100%;
+        flex: 1;
+    }
+
+    .SearchPageContainer{
+        height: 100vh;
+        overflow-y: auto;
+    }
+}

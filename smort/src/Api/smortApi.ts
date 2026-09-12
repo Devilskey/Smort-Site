@@ -605,6 +605,21 @@ export class smortApi {
     return undefined;
   }
 
+  public static async SearchAll (query:string): Promise<any> {
+    const HttpHeaderGet = {
+      "Authorization": `Bearer ${this.Token}`,
+      'Accept': 'text/plain',
+      'Content-Type': 'application/json'
+    };
+
+    const response = await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/search/all?query=${query}`, HttpHeaderGet);
+
+    if (response.ok) {
+      return await response.json();
+    }
+    return undefined;
+  }
+
   public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
     const httpHeader = {
       "Content-Type": "application/json",

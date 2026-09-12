@@ -10,6 +10,8 @@ import { Role } from "./Api/enums/Roles";
 import { ReactElement } from "react";
 import { SetupPage } from "./Pages/SetupPage/SetupPage";
 import { AuthorizationWithoutConfiguration } from "./routing/AuthorizationWithoutConfiguration";
+import { SearchPage } from "./Pages/SearchPage/SearchPage";
+import { InboxPage } from "./Pages/InboxPage/InboxPage";
 
 const SiteRouter = (): ReactElement => {
     return (
@@ -26,7 +28,8 @@ const SiteRouter = (): ReactElement => {
                     <Route path="/account/:id" element={<AccountPage />} />
                     <Route path="/account" element={<AccountPage />} />
                     <Route path="/home" element={<HomePage />} />
-
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/inbox" element={<InboxPage />} />
                     <Route element={<RoleCheck NeededRol={Role.Admin} />}>
                         <Route path="/Smort/Admin" element={<AdminPanel />} />
                     </Route>
