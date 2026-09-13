@@ -1,7 +1,6 @@
 @use '../../../Color' as *;
 
 .UserInfoBackground {
-    border-bottom: $UserInfo-BorderBottom solid 2px;
     background-color: $User-Info-Background;
     color: $Primary-Text;
     margin-bottom: 12px;
@@ -145,5 +144,21 @@
         }
     }
 
+    .AccountTabs {
+        background-color: transparent !important;
+        border-bottom: 1px solid $user-State-Border;
 
+        :global(.nav-link) {
+            color: $Primary-Text !important;
+            background-color: transparent !important;
+            border: none !important;
+        }
+
+        :global(.nav-link.active) {
+            background-color: $Primary-Button-Active !important;
+            color: white !important;
+            border: none !important;
+        }
+    }
+  
 }

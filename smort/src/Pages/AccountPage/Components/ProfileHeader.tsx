@@ -7,7 +7,7 @@ import { IMyProfile } from '../../../Api/ApiObjects/userObjects';
 import { useParams } from 'react-router-dom';
 import { ReactElement } from 'react';
 import { useTranslation } from '../../../translations/TranslationProvider';
-import { Button } from 'react-bootstrap';
+import { Button, Tab, Tabs } from 'react-bootstrap';
 import { EditIcon } from '../../../core/Icon';
 import { Img } from '../../../core/ImprovedControls/Img';
 
@@ -17,6 +17,8 @@ export interface IProfileHeaderProps {
   Follower: boolean,
   setFollowerAmmount: React.Dispatch<React.SetStateAction<string | null>>,
   setFollower: React.Dispatch<React.SetStateAction<boolean>>
+  setTab: React.Dispatch<React.SetStateAction<"Content" | "Ask" | "All">>
+
   EditUserComponent: any,
   PostCount:number
 }
@@ -27,8 +29,9 @@ export const ProfileHeader = ({
   Follower,
   setFollowerAmmount,
   setFollower,
+  setTab,
   EditUserComponent,
-  PostCount
+  PostCount,
 }: IProfileHeaderProps): ReactElement => {
   const { id } = useParams()
   const { t } = useTranslation();
@@ -105,5 +108,14 @@ export const ProfileHeader = ({
             <div className={Style.StateAmount}>  {PostCount.toString()}  </div>
           </div>
       </div>
+      
+      <Tabs className={Style.AccountTabs} 
+        defaultActiveKey="Content"  
+      onSelect={(eventKey) => setTab((eventKey as  "All" | "Content" | "Ask") || "All")}
+        fill>
+        <Tab eventKey="All" title="All" className={Style.Tabs}/>
+        <Tab  eventKey="Content" title="Post" className={Style.Tabs}/>
+        <Tab  eventKey="Ask" title="Questions" className={Style.Tabs}/>
+      </Tabs>
   </div>;
 }

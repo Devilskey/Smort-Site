@@ -12,6 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import { SmortTokenPayload } from "./enums/TokenPayload";
 import { IUser } from "./ApiObjects/IUser";
 import { Answer } from "./ApiObjects/Awnser";
+import { SearchAll } from "./ApiObjects/SearchAll";
 
 export class smortApi {
   public static ApiUrl: string = "https://api.socials.devilskey.nl";
@@ -605,7 +606,7 @@ export class smortApi {
     return undefined;
   }
 
-  public static async SearchAll (query:string): Promise<any> {
+  public static async SearchAll (query:string): Promise<SearchAll> {
     const HttpHeaderGet = {
       "Authorization": `Bearer ${this.Token}`,
       'Accept': 'text/plain',
@@ -617,7 +618,7 @@ export class smortApi {
     if (response.ok) {
       return await response.json();
     }
-    return undefined;
+    return { posts: [], users: [] };
   }
 
   public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
