@@ -68,7 +68,6 @@ export const HomePage = (): ReactElement => {
                 {following.map((follow) => (
                   <Link className={Style.FollowItem} to={`/account/${follow.userIdFollowed}`} draggable="false">
                     <Img width="100" height="100" 
-                    alt="PFpUserSmorthub"
                     src={`${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.S}`} 
                     srcSet={`
                       ${smort.GetImageUrl(follow.profilePicture, false)}&size=${size.L} 1000w,

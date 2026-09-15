@@ -26,7 +26,7 @@ const SiteRouter = (): ReactElement => {
                 <Route element={<AuthorizationNeededRouting />}>
 
                     <Route path="/account/:id" element={<AccountPage />} />
-                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/account" element={<AccountPage  />} />
                     <Route path="/home" element={<HomePage />} />
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/inbox" element={<InboxPage />} />

@@ -4,7 +4,7 @@ export interface ContentItem {
     description: string;
     userId: number;
     fileId: number;
-    created_at: string;
+    createdAt: string;
     username: string;
     likes: number;
     alreadyLiked: number;

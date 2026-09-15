@@ -88,12 +88,22 @@
   "admin.welcomeAdmin": "Welkom admin: ",
 
   "profile.followers": "Volgers",
+  "profile.following": "Volgend",
+
   "profile.Posts": "Berichten",
   "profile.follow": "Volg",
   "profile.unfollow": "Ontvolg",
 
+  "profile.tabs.All": "Alles",
+  "profile.tabs.Content": "Berichten",
+  "profile.tabs.Ask": "Vragen",
+
   "langs.NL": "Nederlands",
   "langs.EN": "Engels",
+
+  "search.results.users": "gebruikers gevonden",
+  "search.results.posts": "Berichten gevonden",
+  "search.placeholder": "Zoeken..",
 
   "themes.default (dark)": "Standaard (donker)",
   "themes.light": "Licht",

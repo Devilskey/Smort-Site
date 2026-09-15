@@ -17,6 +17,7 @@ import { ProfileHeader } from "./Components/ProfileHeader";
 import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
 import {PlusIcon} from "../../core/Icon";
 import { QuestionCard } from "../../component/QuestionCard/QuestionCard";
+import { FollowingData } from "../../Api/ApiObjects/FollowingData";
 
 
 export const AccountPage = (): ReactElement => {
@@ -29,7 +30,7 @@ export const AccountPage = (): ReactElement => {
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
 
 
-  const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
+  const [FollowerAmmount, setFollowerAmmount] = useState<FollowingData>({followers: 0, following:0 });
   const EditUserComponent = createRef<EditUserDataModalHandle>();
   const UploadContentComponent = useRef<UploadContentModalHandle>(null);
   const CreateAskQuestionComponent = useRef<UploadContentModalHandle>(null);
@@ -39,7 +40,6 @@ export const AccountPage = (): ReactElement => {
     if (id !== undefined) {
       smort.GetProfileAsync(Number(id))
         .then((profile: any) => {
-          profile.id = id;
           setUser(profile)
         })
         .catch((error) => console.error("Failed to fetch profile:", error));
@@ -58,7 +58,7 @@ export const AccountPage = (): ReactElement => {
       smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
         SetContentList(data.reverse());
       })
-      smort.GetFollowersAsync(id).then((FollowerAmmount: string) => {
+      smort.GetFollowersAsync(id).then((FollowerAmmount: FollowingData) => {
         setFollowerAmmount(FollowerAmmount)
       })
 
@@ -72,7 +72,7 @@ export const AccountPage = (): ReactElement => {
       smort.GetMyContent().then((data: ThumbnailObject[]) => {
         SetContentList(data.reverse());
       })
-      smort.GetMyFollowersAsync().then((FollowerAmmount: string) => {
+      smort.GetMyFollowersAsync().then((FollowerAmmount: FollowingData) => {
         setFollowerAmmount(FollowerAmmount)
       })
     }

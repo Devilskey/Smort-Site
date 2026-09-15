@@ -1,15 +1,20 @@
 import { useEffect } from "react";
-import { useLocation, } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const ForceRefresh = () => {
     const location = useLocation();
-    const forceRefreshRouteKeys = ["AccountOtherUser", "MyAccount"];
 
     useEffect(() => {
-        if (forceRefreshRouteKeys.some((key) => key === location.key)) {
+        const lastPath = sessionStorage.getItem("lastAccountPath");
+
+        if (
+            location.pathname.startsWith("/account") &&
+            lastPath !== location.pathname
+        ) {
+            sessionStorage.setItem("lastAccountPath", location.pathname);
             window.location.reload();
         }
-    }, [location, forceRefreshRouteKeys]);
+    }, [location.pathname]);
 
     return null;
 };

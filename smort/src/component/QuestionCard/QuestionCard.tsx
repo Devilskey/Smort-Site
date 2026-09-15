@@ -21,16 +21,13 @@ export const QuestionCard = ({ Post, deleteMode }: IProps): ReactElement => {
     <>
       <ShowContentFullScreen ref={ShowContentFullScreenComponent} />
       <Col xs={6} sm={6} md={4} xl={3} >
-        <Card className={Style.Card}>
+        <Card className={Style.Card} onClick={() => {
+              ShowContentFullScreenComponent.current?.toggleModal(Post.id);
+            }}>
 
           <div className={Style.Question}>
-            {/* <div className={Style.QuestionBG}>
-              <QuestionSignIcon/>
-              <QuestionSignIcon/>
-              <QuestionSignIcon/>
-            </div> */}
             <div  className={Style.QuestionText}>
-              {Post.description}               {Post.description}               {Post.description} {Post.description} 
+              {Post.description}
               </div>
           </div>
 

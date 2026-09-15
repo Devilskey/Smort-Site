@@ -22,7 +22,7 @@
 
 .AnswerBox{
     padding: 12px 12px;
-    
+    color: $Primary-Text;
 
     &:not(:last-of-type)  {
     border-bottom: 1px solid $answer-Line;

@@ -13,6 +13,7 @@ import { SmortTokenPayload } from "./enums/TokenPayload";
 import { IUser } from "./ApiObjects/IUser";
 import { Answer } from "./ApiObjects/Awnser";
 import { SearchAll } from "./ApiObjects/SearchAll";
+import { FollowingData } from "./ApiObjects/FollowingData";
 
 export class smortApi {
   public static ApiUrl: string = "https://api.socials.devilskey.nl";
@@ -94,7 +95,6 @@ export class smortApi {
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
         const jsonData: IMyProfile = await response.json();
-        console.log(jsonData);
         this.User = jsonData;
       });
     return this.User;
@@ -111,9 +111,8 @@ export class smortApi {
 
     await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/users/GetUserDataProfile?id=${id}`, httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
-        const jsonData: any[] = await response.json();
-        dataUser.username = jsonData[0].Username;
-        dataUser.profilePicture = jsonData[0].Profile_Picture;
+        const jsonData: IMyProfile = await response.json();
+        dataUser = jsonData;
       });
 
     return dataUser;
@@ -159,7 +158,6 @@ export class smortApi {
         .then(async (response) => {
           
           const jsonData: ContentItem[] = await response.json();
-          console.log(jsonData);
           postImages = jsonData;
         });
       return postImages;
@@ -222,27 +220,33 @@ export class smortApi {
     return `${this.ApiUrl}/Video/GetVideo?videoId=${VideoId}`
   }
 
-  public static async GetFollowersAsync(UserId: string): Promise<string> {
+  public static async GetFollowersAsync(UserId: string): Promise<FollowingData> {
 
-    let followersAmount = "0";
+    let followersAmount = {
+      followers:0,
+      following:0
+    };
 
     await Api.SendApiRequestPostAsync(`${this.ApiUrl}/users/FollowersAmount?id=${UserId}`, null,
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
-        const jsonData: string = await response.text();
+        const jsonData: FollowingData = await response.json();
         followersAmount = jsonData;
       })
     return followersAmount;
   }
 
-  public static async GetMyFollowersAsync(): Promise<string> {
+  public static async GetMyFollowersAsync(): Promise<FollowingData> {
 
-    let followersAmount = "0";
+    let followersAmount = {
+      followers:0,
+      following:0
+    };
 
     await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/users/MyFollowersAmount`,
       httpHeaders.httpHeaderJsonWithToken(this.Token))
       .then(async (response) => {
-        const jsonData: string = await response.text();
+        const jsonData: FollowingData = await response.json();
         followersAmount = jsonData;
       })
     return followersAmount;
@@ -349,8 +353,6 @@ export class smortApi {
       const chunkSize = (1024 * 1024) * 20;
       const totalChunks = Math.ceil(video.size / chunkSize);
 
-      console.log(totalChunks);
-
       for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
         let start = chunkNumber * chunkSize;
         let end = Math.min(start + chunkSize, video.size);
@@ -383,7 +385,6 @@ export class smortApi {
               httpHeaders.httpHeaderJsonWithToken(this.Token)
             ).then(async response => {
               var text = await response.text();
-              console.log(text )
               if (text === "Saved the new Post" && response.ok) {
                 resolve(true);
               }
@@ -618,7 +619,7 @@ export class smortApi {
     if (response.ok) {
       return await response.json();
     }
-    return { posts: [], users: [] };
+    return { postsResults: [], userResults: [] };
   }
 
   public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
