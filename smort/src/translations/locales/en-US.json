@@ -94,7 +94,7 @@
   "profile.tabs.All": "All",
   "profile.tabs.Content": "Posts",
   "profile.tabs.Ask": "Questions",
-  
+
   "langs.NL": "Dutch",
   "langs.EN": "English",
 
@@ -103,8 +103,8 @@
   "search.placeholder": "Search..",
 
 
-  "themes.default (dark)": "Standaard (donker)",
-  "themes.light": "Licht",
+  "themes.default (dark)": "Default (dark)",
+  "themes.light": "Light",
   "themes.Samurai": "Samurai",
   "themes.pony": "Pony"
 
