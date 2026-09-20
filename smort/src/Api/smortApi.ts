@@ -1,7 +1,6 @@
 import { Api } from "./Api";
 import { ThumbnailObject } from "./ApiObjects/ThumbnailObjects";
 import { IMyProfile } from "./ApiObjects/userObjects";
-import Cookies from 'js-cookie';
 import { EeditUserType } from "./enums/EditUserEnum";
 import { ErrorHandler } from "./Logging";
 import { httpHeaders } from "./httpHeaders"
@@ -620,6 +619,18 @@ export class smortApi {
       return await response.json();
     }
     return { postsResults: [], userResults: [] };
+  }
+
+  public static async RegisterFcmToken (fcmToken:string): Promise<void> {
+    const httpHeader = {
+      "Content-Type": "application/json",
+      'Accept': 'text/plain',
+      "Authorization": `Bearer ${this.Token}`,
+      
+    };
+
+     await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/Notification/RegisterFCM`, fcmToken, httpHeader);
+
   }
 
   public static async ConfigureAccountAsync(email: string, Profile_Picture: File, Username: string) {
