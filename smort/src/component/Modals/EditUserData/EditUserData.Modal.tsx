@@ -20,8 +20,6 @@ export type EditUserDataModalHandle = {
 export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDataModalProps>((props, ref): ReactElement => {
   const [ShowEditUser, setShowEditUser] = useState<boolean>(false)
   const [Changeusername, setChangeusername] = useState<string>("")
-  const [Changepassword, setChangepassword] = useState<string>("")
-  const [ChangeEmail, setChangeEmail] = useState<string>("")
   const [DeleteUserName, setDeleteUserName] = useState<string>("")
   const [selectedLangauge, setSelectedLanguage] = useState<string>(localStorage.getItem("language") || "en-US");
   const [selectedTheme, setSelectedTheme] = useState<string>(localStorage.getItem("theme")  || "default (dark)");
@@ -54,14 +52,6 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChangeusername(event.target.value)
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChangepassword(event.target.value)
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChangeEmail(event.target.value)
   };
 
   const toggleModal = () => {
@@ -134,35 +124,6 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
           </Button>
           <br />
         </div>
-
-        <div className={Style.Form}>
-          <label htmlFor="ChangePasswordNew">{t('editAccount.passwordLabel')}</label>
-          <input
-            onChange={handlePasswordChange}
-            id="ChangePasswordNew"
-            type="password"
-          />
-          <br />
-          <Button onClick={() => ChangeUserData(EeditUserType.password, Changepassword)}>
-            {t('editAccount.changePasswordBtn')}
-          </Button>
-          <br />
-        </div>
-
-        <div className={Style.Form}>
-          <label htmlFor="ChangeEmailNew">{t('editAccount.emailLabel')}</label>
-          <input
-            onChange={handleEmailChange}
-            id="ChangeEmailNew"
-            type="text"
-          />
-          <br />
-          <Button onClick={() => ChangeUserData(EeditUserType.Email, ChangeEmail)}>
-            {t('editAccount.changeEmailBtn')}
-          </Button>
-          <br />
-        </div>
-
 
         <input className={Style.DeleteMeInputField} id="DeleteNameUser" placeholder={t('editAccount.confirmDeletePlaceholder')}
           onChange={(event) => setDeleteUserName(event.target.value)} />
