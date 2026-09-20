@@ -11,9 +11,7 @@ import { ReactElement } from "react"
 import { Spinner } from "react-bootstrap"
 import { Img } from "../../core/ImprovedControls/Img"
 
-interface ContentProps {
-  postsList: ContentItem[]
-}
+
 
 export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): ReactElement => {
   var i = 1;

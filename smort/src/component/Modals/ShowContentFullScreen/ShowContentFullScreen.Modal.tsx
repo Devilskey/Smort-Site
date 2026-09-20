@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { size } from "../../../Api/enums/sizes";
 import { useTranslation } from "../../../translations/TranslationProvider";
 import { Img } from "../../../core/ImprovedControls/Img";
+import { AskQuestion } from "../../PostTypes/AskQuestion/AskQuestion";
 
 export type ShowContentFullScreenHandle = {
   toggleModal: (ContentId: number) => void;
@@ -33,7 +34,6 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
     if (ContentId !== -1) {
       smort.GetContentItemAsync(ContentId.toString()).then((item) => {
         setContentItem(item);
-        console.log(item);
         setShow(true);
       }).catch(console.error)
     } else {
@@ -73,12 +73,16 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
                     src={smort.GetImageUrl(ContentItem.fileId)}
                     className={Style.ImgContent} />
                 </div>
-                :
+                : ContentItem.type === "vid" ?
                 <div className={Style.VideoContainer}>
                   <SmortVideo content={ContentItem} />
                 </div>
+                :
+                <div className={Style.QuestionContainer}>
+                  <AskQuestion post={ContentItem} />
+                </div>
               }
-              <OptionsButtons post={ContentItem} />
+              {ContentItem.type !== "Ask" && <OptionsButtons post={ContentItem} />}
 
             </>
           }

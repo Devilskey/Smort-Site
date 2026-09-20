@@ -7,16 +7,19 @@ import { IMyProfile } from '../../../Api/ApiObjects/userObjects';
 import { useParams } from 'react-router-dom';
 import { ReactElement } from 'react';
 import { useTranslation } from '../../../translations/TranslationProvider';
-import { Button } from 'react-bootstrap';
+import { Button, Tab, Tabs } from 'react-bootstrap';
 import { EditIcon } from '../../../core/Icon';
 import { Img } from '../../../core/ImprovedControls/Img';
+import { FollowingData } from '../../../Api/ApiObjects/FollowingData';
 
 export interface IProfileHeaderProps {
   user: IMyProfile | undefined,
-  FollowerAmmount: string | null,
+  FollowerAmmount: FollowingData,
   Follower: boolean,
-  setFollowerAmmount: React.Dispatch<React.SetStateAction<string | null>>,
+  setFollowerAmmount: React.Dispatch<React.SetStateAction<FollowingData>>,
   setFollower: React.Dispatch<React.SetStateAction<boolean>>
+  setTab: React.Dispatch<React.SetStateAction<"Content" | "Ask" | "All">>
+
   EditUserComponent: any,
   PostCount:number
 }
@@ -27,8 +30,9 @@ export const ProfileHeader = ({
   Follower,
   setFollowerAmmount,
   setFollower,
+  setTab,
   EditUserComponent,
-  PostCount
+  PostCount,
 }: IProfileHeaderProps): ReactElement => {
   const { id } = useParams()
   const { t } = useTranslation();
@@ -70,14 +74,14 @@ export const ProfileHeader = ({
                   if (id !== undefined && !Follower) {
                     smort.FollowUser(id);
                     const newFollowingAmount = Number(FollowerAmmount) + 1;
-                    setFollowerAmmount(newFollowingAmount.toString())
+                    setFollowerAmmount({...FollowerAmmount, followers: newFollowingAmount} as FollowingData)
                     setFollower(true);
 
                   }
                   else if (id !== undefined && Follower) {
                     smort.UnfollowUser(id);
                     const newFollowingAmount = Number(FollowerAmmount) - 1;
-                    setFollowerAmmount(newFollowingAmount.toString())
+                    setFollowerAmmount({...FollowerAmmount, followers: newFollowingAmount} as FollowingData)
                     setFollower(false);
                   }
                 }}>{Follower ? t('profile.unfollow') : t('profile.follow')}</Button>}
@@ -97,13 +101,26 @@ export const ProfileHeader = ({
             {FollowerAmmount !== null &&
                <>
               <label> {t('profile.followers')} </label>
-              <div className={Style.StateAmount}>{FollowerAmmount}</div> 
+              <div className={Style.StateAmount}>{FollowerAmmount.followers}</div> 
               </>}
+          </div>
+          <div className={Style.UserStatItem}>
+            <label>{t('profile.following')}  </label>
+            <div className={Style.StateAmount}>  {FollowerAmmount.following}  </div>
           </div>
          <div className={Style.UserStatItem}>
             <label>{t('profile.Posts')}  </label>
             <div className={Style.StateAmount}>  {PostCount.toString()}  </div>
           </div>
       </div>
+      
+      <Tabs className={Style.AccountTabs} 
+        defaultActiveKey="All"  
+      onSelect={(eventKey) => setTab((eventKey as  "All" | "Content" | "Ask") || "All")}
+        fill>
+        <Tab eventKey="All" title={t('profile.tabs.All')} className={Style.Tabs}/>
+        <Tab  eventKey="Content" title={t('profile.tabs.Content')} className={Style.Tabs}/>
+        <Tab  eventKey="Ask" title={t('profile.tabs.Ask')} className={Style.Tabs}/>
+      </Tabs>
   </div>;
 }

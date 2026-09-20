@@ -12,16 +12,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
- 
- <script type="module">
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').then(registration => {
-        }).catch(error => {
-          console.error('Service Worker registration failed: ', error);
-        });
-      });
-    }</script>
 
   <title>Smort</title>
   <style>

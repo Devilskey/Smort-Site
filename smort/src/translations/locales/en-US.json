@@ -29,7 +29,7 @@
   "navbar.loginCreateAccount": "Login / Create Account",
   "navbar.installApp": "Install App",
 
-    "mobileNavbar.search": "Search",
+  "mobileNavbar.search": "Search",
   "mobileNavbar.notify": "Inbox",
   "mobileNavbar.profile": "Profile",
   "mobileNavbar.home": "Home",
@@ -86,12 +86,22 @@
   "admin.welcomeAdmin": "Welcome Admin: ",
 
   "profile.followers": "Followers",
+  "profile.following": "Following",
   "profile.Posts": "Posts",
   "profile.follow": "Follow",
   "profile.unfollow": "Unfollow",
 
+  "profile.tabs.All": "All",
+  "profile.tabs.Content": "Posts",
+  "profile.tabs.Ask": "Questions",
+  
   "langs.NL": "Dutch",
   "langs.EN": "English",
+
+  "search.results.users": "Users found",
+  "search.results.posts": "Posts found",
+  "search.placeholder": "Search..",
+
 
   "themes.default (dark)": "Standaard (donker)",
   "themes.light": "Licht",
