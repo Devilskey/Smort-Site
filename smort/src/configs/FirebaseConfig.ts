@@ -3,6 +3,11 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, getRedirectResult, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, User } from "firebase/auth";
 import settings from '../Settings/Settings.json'
 import { smortApi } from "../Api/smortApi";
+import {
+  getMessaging,
+  getToken,
+  onMessage
+} from "firebase/messaging";
 
 const firebaseConfig = settings as FirebaseOptions;
 
@@ -11,6 +16,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 const auth = getAuth(app)
+
+const messaging = getMessaging(app);
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
@@ -30,6 +37,39 @@ const waitForAuth = async (): Promise<User | null> => {
     });
 }
 
+const NotificationHandler = (): void => {
+
+  Notification.requestPermission().then(async (permission) => {
+      if (permission !== "granted") return;
+
+      // Register (or get) the SW and wait until it's active
+      await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+
+      // Wait for the SW to be in the "active" state
+      const activeSW = await navigator.serviceWorker.ready;
+
+      getToken(messaging, { 
+          vapidKey: "BCOCYas6cyvifaJAvBrYoRIMZgV9XWrjel_Cy6b-1_y9v-zjhMmq72G71006mFDnhJzLIo0opjuKeqHMKQrHZeY",
+          serviceWorkerRegistration: activeSW,
+      }).then(async (currentToken) => {
+            if (currentToken) {
+              await smortApi.RegisterFcmToken(currentToken);
+            } else {
+              console.log("No registration token available.");
+            }
+          })
+          .catch((err) => console.log("Token error:", err));
+
+
+  });
+}
+
+onMessage(messaging, (payload) => {
+  console.log("Foreground notification:", payload);
+});
+
+
+
 const checkRedirect = async () => {
     try {
       const result = await getRedirectResult(auth);
@@ -39,4 +79,4 @@ const checkRedirect = async () => {
     }
 };
     
-export {auth, githubProvider, googleProvider, analytics, waitForAuth, checkRedirect}
+export {auth, githubProvider, googleProvider, analytics, messaging, waitForAuth, checkRedirect, onMessage, NotificationHandler }

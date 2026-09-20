@@ -9,7 +9,6 @@ import { checkRedirect } from './configs/FirebaseConfig';
 
 smortApi.SetUpApiUrl();
 Setting.Console();
-smortApi.SetupNotifications();
 
 const rootElement = document.getElementById('root');
 

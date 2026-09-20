@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { smortApi as Smort } from "../Api/smortApi";
 import { IMyProfile } from "../Api/ApiObjects/userObjects";
-import { waitForAuth } from "../configs/FirebaseConfig";
+import { NotificationHandler, waitForAuth } from "../configs/FirebaseConfig";
 import { LoadingScreen } from "./Loading";
 
 
@@ -25,6 +25,7 @@ export const AuthorizationNeededRouting = (): ReactElement => {
         Smort.GetMyProfileAsync()
             .then(user => {
                 setUser(user)
+                NotificationHandler();
                 setLoading(false)
             })
             .catch((error) => {

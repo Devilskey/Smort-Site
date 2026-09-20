@@ -54,29 +54,24 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-self.addEventListener("push", (event) => {
-  const data = event.data ? event.data.json() : {};
-
-  event.waitUntil(
-    self.registration.showNotification(
-      data.title || "New Notification",
-      {
-        body: data.body || "You have a new message!",
-        icon: "/favicon-192x192.png",
-        badge: "/favicon-192x192.png",
-      }
-    )
-  );
+messaging.onBackgroundMessage(function(payload) {
+  const title = (payload.notification && payload.notification.title) || (payload.data && payload.data.title) || 'Background Notification';
+  const options = {
+    body: (payload.notification && payload.notification.body) || (payload.data && payload.data.body) || '',
+    icon: '/favicon-192x192.png',
+    badge: '/favicon-192x192.png'
+  };
+  self.registration.showNotification(title, options);
 });
 
-self.addEventListener("message", (event) => {
-  if (event.data?.type === "SHOW_NOTIFICATION") {
-    event.waitUntil(
-      self.registration.showNotification("New Notification", {
-        body: event.data.message,
-        icon: "/favicon-192x192.png",
-        badge: "/favicon-192x192.png",
-      })
-    );
-  }
+// Fallback: handle raw push events
+self.addEventListener('push', function(event) {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'New Notification';
+  const options = {
+    body: data.body || '',
+    icon: '/favicon-192x192.png',
+    badge: '/favicon-192x192.png'
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
 });

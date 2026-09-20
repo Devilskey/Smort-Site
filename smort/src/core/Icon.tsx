@@ -30,3 +30,5 @@ export const QuestionIcon = ():ReactElement =>
     <i className="fa-solid fa-square-poll-horizontal"></i>
 export const InboxIcon = ():ReactElement => 
     <i className="fa-solid fa-inbox"></i>
+export const QuestionSignIcon = ():ReactElement => 
+    <i className="fa-solid fa-question"></i>

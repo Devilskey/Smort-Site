@@ -1,7 +1,7 @@
 
 import { createRef, ReactElement, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Spinner, Tab, Tabs } from "react-bootstrap";
 
 import { smortApi as smort } from "../../Api/smortApi";
 import { IMyProfile } from "../../Api/ApiObjects/userObjects";
@@ -15,8 +15,9 @@ import { EditUserDataModalHandle, EditUserDataModal } from "../../component/Moda
 import { UploadContentModalHandle, UploadContentModal } from "../../component/Modals/UploadContent/UploadContent.Modal";
 import { ProfileHeader } from "./Components/ProfileHeader";
 import { ThumbnailCard } from "../../component/ThumbnailCard/ThumbnailCard";
-import { UploadIcon } from "../../icons/Interections.icon";
 import {PlusIcon} from "../../core/Icon";
+import { QuestionCard } from "../../component/QuestionCard/QuestionCard";
+import { FollowingData } from "../../Api/ApiObjects/FollowingData";
 
 
 export const AccountPage = (): ReactElement => {
@@ -24,18 +25,21 @@ export const AccountPage = (): ReactElement => {
   const { id } = useParams()
   const [ContentList, SetContentList] = useState<ThumbnailObject[] | null>(null);
   const [Follower, setFollower] = useState<boolean>(false);
+  const [openTab, setOpenTab] = useState<"Content" | "Ask"| "All"> ("All");
+
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
 
-  const [FollowerAmmount, setFollowerAmmount] = useState<string | null>(null);
+
+  const [FollowerAmmount, setFollowerAmmount] = useState<FollowingData>({followers: 0, following:0 });
   const EditUserComponent = createRef<EditUserDataModalHandle>();
   const UploadContentComponent = useRef<UploadContentModalHandle>(null);
   const CreateAskQuestionComponent = useRef<UploadContentModalHandle>(null);
+  
 
   useEffect(() => {
     if (id !== undefined) {
       smort.GetProfileAsync(Number(id))
         .then((profile: any) => {
-          profile.id = id;
           setUser(profile)
         })
         .catch((error) => console.error("Failed to fetch profile:", error));
@@ -54,7 +58,7 @@ export const AccountPage = (): ReactElement => {
       smort.GetUsersContent(Number(id)).then((data: ThumbnailObject[]) => {
         SetContentList(data.reverse());
       })
-      smort.GetFollowersAsync(id).then((FollowerAmmount: string) => {
+      smort.GetFollowersAsync(id).then((FollowerAmmount: FollowingData) => {
         setFollowerAmmount(FollowerAmmount)
       })
 
@@ -68,7 +72,7 @@ export const AccountPage = (): ReactElement => {
       smort.GetMyContent().then((data: ThumbnailObject[]) => {
         SetContentList(data.reverse());
       })
-      smort.GetMyFollowersAsync().then((FollowerAmmount: string) => {
+      smort.GetMyFollowersAsync().then((FollowerAmmount: FollowingData) => {
         setFollowerAmmount(FollowerAmmount)
       })
     }
@@ -95,6 +99,21 @@ export const AccountPage = (): ReactElement => {
     return false
   }
 
+  const filterContent = ():ThumbnailObject[]  => {
+    if(ContentList === null){
+      return [];
+    }
+
+    switch(openTab) {
+      case "Ask":
+        return ContentList.filter(c => c.type === "Ask");
+      case "All":
+        return ContentList;
+      case "Content":
+        return ContentList.filter(c => c.type !== "Ask" );
+    }
+  }
+
   return (
     <>
       <EditUserDataModal ref={EditUserComponent} user={smort.getUser()!} />
@@ -115,7 +134,8 @@ export const AccountPage = (): ReactElement => {
           setFollowerAmmount={setFollowerAmmount}
           setFollower={setFollower}
           EditUserComponent={EditUserComponent}
-          PostCount={ContentList?.length ?? 0} />
+          PostCount={ContentList?.length ?? 0}
+          setTab={setOpenTab}/>
 
 
           {(isThisUser() && !AndroidHandler.IsUsingAndroid()) &&
@@ -137,11 +157,17 @@ export const AccountPage = (): ReactElement => {
             </div>
           }
 
+
           <Container>
             <Row xs={3} md={3} className="g-2" >
               {  ContentList == null && <div className={Style.loading}><Spinner/></div> }
-              {ContentList?.filter((item) => item.type != "Ask").map((item: ThumbnailObject, idx) => (
-                <ThumbnailCard Post={item} deleteMode={deleteMode} />
+              {filterContent()?.map((item: ThumbnailObject, idx) => (
+                <> {item.type === "Ask" ?
+                  <QuestionCard Post={item} deleteMode={deleteMode}/> 
+                  : 
+                  <ThumbnailCard Post={item} deleteMode={deleteMode} />
+                }
+                </>
               ))}
             </Row>
           </Container>
