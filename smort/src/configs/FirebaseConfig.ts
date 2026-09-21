@@ -64,11 +64,17 @@ const NotificationHandler = (): void => {
   });
 }
 
+const notifications:Record<string, string> = {
+  "en.Notify.NewLike.Body": "You have a new like from {@}!",
+  "en-us.Notify.NewLike.Body": "You have a new like from {@}!",
+  "nl-nl.Notify.NewLike.Body": "Je hebt een nieuwe Like van {@}",
+};
+
+
+
 onMessage(messaging, (payload) => {
-  console.log("Foreground notification:", payload);
-});
-
-
+  // Display toast or update UI state
+  });
 
 const checkRedirect = async () => {
     try {
