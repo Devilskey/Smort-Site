@@ -42,8 +42,6 @@ export const getBrowserLocale = (): LocaleCode => {
     ? nav.languages[0]
     : nav.language || "en";
     
-  console.log(browserLanguage )
-
   return normalizeLocale(browserLanguage);
 };
 

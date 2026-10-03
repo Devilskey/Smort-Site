@@ -20,6 +20,7 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
   const [Show, setShow] = useState<boolean>(false);
   const [ContentItem, setContentItem] = useState<ContentItem | undefined>(undefined);
   const { t } = useTranslation();
+  const lang = window.localStorage.getItem("language");
 
   useEffect(() => {
 
@@ -61,7 +62,10 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
                   alt="An image Uploaded to smort"
                   width="55px" height="55px"
                   src={`${smort.GetProfilePictureImageUrl(ContentItem.userId)}&size=${size.M}`} />
-                {ContentItem.username}
+                <div className={Style.UserInfo}>
+                  <div>{ContentItem.username}</div>
+                  <div className={Style.dateText}>{new Date(ContentItem.createdAt).toLocaleString(lang ?? "en-EN")}</div>
+                </div>
               </Link>
             </div>
             

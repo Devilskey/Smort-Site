@@ -14,7 +14,7 @@ import { Img } from "../../core/ImprovedControls/Img"
 
 
 export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: boolean }): ReactElement => {
-  var i = 1;
+ const lang = window.localStorage.getItem("language");
  return (<>
   
     {loading ? <div className={Style.loading}><Spinner/></div> :
@@ -27,9 +27,13 @@ export const PostList = ({ posts, loading }: { posts: ContentItem[], loading: bo
                 <Img className={Style.UserImgSimpel}
                   loading="lazy"
                   alt="An image Uploaded to smort"
-                  width="40px" height="40px"
+                  width="50px" height="50px"
                   src={`${smort.GetProfilePictureImageUrl(post.userId)}&size=${size.S}`} />
-                {post.username}
+                <div className={Style.UserInfo}>
+                  <div>{post.username}</div>
+                  <div className={Style.dateText}>{new Date(post.createdAt).toLocaleString(lang ?? "en-EN")}</div>
+                </div>
+
               </Link>
               <div className={Style.contentTitle}>{post.description}</div>
             </div>

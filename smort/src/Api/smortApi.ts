@@ -13,6 +13,7 @@ import { IUser } from "./ApiObjects/IUser";
 import { Answer } from "./ApiObjects/Awnser";
 import { SearchAll } from "./ApiObjects/SearchAll";
 import { FollowingData } from "./ApiObjects/FollowingData";
+import { InboxFeed } from "./ApiObjects/InboxFeed";
 
 export class smortApi {
   public static ApiUrl: string = "https://api.socials.devilskey.nl";
@@ -630,6 +631,36 @@ export class smortApi {
     };
 
      await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/Notification/RegisterFCM`, fcmToken, httpHeader);
+
+  }
+
+
+  public static async GetInboxFeed (): Promise<InboxFeed[]> {
+    const httpHeader = {
+      "Content-Type": "application/json",
+      'Accept': 'text/plain',
+      "Authorization": `Bearer ${this.Token}`,
+    };
+
+     const response =await Api.SendApiRequestWithHeaderGetAsync(`${this.ApiUrl}/Notification/inbox`, httpHeader);
+
+     if (response.ok) {
+      return await response.json();
+    }
+
+    return [];
+  }
+
+
+  public static async InboxSetSeen (): Promise<void> {
+    const httpHeader = {
+      "Content-Type": "application/json",
+      'Accept': 'text/plain',
+      "Authorization": `Bearer ${this.Token}`,
+      
+    };
+
+    await Api.SendApiRequestPostWithBodyAsync(`${this.ApiUrl}/Notification/InboxSetSeen`, null, httpHeader);
 
   }
 

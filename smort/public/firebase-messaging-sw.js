@@ -25,28 +25,20 @@ const notifications = {
   "en-us.Notify.NewVideo.Body": "{@} has uploaded a new video!!",
   "nl-nl.Notify.NewVideo.Body": "{@} heeft een nieuwe video geupload!",
 
-
   "en.Notify.NewImage.Body": "{@} has uploaded a new photo!",
   "en-us.Notify.NewImage.Body": "{@} has uploaded a new photo!",
-  "nl-nl.Notify.NewImage.Body": "{@} heeft een nieuwe foto geupload!",
-
+  "nl-nl.Notify.NewImage.Body": "{@} heeft een nieuwe foto geupload!"
 };
 
 const messaging = firebase.messaging();
 
 const translateNotification = (text) => {
 
-  if(!text){
-    return "";
-  }    
-  
-  const nav = window.navigator;
-  
-  const browserLanguage = localStorage.getItem("language") ? localStorage.getItem("language") : 
-   Array.isArray(nav.languages) && nav.languages.length > 0
-    ? nav.languages[0]
-    : nav.language || "en";
-  
+  let browserLanguage = (navigator.language || "en").toLowerCase();
+
+  if (browserLanguage !== "en-us" && browserLanguage !== "nl-nl") {
+    browserLanguage = "en";
+  }
 
   const separatorIndex = text.indexOf(":");
 
@@ -59,39 +51,31 @@ const translateNotification = (text) => {
 
   let translated = notifications[`${browserLanguage}.${key}`];
 
-  // Translation doesn't exist
   if (!translated) {
     return text;
   }
 
-  // Replace {@} with the value
   translated = translated.replaceAll("{@}", value);
 
   return translated;
+};
 
-}
+messaging.onBackgroundMessage((payload) => {
+  const title = "Smort socials";
+  const originalBody = payload.data?.body || "";
 
-messaging.onBackgroundMessage(function(payload) {
-  const titlePayload = "Smort socials"
-  const bodypayload = (payload.notification && payload.notification.body) || (payload.data && payload.data.body) || ''
+  let body = originalBody;
 
-  const options = {
-    body: translateNotification(bodypayload),
-    icon: '/android-chrome-192x192.png',
-    badge: '/android-chrome-192x192.png'
-  };
+  try {
+    body = translateNotification(originalBody);
+  } catch (e) {
+    console.error("Translation failed:", e);
+    body = originalBody;
+  }
 
-  self.registration.showNotification(title, options);
+  self.registration.showNotification(title, {
+    body: body,
+    icon: "/NotificationIcon-192x192.png",
+    badge: "/NotificationIcon-192x192.png"
+  });
 });
-
-// Fallback: handle raw push events
-// self.addEventListener('push', function(event) {
-//   const data = event.data ? event.data.json() : {};
-//   const title = data.title || 'New Notification';
-//   const options = {
-//     body: data.body || '',
-//     icon: '/android-chrome-192x192.png',
-//     badge: '/android-chrome-192x192.png'
-//   };
-//   event.waitUntil(self.registration.showNotification(title, options));
-// });

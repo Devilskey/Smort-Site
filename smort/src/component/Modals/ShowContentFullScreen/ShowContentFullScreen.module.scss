@@ -31,6 +31,16 @@
     background-color: $Primary-Background !important;
 }
 
+.UserInfo{
+  display: flex;
+  flex-direction: column;
+  .dateText{
+    font-size: 14px;
+    margin-top: -5px;
+    color: $Primary-Text-grayed;
+  }
+}
+
 
 .contentTitle {
     color: $Primary-Text;
@@ -61,6 +71,7 @@
     }
 
     .UserLink {
+        display: flex;
         font-size: 20px;
         color: $Primary-Text;
         text-transform: capitalize;

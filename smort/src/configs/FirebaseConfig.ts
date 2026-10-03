@@ -54,23 +54,13 @@ const NotificationHandler = (): void => {
       }).then(async (currentToken) => {
             if (currentToken) {
               await smortApi.RegisterFcmToken(currentToken);
-            } else {
-              console.log("No registration token available.");
-            }
+            } 
           })
           .catch((err) => console.log("Token error:", err));
 
 
   });
 }
-
-const notifications:Record<string, string> = {
-  "en.Notify.NewLike.Body": "You have a new like from {@}!",
-  "en-us.Notify.NewLike.Body": "You have a new like from {@}!",
-  "nl-nl.Notify.NewLike.Body": "Je hebt een nieuwe Like van {@}",
-};
-
-
 
 onMessage(messaging, (payload) => {
   // Display toast or update UI state

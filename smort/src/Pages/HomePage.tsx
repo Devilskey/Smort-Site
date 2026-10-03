@@ -25,6 +25,8 @@ export const HomePage = (): ReactElement => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
+    document.title =  "Homepage - Smort";
+
     if (smort.getUser() === undefined) {
       smort.GetMyProfileAsync()
         .then((profile) => setUser(profile))

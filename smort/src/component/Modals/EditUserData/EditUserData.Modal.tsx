@@ -30,7 +30,10 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
     { label: "themes.default (dark)", value: "default (dark)" },
     { label: "themes.light", value: "Light" },
     { label: "themes.pony", value: "Pony" },
-    { label: "themes.Samurai", value: "Samurai" }
+    { label: "themes.Samurai", value: "Samurai" },
+    { label: "themes.DevilRed", value: "Devil-Red" },
+    { label: "themes.Halloween", value: "Halloween" }
+
   ];
 
     const langArray:{ label: string; value: string }[] = [

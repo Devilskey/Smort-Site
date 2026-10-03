@@ -37,6 +37,7 @@ export const AccountPage = (): ReactElement => {
   
 
   useEffect(() => {
+    document.title =  "Account page - Smort";
     if (id !== undefined) {
       smort.GetProfileAsync(Number(id))
         .then((profile: any) => {

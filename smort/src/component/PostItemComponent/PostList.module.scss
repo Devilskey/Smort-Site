@@ -32,7 +32,10 @@
     border-radius: 100%;
   }
 
+
+
   .UserLink {
+    display: flex;
     font-size: 20px;
     color: $Primary-Text;
     text-transform: capitalize;
@@ -59,6 +62,16 @@
 
   .User {
     padding: 10px;
+  }
+
+  .UserInfo{
+    display: flex;
+    flex-direction: column;
+    .dateText{
+      font-size: 14px;
+      margin-top: -5px;
+      color: $Primary-Text-grayed;
+    }
   }
 
   video {

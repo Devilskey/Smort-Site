@@ -27,7 +27,7 @@ export const LoginPage = (): ReactElement => {
 
   
   useEffect(() => {
-
+    document.title =  "Login page - Smort";
     const getAuth = async () => {
       await checkRedirect();
 

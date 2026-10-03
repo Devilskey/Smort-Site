@@ -10,6 +10,8 @@
   --Login-Icon-background: #891c49aa;
 
   --Primary-Text: whitesmoke;
+  --Primary-Text-Grayed: rgb(169, 168, 168);
+
   --black-Text: #1b1b1b;
 
   --Post-Background: #1a1d2c;
@@ -77,6 +79,8 @@
   --Primary-Text: #18181b;
 
   --black-Text: #18181b;
+  --Primary-Text-Grayed: #414147;
+
 
   --Post-Background: #ffffff;
 
@@ -153,6 +157,9 @@
 --Login-Icon-background: #A11E1Eaa;
 
 --Primary-Text: whitesmoke;
+--Primary-Text-Grayed: #a9a8a8;
+
+
 
 --black-Text: #1b1b1b;
 
@@ -168,7 +175,7 @@
 
 --LikeButton: rgb(255, 255, 255);
 
---LikeButton-border: rgb(255, 255, 255);
+--LikeButton-border: #ffffff;
 
 --VideoBackground: black;
 
@@ -215,6 +222,163 @@
 --User-State-Border: #5e5e5e;
 }
 
+[data-theme="Devil-Red"] {
+
+  --Primary-NavBar: #141314;
+
+  --Mobile-Navbar: #202434;
+
+  --Primary-Background: #0f111a;
+
+  --Logo-Background: #1b1b1b;
+
+  --Login-Icon: #ff3030;
+
+  --Login-Icon-background: #a11e1eaa;
+
+  --Primary-Text: whitesmoke;
+
+  --Primary-Text-Grayed: #a9a8a8;
+
+  --black-Text: #1b1b1b;
+
+  --Post-Background: #1a1d2c;
+
+  --answer-Background-even: #2b3046;
+
+  --answer-Background-uneven: #131526;
+
+  --answer-Line: #444;
+
+  --Thumbnail-Background: #111;
+
+  --LikeButton: rgb(255, 255, 255);
+
+--LikeButton-border: #ffffff;
+
+  --VideoBackground: black;
+
+  --nav-Button: white;
+
+  --Primary-Delete: #ff3030;
+
+  --User-Info-Background: #060813;
+
+  --UserInfo-BorderBottom: rgb(73, 73, 73);
+
+  --Following-Primary: #fff1f1;
+
+  --Following-Border: #ff3030;
+
+  --Following-Border-gradient: #c1121f;
+
+  --ScrollBar-Scrol: rgb(0, 0, 0);
+
+  --ScrollBar-Scrol-Background: #706367;
+
+  --Primary-LikeButton: #ff1e35;
+
+  --Primary-Button: #d62839;
+
+  --Primary-Button-Hover: #8f1824;
+
+  --Primary-Button-border: #e63946;
+
+  --Primary-Button-Active: #ff4b35;
+
+  --Loading-Color-Light: #2b2d3d;
+
+  --Loading-Color-Dark: #0f111a;
+
+  --OptionsForm-FotosAndVideo: #e63946;
+
+  --OptionsForm-FotosAndVideo-border: #a71928;
+
+  --OptionsForm-Ask: #c1121f;
+
+  --OptionsForm-Ask-border: #7d1019;
+
+  --User-State-Border: #5e5e5e;
+}
+
+[data-theme="Halloween"] {
+
+  --Primary-NavBar: #120d18;
+
+  --Mobile-Navbar: #1b1025;
+
+  --Primary-Background: #0b0810;
+
+  --Logo-Background: #140d1b;
+
+  --Login-Icon: #ff7518;
+
+  --Login-Icon-background: #7a2cffaa;
+
+  --Primary-Text: #fff7e6;
+
+  --Primary-Text-Grayed: #aaa0b5;
+
+  --black-Text: #100b14;
+
+  --Post-Background: #17101f;
+
+  --answer-Background-even: #251536;
+
+  --answer-Background-uneven: #100b17;
+
+  --answer-Line: #493252;
+
+  --Thumbnail-Background: #080609;
+
+  --LikeButton: #ff7518;
+
+  --LikeButton-border: #ff9d3d;
+
+  --VideoBackground: #000000;
+
+  --nav-Button: #fff1d6;
+
+  --Primary-Delete: #ff3b30;
+
+  --User-Info-Background: #0d0712;
+
+  --UserInfo-BorderBottom: #493252;
+
+  --Following-Primary: #fff0d4;
+
+  --Following-Border: #ff7518;
+
+  --Following-Border-gradient: #8a2be2;
+
+  --ScrollBar-Scrol: #080609;
+
+  --ScrollBar-Scrol-Background: #60476b;
+
+  --Primary-LikeButton: #ff7518;
+
+  --Primary-Button: #8a2be2;
+
+  --Primary-Button-Hover: #5c1aa8;
+
+  --Primary-Button-border: #a855f7;
+
+  --Primary-Button-Active: #ff7518;
+
+  --Loading-Color-Light: #30203a;
+
+  --Loading-Color-Dark: #0b0810;
+
+  --OptionsForm-FotosAndVideo: #ff7518;
+
+  --OptionsForm-FotosAndVideo-border: #b84b00;
+
+  --OptionsForm-Ask: #8a2be2;
+
+  --OptionsForm-Ask-border: #5c1aa8;
+
+  --User-State-Border: #704d7d;
+}
 
 [data-theme="Pony"] {
 
@@ -231,6 +395,8 @@
 --Login-Icon-background: #B88CFFaa;
 
 --Primary-Text: #FFF7FC;
+--Primary-Text-Grayed: #9a9a9a;
+
 
 --black-Text: #1b1b1b;
 
@@ -303,6 +469,8 @@ $Login-Icon: var(--Login-Icon);
 $Login-Icon-background: var(--Login-Icon-background);
 
 $Primary-Text: var(--Primary-Text);
+$Primary-Text-grayed: var(--Primary-Text-Grayed);
+
 $black-Text: var(--black-Text);
 
 $Post-Background: var(--Post-Background);

@@ -6,6 +6,10 @@
   <link rel="shortcut icon" href="/favicon.ico" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0f111a" />
+  <meta name="google" content="notranslate">
+  <meta
+     name="description"
+    content="Social media platform for sharing videos, images and text posts. Smort is a free and open source social media platform">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -20,6 +24,20 @@
         background: #0f111a;
     }
   </style>
+
+  <script>
+  async function registerServiceWorker() {
+    try {
+      const registration =
+        await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+
+    } catch (error) {
+      console.error("Service worker registration failed:", error);
+    }
+  }
+
+  registerServiceWorker();
+</script>
 </head>
 
 <body>

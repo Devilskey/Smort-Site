@@ -106,6 +106,12 @@
   "themes.default (dark)": "Standaard (donker)",
   "themes.light": "Licht",
   "themes.Samurai": "Samurai",
-  "themes.pony": "Pony"
-
+  "themes.pony": "Pony",
+  "themes.DevilRed": "Devil red",
+  "themes.Halloween": "Halloween",
+  
+  "Notify.NewLike.Body": "You have a new like from {@}!",
+  "Notify.NewFollow.Body": "You have a new follower {@}!",
+  "Notify.NewVideo.Body": "{@} has uploaded a new video!",
+  "Notify.NewImage.Body": "{@} has uploaded a new photo!"
 }

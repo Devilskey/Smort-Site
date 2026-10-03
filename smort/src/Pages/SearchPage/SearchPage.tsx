@@ -25,11 +25,16 @@ export const SearchPage = (): ReactElement => {
     const { t } = useTranslation();
 
     useEffect(() => {
+        document.title =  "Search page - Smort";
+    }, []);
+
+    useEffect(() => {
         const timer = setTimeout(() => {
           setDebouncedQuery(query);
         }, 500);
 
         return () => clearTimeout(timer);
+
 
     });
     

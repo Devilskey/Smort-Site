@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 
 import Style from "./SetupPage.module.scss";
 import { useTranslation } from "../../translations/TranslationProvider";
@@ -16,6 +16,10 @@ export const SetupPage = (): ReactElement => {
     const inputRefrence = useRef<HTMLInputElement>(null)
     const [ProfilePicture, setProfilePicture] = useState<File | null>(null);
     const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        document.title =  "Setup page - Smort";
+    }, []);
 
     const SumbitData = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
