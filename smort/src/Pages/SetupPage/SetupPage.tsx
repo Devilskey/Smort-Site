@@ -10,12 +10,14 @@ import { Row } from "react-bootstrap";
 import { smortApi as smort } from "../../Api/smortApi";
 import { auth } from "../../configs/FirebaseConfig";
 import { Img } from "../../core/ImprovedControls/Img";
+import { useNavigate } from "react-router-dom";
 
 export const SetupPage = (): ReactElement => { 
     const { t } = useTranslation();
     const inputRefrence = useRef<HTMLInputElement>(null)
     const [ProfilePicture, setProfilePicture] = useState<File | null>(null);
     const [username, setUsername] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title =  "Setup page - Smort";
@@ -25,6 +27,7 @@ export const SetupPage = (): ReactElement => {
         event.preventDefault();
         if(auth.currentUser?.email && (ProfilePicture && username)){
             await smort.ConfigureAccountAsync(auth.currentUser?.email, ProfilePicture, username);
+            navigate('/home');
         }
     }
 

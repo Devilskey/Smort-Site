@@ -8,6 +8,8 @@ import { AndroidHandler } from '../../../PlatformSpecificScripts/Android';
 import Style from "./EditUserData.module.scss";
 import { normalizeLocale } from '../../../translations/translation';
 import { useTheme } from '../../../themes/themeProvider';
+import { EmailAuthProvider, reauthenticateWithCredential, signOut, updatePassword } from 'firebase/auth';
+import { auth } from '../../../configs/FirebaseConfig';
 
 interface EditUserDataModalProps {
   user: IMyProfile
@@ -21,6 +23,8 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
   const [ShowEditUser, setShowEditUser] = useState<boolean>(false)
   const [Changeusername, setChangeusername] = useState<string>("")
   const [Changepassword, setChangepassword] = useState<string>("")
+  const [ChangeOldpassword, setChangeOldpassword] = useState<string>("")
+
   const [ChangeEmail, setChangeEmail] = useState<string>("")
   const [DeleteUserName, setDeleteUserName] = useState<string>("")
   const [selectedLangauge, setSelectedLanguage] = useState<string>(localStorage.getItem("language") || "en-US");
@@ -50,6 +54,17 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
     toggleModal,
   }));
 
+  const resetPassword = async (oldPassword: string, newPassword:string) =>{
+    const user = auth.currentUser;
+
+    if(user?.email){
+      const credential = EmailAuthProvider.credential(user.email, oldPassword);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword);
+    }
+
+  }
+
 
   const ChangeUserData = (typeOfChange: EeditUserType, data: string | File): void => {
     smort.ChangeUserData(data, typeOfChange);
@@ -62,6 +77,15 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChangepassword(event.target.value)
   };
+
+  const handlePasswordOldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChangeOldpassword(event.target.value)
+  };
+
+  const logoutUser = async () => {
+    await signOut(auth);
+    window.location.reload();
+  }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChangeEmail(event.target.value)
@@ -146,13 +170,26 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
             type="password"
           />
           <br />
-          <Button onClick={() => ChangeUserData(EeditUserType.password, Changepassword)}>
+          <label htmlFor="ChangePasswordNew">{t('editAccount.passwordOldLabel')}</label>
+          <input
+            onChange={handlePasswordOldChange}
+            id="ChangePasswordOld"
+            type="password"
+          />
+          <br />
+          <Button onClick={() => resetPassword(ChangeOldpassword, Changepassword)}>
             {t('editAccount.changePasswordBtn')}
           </Button>
           <br />
         </div>
-
         <div className={Style.Form}>
+          <Button onClick={() => logoutUser()}>
+            {t('editAccount.logout')}
+          </Button>
+          <br />
+        </div>
+
+        {/* <div className={Style.Form}>
           <label htmlFor="ChangeEmailNew">{t('editAccount.emailLabel')}</label>
           <input
             onChange={handleEmailChange}
@@ -164,7 +201,7 @@ export const EditUserDataModal = forwardRef<EditUserDataModalHandle, EditUserDat
             {t('editAccount.changeEmailBtn')}
           </Button>
           <br />
-        </div>
+        </div> */}
 
 
         <input className={Style.DeleteMeInputField} id="DeleteNameUser" placeholder={t('editAccount.confirmDeletePlaceholder')}

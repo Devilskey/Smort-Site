@@ -45,7 +45,7 @@ export const ShowContentFullScreen = forwardRef<ShowContentFullScreenHandle>(({ 
   };
 
   return <>
-    <Modal show={Show} className={Style.Modal} fullscreen={AndroidHandler.IsUsingAndroid() as string | true | undefined}>
+    <Modal show={Show} size="xl"  className={Style.Modal} fullscreen={AndroidHandler.IsUsingAndroid() as string | true | undefined} centered >
         <Modal.Header className={Style.backgroundModalHeader}>
           <Button onClick={() => toggleModal()}>
             {t("uploadContent.close")}

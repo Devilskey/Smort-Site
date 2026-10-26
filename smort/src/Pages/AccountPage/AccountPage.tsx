@@ -123,7 +123,7 @@ export const AccountPage = (): ReactElement => {
 
       <div className={Style.Page}>
         {!AndroidHandler.AndroidNavBarNeeded() &&
-          <NavBarSmortPc Search={Search} />
+          <NavBarSmortPc />
         }
         {/** Users Information */}
        <div className={Style.Scroll}>
@@ -139,9 +139,9 @@ export const AccountPage = (): ReactElement => {
           setTab={setOpenTab}/>
 
 
-          {(isThisUser() && !AndroidHandler.IsUsingAndroid()) &&
-            <div className={Style.CreateContent}>
-              <Button className={Style.EditUser} onClick={() => {
+          {(isThisUser()) &&
+            <div className={Style.DeleteContent}>
+              <Button className={Style.DeleteMode} onClick={() => {
                   setDeleteMode(!deleteMode)
                 }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -150,11 +150,6 @@ export const AccountPage = (): ReactElement => {
                   </svg> 
               </Button>
 
-              <Button className={Style.uploadContent} onClick={() => {
-                UploadContentComponent.current?.toggleModal();
-              }}>
-                Create Post <PlusIcon />
-              </Button>
             </div>
           }
 

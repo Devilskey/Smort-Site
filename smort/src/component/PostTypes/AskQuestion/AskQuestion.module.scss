@@ -3,7 +3,7 @@
 .ContentQuestion{
     max-height: 300px; 
     overflow-y: auto;
-
+    
 
     :nth-child(even) {
         background-color: $answer-Background-even;
@@ -13,6 +13,12 @@
         background-color: $answer-Background-uneven;
     }
 }   
+
+.NoContentQuestion{
+    padding: 12px 12px;
+    color: $Primary-Text;
+
+}
 
 .UserImgSimpel {
     margin: 0 10px 0 0;

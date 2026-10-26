@@ -59,7 +59,7 @@ export const HomePage = (): ReactElement => {
     <>
       <div className={Style.Page}>
         {!AndroidHandler.AndroidNavBarNeeded() &&
-          <NavBarSmortPc Search={(test: string) => { setSearch(test) }} />
+          <NavBarSmortPc />
         }
 
         <Container className={Style.HomeFeed}>

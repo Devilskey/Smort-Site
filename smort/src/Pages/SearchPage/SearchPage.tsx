@@ -60,7 +60,7 @@ export const SearchPage = (): ReactElement => {
     return (
       <div className={Style.Page}> 
         {!AndroidHandler.AndroidNavBarNeeded() &&
-          <NavBarSmortPc Search={(test: string) => { }} />
+          <NavBarSmortPc />
         }
 
         <Container className={Style.SearchPageContainer}>

@@ -5,6 +5,7 @@
   "login.placeholderPassword": "Enter password",
   "login.placeholderUsername": "Enter username",
   "login.buttonLogin": "Login",
+  "login.resetpassword": "Reset password",
 
   "login.buttonLoginGoogle": "Google",
   "login.buttonLoginGithub": "GitHub",
@@ -44,11 +45,14 @@
   "uploadContent.askQuestion": "Ask question",
   "uploadContent.uploadImage": "Upload image",
   "uploadContent.uploadVideo": "Upload video",
+  "uploadContent.now": "Now",
 
   "editAccount.titlePrefix": "Edit",
   "editAccount.titleSuffix": "your account",
   "editAccount.usernameLabel": "Username",
   "editAccount.passwordLabel": "New password",
+  "editAccount.passwordOldLabel":"Current password",
+  "editAccount.logout":"Logout",
   "editAccount.emailLabel": "New email",
   "editAccount.confirmDeletePlaceholder": "Type here your username to confirm",
   "editAccount.deleteAccount": "Delete my account",
@@ -107,8 +111,14 @@
   "themes.light": "Light",
   "themes.Samurai": "Samurai",
   "themes.pony": "Pony",
+  "themes.DevilRed": "Devil red",
+  "themes.Halloween": "Halloween",
+
   "Notify.NewLike.Body": "You have a new like from {@}!",
   "Notify.NewFollow.Body": "You have a new follower {@}!",
   "Notify.NewVideo.Body": "{@} has uploaded a new video!",
-  "Notify.NewImage.Body": "{@} has uploaded a new photo!"
+  "Notify.NewImage.Body": "{@} has uploaded a new photo!",
+  "Notify.newAsk.Body": "{@} has asked a new question!",
+  "Notify.newAnswer.Body": "{@} has answered your question!"
+
 }

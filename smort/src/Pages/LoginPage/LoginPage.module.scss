@@ -40,7 +40,21 @@
       margin: 10px 0px;
     }
 
-  
+    .ResetPassword {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 4px;
+      &:hover{
+        background-color: $Primary-Button;
+        background-color: color-mix(in srgb, $Primary-Button 80%, transparent);
+        border-radius: 8px;
+      }
+
+    }
 
     .ContinueWithText {
       display: flex;

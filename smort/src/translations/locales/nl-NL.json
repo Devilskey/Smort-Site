@@ -5,6 +5,7 @@
   "login.placeholderPassword": "Wachtwoord invoeren",
   "login.placeholderUsername": "Gebruikersnaam invoeren",
   "login.buttonLogin": "Inloggen",
+  "login.resetpassword": "Inloggen",
 
   "login.buttonLoginGoogle": "Google",
   "login.buttonLoginGithub": "GitHub",
@@ -45,17 +46,20 @@
   "uploadContent.askQuestion": "Stel een vraag",
   "uploadContent.uploadImage": "Upload afbeelding",
   "uploadContent.uploadVideo": "Upload video",
+  "uploadContent.now": "Nu",
 
   "editAccount.titlePrefix": "Bewerk",
   "editAccount.titleSuffix": "je account",
   "editAccount.usernameLabel": "Gebruikersnaam",
   "editAccount.passwordLabel": "Nieuw wachtwoord",
+  "editAccount.passwordOldLabel":"Huidige wachtwoord",
   "editAccount.emailLabel": "Nieuw e-mailadres",
   "editAccount.confirmDeletePlaceholder": "Typ hier je gebruikersnaam ter bevestiging",
   "editAccount.deleteAccount": "Verwijder mijn account",
   "editAccount.done": "Gereed",
   "editAccount.changeUsernameBtn": "Wijzig gebruikersnaam",
   "editAccount.changePasswordBtn": "Wijzig wachtwoord",
+  "editAccount.logout":"Uitloggen",
   "editAccount.changeEmailBtn": "Wijzig e-mail",
   "editAccount.selectedLanguage": "Selected language",
   "editAccount.selectedTheme": "Selected theme",
@@ -115,6 +119,8 @@
   "Notify.NewLike.Body": "Je hebt een nieuwe Like van {@}!",
   "Notify.NewFollow.Body": "Je hebt een nieuwe volger {@}!",
   "Notify.NewVideo.Body": "{@} heeft een nieuwe video geupload!",
-  "Notify.NewImage.Body": "{@} heeft een nieuwe foto geupload!"
-  
+  "Notify.NewImage.Body": "{@} heeft een nieuwe foto geupload!",
+  "Notify.newAsk.Body": "{@} heeft een vraag geplaatst!",
+  "Notify.newAnswer.Body": "{@} heeft je vraag beantwoord!"
+
 }

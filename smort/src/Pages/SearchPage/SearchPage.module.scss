@@ -6,7 +6,7 @@
     flex-direction: column;
     background-color: $Primary-Background;
     color: $Primary-Text;
-
+    height: 100vh;
     .SearchSection{
         display: flex;
         margin: 12px 0px;
@@ -33,7 +33,7 @@
     }
 
     .SearchPageContainer{
-        height: 100vh;
+        flex: 1;
         overflow-y: auto;
     }
 

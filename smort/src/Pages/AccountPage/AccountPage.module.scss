@@ -62,7 +62,12 @@
     font-size: 20px;
   }
 
-.CreateContent {
+.DeleteContent {
+    z-index: 3;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 24px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -71,6 +76,9 @@
     button {
        background-color: $Primary-Button !important;
        border: solid $Primary-Button-border 2px !important; 
+       border-radius: 100% !important;
+       width: 60px !important;
+       height: 60px !important;
     }
 }
 
@@ -84,4 +92,10 @@
 .EditUser {
     height: 40px;
     align-self: center;
+}
+
+@media (max-width: 1000px) {
+    .DeleteContent{
+        margin: 82px 24px;
+    }
 }

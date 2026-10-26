@@ -14,9 +14,28 @@
 
 @media (min-width: 991px) {
     .User {
+        border-radius: 24px;
         display: inline-flex;
         align-items: center;
-        margin: 0 20px;
+    }
+}
+
+.UserNav {
+    display: flex;
+    align-items: center;
+    background-color: $Primary-Background-lighter;
+    margin: 0px 24px;
+    border-radius: 12px;
+    
+    div {
+        background-color: $Primary-Background-lighter;
+        :hover{
+            background-color: $Following-Border-gradient;
+        }
+    }
+
+    a {
+        color: $Primary-Text !important;
     }
 }
 
@@ -29,42 +48,52 @@
 }
 
 .Logo {
-    background-color: $Logo-Background !important;
     border-radius: 100%;
     padding: 5px;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
 }
 
-.SearchBarDiv {
-    background-color: whitesmoke;
+.IconNav{
     display: flex;
-    border: solid;
-    border-width: thin;
-    border-radius: 6px;
-    margin-left: auto;
-    div {
-        display: flex;
-        padding: 0px 4px;
-        justify-content: center;
-        align-items: center;
+    align-self: center;
+    height: 100%;
+    
+    i {
+        color: $Primary-Text;
+        font-size: 36px;
+    }
+    margin-right: 16px;
+    font-size: 30px;
+
+    &:hover{
+        i {
+            color: $Login-Icon;
+        } 
     }
 }
 
-.SearchButton {
-    width: 15%;
+.NavButtonUpload {
+    text-align: center;
+    align-content: center;
+    align-self: center;
+    color: $nav-Button !important;
+    background: $Login-Icon;
+    padding: 5px;
+    border: solid $nav-Button 2px;
+    border: none;
+    border-radius: 100%;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient($Following-Border, $Following-Border-gradient) !important;
 }
 
-.SearchBarText {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100%;
-}
+
 
 .Nav {
-    background-color: $Primary-NavBar !important;
     font-size: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+    box-shadow: 3px 1px 2px $user-State-Border;
+    background-color: $Primary-Background;
 }
 
 .navItem {

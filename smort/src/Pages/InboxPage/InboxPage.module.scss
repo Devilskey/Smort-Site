@@ -4,7 +4,7 @@
 .Page{
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
     background-color: $Primary-Background;
     color: $Primary-Text;
 
@@ -15,6 +15,9 @@
         gap: 8px;
         align-items: center;
         font-size: 20px;
+        &:hover{
+            background-color: $Primary-Background-lighter;
+        }
     }
 
     .Unseen{
@@ -26,6 +29,14 @@
             border-radius: 100%;
         }
     }
+
+.InboxText{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: $Primary-Text;
+    text-decoration: none;
+}
 
   .dateText{
     font-size: 14px;
@@ -43,5 +54,16 @@
         color: $Login-Icon;
         justify-content: center;
         align-items: center;
+    }
+}
+
+.InboxScreen{
+    flex: 1;
+    overflow-y: auto;
+}
+
+@media (min-width: 1000px){
+    .InboxScreen{
+        padding: 12px 15%;
     }
 }

@@ -56,7 +56,7 @@ export const AskQuestion = ({ post }: IAskQuestionProps): ReactElement => {
             src={`${smort.GetProfilePictureImageUrl(answer.userId)}&size=${size.S}`} />
           {answer.answer}
         </div>
-      )) : <div className={Style.ContentQuestion}>{t('askQuestion.noAnswers')}</div>}
+      )) : <div className={Style.NoContentQuestion}>{t('askQuestion.noAnswers')}</div>}
 
     </div>
     <div className={Style.CreateAnswer}>

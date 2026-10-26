@@ -4,7 +4,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import Style from './LoginPage.module.scss';
 import { smortApi as smort } from "../../Api/smortApi";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, getRedirectResult, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import { createUserWithEmailAndPassword, getRedirectResult, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 import { auth, checkRedirect, githubProvider, googleProvider, waitForAuth } from "../../configs/FirebaseConfig";
 import { useTranslation } from "../../translations/TranslationProvider";
 import { GithubLogo, GoogleLogo, UsersIcon } from "../../core/Icon";
@@ -83,6 +83,16 @@ export const LoginPage = (): ReactElement => {
       window.localStorage.setItem("Token", token ?? "");
       navigate(homepageRoute);
     }).catch(HandleLoginErrors);
+  }
+
+  const resetPassword =  async (): Promise<void> => {
+    if(!email){
+      setErrorCode('Invalid email adres');
+      return;
+    }
+    await sendPasswordResetEmail(auth, email);
+    setErrorCode('');
+
   }
 
   const loginWithProvider = async (providerSelected: Providers) => {
@@ -209,7 +219,10 @@ export const LoginPage = (): ReactElement => {
             <div className={Style.error}>
               {errorCode}
             </div>}
-   
+            
+          <div className={Style.ResetPassword}>
+            <div onClick={resetPassword}>{t('login.resetpassword')}</div>
+          </div>
 
           <div className={Style.ContinueWithText}>
             <hr />

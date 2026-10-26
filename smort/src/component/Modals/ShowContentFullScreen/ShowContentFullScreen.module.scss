@@ -8,10 +8,11 @@
 
 
 .VideoContainer {
-    max-height: 80vh;
+    height: 100%;
     width: 100%;
     background-color: $VideoBackground;
     display: flex;
+    justify-content: center;
 }
 
 .QuestionContainer {
@@ -52,9 +53,8 @@
 
 
 .Modal {
-    border-radius: solid black !important;
-    background-color: $Primary-Background !important;
-
+    border-radius: 12px !important;
+    
     button {
        background-color: $Primary-Button ;
        border: solid $Primary-Button-border 2px ; 
@@ -80,3 +80,4 @@
  
 
 }
+

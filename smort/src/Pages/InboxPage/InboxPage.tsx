@@ -60,12 +60,18 @@ export const InboxPage = (): ReactElement => {
       return translated;
     };
 
+    const GetRoute = (text:string):string => {
+      const separatorIndex = text.indexOf(":");
+      
+      return `/account/${text.substring(separatorIndex + 1)}`;
+    };
+
     return (
       <div className={Style.Page}> 
         {!AndroidHandler.AndroidNavBarNeeded() &&
-          <NavBarSmortPc Search={(test: string) => { }} />
+          <NavBarSmortPc  />
         }
-
+          <div className={Style.InboxScreen}>
             {inboxFeed === undefined ? <div  className={Style.spinnerContainer}><Spinner className={Style.spinner}/> </div> : inboxFeed.map((item, idx) => (
                 <div key={idx} className={`${Style.InboxItem} ${item.hasSeen == false && Style.Unseen}`}>
                     <div className={Style.InboxImg} >
@@ -79,14 +85,13 @@ export const InboxPage = (): ReactElement => {
                         draggable="false" />
                       </Link>
                     </div>
-                    <div>
+                    <Link to={GetRoute(item.text)} className={Style.InboxText}>
                       <div>{translateNotification(item.text)}</div>
-                  <div className={Style.dateText}>{new Date(item.createdAt).toLocaleString(lang ?? "en-EN")}</div>
-
-                    </div>
+                      <div className={Style.dateText}>{new Date(item.createdAt).toLocaleString(lang ?? "en-EN")}</div>
+                    </Link>
                 </div>
             ))}
-
+        </div>
         {AndroidHandler.AndroidNavBarNeeded() &&
           <NavBarSmortMobile Search={(test: string) => { }} />
         }

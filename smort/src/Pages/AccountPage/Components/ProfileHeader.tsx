@@ -7,7 +7,7 @@ import { IMyProfile } from '../../../Api/ApiObjects/userObjects';
 import { useParams } from 'react-router-dom';
 import { ReactElement } from 'react';
 import { useTranslation } from '../../../translations/TranslationProvider';
-import { Button, Tab, Tabs } from 'react-bootstrap';
+import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 import { EditIcon } from '../../../core/Icon';
 import { Img } from '../../../core/ImprovedControls/Img';
 import { FollowingData } from '../../../Api/ApiObjects/FollowingData';
@@ -39,6 +39,7 @@ export const ProfileHeader = ({
 
 
   return <div className={Style.UserInfoBackground}>
+    <Container>
     <div className={Style.UserDataComplete}>
       <div className={Style.Sticky} >
         {user ? (
@@ -73,14 +74,14 @@ export const ProfileHeader = ({
                  onClick={() => {
                   if (id !== undefined && !Follower) {
                     smort.FollowUser(id);
-                    const newFollowingAmount = Number(FollowerAmmount) + 1;
+                    const newFollowingAmount = Number(FollowerAmmount.followers) + 1;
                     setFollowerAmmount({...FollowerAmmount, followers: newFollowingAmount} as FollowingData)
                     setFollower(true);
 
                   }
                   else if (id !== undefined && Follower) {
                     smort.UnfollowUser(id);
-                    const newFollowingAmount = Number(FollowerAmmount) - 1;
+                    const newFollowingAmount = Number(FollowerAmmount.followers) - 1;
                     setFollowerAmmount({...FollowerAmmount, followers: newFollowingAmount} as FollowingData)
                     setFollower(false);
                   }
@@ -94,33 +95,33 @@ export const ProfileHeader = ({
 
         </div>
         </div>
-
-    </div>
-      <div className={Style.UserStats}>
-          <div className={Style.UserStatItem}>
-            {FollowerAmmount !== null &&
-               <>
-              <label> {t('profile.followers')} </label>
-              <div className={Style.StateAmount}>{FollowerAmmount.followers}</div> 
-              </>}
-          </div>
-          <div className={Style.UserStatItem}>
-            <label>{t('profile.following')}  </label>
-            <div className={Style.StateAmount}>  {FollowerAmmount.following}  </div>
-          </div>
-         <div className={Style.UserStatItem}>
-            <label>{t('profile.Posts')}  </label>
-            <div className={Style.StateAmount}>  {PostCount.toString()}  </div>
-          </div>
       </div>
-      
-      <Tabs className={Style.AccountTabs} 
-        defaultActiveKey="All"  
-      onSelect={(eventKey) => setTab((eventKey as  "All" | "Content" | "Ask") || "All")}
-        fill>
-        <Tab eventKey="All" title={t('profile.tabs.All')} className={Style.Tabs}/>
-        <Tab  eventKey="Content" title={t('profile.tabs.Content')} className={Style.Tabs}/>
-        <Tab  eventKey="Ask" title={t('profile.tabs.Ask')} className={Style.Tabs}/>
-      </Tabs>
+        <div className={Style.UserStats}>
+            <div className={Style.UserStatItem}>
+              {FollowerAmmount !== null &&
+                 <>
+                <label> {t('profile.followers')} </label>
+                <div className={Style.StateAmount}>{FollowerAmmount.followers}</div> 
+                </>}
+            </div>
+            <div className={Style.UserStatItem}>
+              <label>{t('profile.following')}  </label>
+              <div className={Style.StateAmount}>  {FollowerAmmount.following}  </div>
+            </div>
+           <div className={Style.UserStatItem}>
+              <label>{t('profile.Posts')}  </label>
+              <div className={Style.StateAmount}>  {PostCount.toString()}  </div>
+            </div>
+        </div>
+              
+        <Tabs className={Style.AccountTabs} 
+          defaultActiveKey="All"  
+        onSelect={(eventKey) => setTab((eventKey as  "All" | "Content" | "Ask") || "All")}
+          fill>
+          <Tab eventKey="All" title={t('profile.tabs.All')} className={Style.Tabs}/>
+          <Tab  eventKey="Content" title={t('profile.tabs.Content')} className={Style.Tabs}/>
+          <Tab  eventKey="Ask" title={t('profile.tabs.Ask')} className={Style.Tabs}/>
+        </Tabs>
+      </Container>
   </div>;
 }

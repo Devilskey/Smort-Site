@@ -32,3 +32,5 @@ export const InboxIcon = ():ReactElement =>
     <i className="fa-solid fa-inbox"></i>
 export const QuestionSignIcon = ():ReactElement => 
     <i className="fa-solid fa-question"></i>
+export const NotificationBellIcon = ():ReactElement => 
+    <i className="fa-regular fa-bell"></i>

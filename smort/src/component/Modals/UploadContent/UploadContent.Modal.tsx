@@ -8,6 +8,8 @@ import { AndroidHandler } from "../../../PlatformSpecificScripts/Android";
 import { PhotoFilmIcon, QuestionIcon } from "../../../core/Icon";
 import { Img } from "../../../core/ImprovedControls/Img";
 import { Video } from "../../../core/ImprovedControls/Video";
+import { size } from "../../../Api/enums/sizes";
+import { IMyProfile } from "../../../Api/ApiObjects/userObjects";
 
 export type UploadContentModalHandle = {
     toggleModal: () => void;
@@ -29,12 +31,17 @@ export const UploadContentModal = forwardRef<UploadContentModalHandle, IUploadCo
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [selectPostType, setselectPostType] = useState<'Ask'| 'Foto or video'| undefined>(undefined);
     const [isAskMe, setIsAskMe] = useState<boolean>(isAskMeAhead ?? false);
-
+    const lang = window.localStorage.getItem("language");
     const InputFile = createRef<HTMLInputElement>();
+    const maxDescriptionLength = 2048;
 
     useImperativeHandle(ref, () => ({
         toggleModal,
     }));
+
+    useEffect( () => {
+        
+    },[]);
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null; // Get the file or null
@@ -102,36 +109,53 @@ export const UploadContentModal = forwardRef<UploadContentModalHandle, IUploadCo
 
                 {selectPostType != undefined ?
                 <div className={Style.Form}>
-                    <textarea
-                        placeholder={isAskMe ? t('uploadContent.placeholderQuestion') :  t('uploadContent.placeholderDescription')}
-                        id="Descriptio"
-                        value={description}
-                        onChange={(event) => {
-                            event.preventDefault()
-                            setDescription(event.target.value)
+                    <div className={Style.previewContainer}>
+                        <div className={Style.UserData}>
+                            <Img className={Style.UserImgSimpel}
+                               loading="lazy"
+                               alt="An image Uploaded to smort"
+                               width="50px" height="50px"
+                               src={`${smort.GetProfilePictureImageUrl(smort.getUser()?.id ?? 0)}&size=${size.S}`} />
+                             <div className={Style.UserInfo}>
+                               <div>{smort.getUser()?.username}</div>
+                               <div className={Style.dateText}>{t("uploadContent.now")}</div>
+                             </div>
+                        </div>
+                        <div className={Style.DescriptionContainer}>
+                            <textarea
+                                placeholder={isAskMe ? t('uploadContent.placeholderQuestion') :  t('uploadContent.placeholderDescription')}
+                                id="Description"
+                                value={description}
+                                onChange={(event) => {
+                                    event.preventDefault()
+                                    if(description.length <= maxDescriptionLength && event.target.value.length < maxDescriptionLength) {
+                                        setDescription(event.target.value)
+                                    }
+                                }} /><br />
+                                <div className={Style.error}><span id="counter">{description.length}</span>/{maxDescriptionLength}</div>
+                        </div>
+                        <input
+                            hidden
+                            accept="image/*,video/*"
+                            className="form-control"
+                            type="file"
+                            ref={InputFile}
+                            onChange={(event) => {
+                                handleFileUpload(event)
+                            }} />
 
-                        }} /><br />
+                        {!isAskMe &&
+                            <Button className={ + " " + contentType !== "Nan" ? Style.UploadContentFilled : Style.UploadContentEmpty}
+                                onClick={() => {
+                                    InputFile.current?.click()
+                                }}>
 
-                    <input
-                        hidden
-                        accept="image/*,video/*"
-                        className="form-control"
-                        type="file"
-                        ref={InputFile}
-                        onChange={(event) => {
-                            handleFileUpload(event)
-                        }} />
+                                {preview || <>{t('uploadContent.prompt')}<PhotoFilmIcon/></>}
 
-                    {!isAskMe &&
-                        <Button className={ + " " + contentType !== "Nan" ? Style.UploadContentFilled : Style.UploadContentEmpty}
-                            onClick={() => {
-                                InputFile.current?.click()
-                            }}>
-
-                            {preview || <>{t('uploadContent.prompt')}<PhotoFilmIcon/></>}
-
-                        </Button>
-                    }
+                            </Button>
+                        }
+                        
+                    </div>
                 </div>:
                 <>
                     <Button className={Style.AskOption} onClick={()=> { 
